@@ -37,20 +37,29 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
                         
                     </form>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button> 
-                        </form>   
-                        <form class="d-flex" role="search">
+                   <!--  <form class="d-flex" role="search">
                         <li>
-                        <a  style ="color:white;">Hi '.$_SESSION['username'].'</a>
+                        <a  style ="color:white;"><u>Hi '.$_SESSION['username'].'</u></a>
                         </li>
                         <li>
                         <a class="navbar-brand" href="./logout.php">
                         <img src="Logout.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">                    
                         </a>
                         </li>
-                    </form>
+                    </form> -->
+                    <ul class="navbar-nav col-1  mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="./img/user.png" style="width: 30px;" class="rounded-pill">
+                          </a>
+                          <ul class="dropdown-menu dropdown-right">
+                            <li><a class="dropdown-item" href="#">Hi '.$_SESSION['username'].'</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="./logout.php">Logout</a></li>
+                          </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>';
@@ -78,7 +87,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     
 	<!--Home(start)-->
 	<table id="home" border="1" width="100%"
-		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to right, rgb(111, 218, 111, 50%), rgb(115, 117, 115)) ;" bgcolor="green">
+		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to right, rgb(0, 255, 106), rgb(10, 140, 53)  );">
 		<tr>
 			<td>
 				<table border="0" cellpadding="15"
@@ -109,7 +118,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 
 	<!--About(start)-->
 	<table id="about" border="0" width="100%"
-		cellpadding="0" cellspacing="0" bgcolor="black">
+		cellpadding="0" cellspacing="0" bgcolor="black" style="background-image: linear-gradient(to bottom right, rgb(0, 238, 255), rgb(184, 22, 220)  );    height: min-content;">
 		<tr>
 			<td>
 				<table border="0" cellpadding="7"
@@ -118,7 +127,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 						<td height="80" align="center"
 							valign="middle" colspan="2">
 							<font face="Verdana" size="5"
-								color="#4CAF50">
+								color="white">
 								About Us
 							</font>
 							<hr color="#4CAF50" width="90">
@@ -165,8 +174,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 				
 							<font face="Verdana" size="4"
 							color="white">
-								<a href="./Signup.php">Click here </a> to signup for free on ilife. 
-								If already signed up <a href="./login.php">click here </a> to login.
+								<a href="./Signup.php"  class="link-light">Click here </a> to signup for free on ilife. 
+								If already signed up <a href="./login.php"  class="link-light">click here </a> to login.
 							</font>
 							<hr color="black">
 							<hr color="#4CAF50" width="90">

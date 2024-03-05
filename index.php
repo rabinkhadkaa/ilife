@@ -12,7 +12,7 @@
     //require  './_nav.php'; 
    
     //$user=$_SESSION['loggedin'];
-    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    echo '<nav class="navbar navbar-expand-lg "style="background-color: rgb(213, 190, 232);">
             <div class="container-fluid">
                 <a style="color: darkred;" class="navbar-brand" href="#"><h3>ilife</h3></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +29,18 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact us</a>
                         </li>
+					</ul>
+					<ul class="navbar-nav col-1  mb-2 mb-lg-0">
                        <li class="nav-item">
+						<button class="btn btn-outline-success px-2 py-0 " >
                             <a class="nav-link" href="./login.php">Login</a>
+						</button>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
+                    <!-- <form class="d-flex" role="search">
                       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                       <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    </form> -->
                 </div>
             </div>
           </nav>';
@@ -63,7 +67,7 @@
     
 	<!--Home(start)-->
 	<table id="home" border="1" width="100%"
-		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to right, rgb(111, 218, 111, 50%), rgb(115, 117, 115)) ;" bgcolor="green">
+		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to right, rgb(131, 193, 157), rgb(74, 105, 84)  );">
 		<tr>
 			<td>
 				<table border="0" cellpadding="15"
@@ -94,7 +98,8 @@
 
 	<!--About(start)-->
 	<table id="about" border="0" width="100%"
-		cellpadding="0" cellspacing="0" bgcolor="black">
+		cellpadding="0" cellspacing="0" bgcolor="black" style="background-image: linear-gradient(to bottom right, rgb(0, 238, 255), rgb(184, 22, 220)  );    height: min-content;">
+		
 		<tr>
 			<td>
 				<table border="0" cellpadding="7"
@@ -103,10 +108,10 @@
 						<td height="80" align="center"
 							valign="middle" colspan="2">
 							<font face="Verdana" size="5"
-								color="#4CAF50">
+							color="white">
 								About Us
 							</font>
-							<hr color="#4CAF50" width="90">
+							<hr color="white" width="90">
 						</td>
 					</tr>
 
@@ -121,7 +126,7 @@
 								Thanks for your interest, here 
 								is a quick story about this 
 								ilife. 
-								<hr color="black">
+								<hr color="white">
 								iNotes:
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ipsam eaque repellendus velit nobis optio? Ad magni illum iusto perferendis, quos deleniti esse similique quia officia, nobis voluptate qui voluptatem..
 								<hr color="black">
@@ -150,8 +155,8 @@
 				
 							<font face="Verdana" size="4"
 							color="white">
-								<a href="./Signup.php">Click here </a> to signup for free on ilife. 
-								If already signed up <a href="./login.php">click here </a> to login.
+								<a href="./Signup.php" class="link-light">Click here </a> to signup for free on ilife. 
+								If already signed up <a href="./login.php" class="link-light">click here </a> to login.
 							</font>
 							<hr color="black">
 							<hr color="#4CAF50" width="90">
