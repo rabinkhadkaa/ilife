@@ -21,7 +21,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     
   </head>
-  <body>
+  <body style="background-image: linear-gradient(to bottom right, rgb(0, 238, 255), rgb(184, 22, 220)  );">
     <!-- Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -54,7 +54,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <?php
     //require './_nav.php';
-     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
      <div class="container-fluid">
          <a class="navbar-brand" href="#">iNotes</a>
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
           </form>
     </div>
     <div class = "container my-4">
-      <table class="table" id = "myTable">
+      <table class="table table-bordered table-striped" color="white;" id = "myTable">
         <thead>
           <tr>
             <th scope="col">SN</th>

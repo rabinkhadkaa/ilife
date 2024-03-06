@@ -16,13 +16,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     header("location: index.php");
     exit;
 } else {
-    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">iNotes</a>
+                <a style="color: darkred;" class="navbar-brand" href="#"><h3>ilife</h3></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" style="font-size: 1.2em;"id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="./loggedinhome.php">Home</a>
@@ -33,9 +33,6 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact us</a>
                         </li>
-                        <form class="d-flex" role="search">
-                        
-                    </form>
                     </ul>
                    <!--  <form class="d-flex" role="search">
                         <li>
@@ -86,8 +83,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     </div> -->
     
 	<!--Home(start)-->
-	<table id="home" border="1" width="100%"
-		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to right, rgb(0, 255, 106), rgb(10, 140, 53)  );">
+	<table id="home" width="100%"
+		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to bottom, rgb(213, 190, 232), rgb(90, 100, 255));">
 		<tr>
 			<td>
 				<table border="0" cellpadding="15"
@@ -140,7 +137,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 						</td>
 
 						<td width="60%">
-							<font face="Verdana" size="4"
+							<font face="Verdana" size="3"
 								color="white">
 								Thanks for your interest, here 
 								is a quick story about this 
@@ -172,7 +169,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 							<hr color="black">
 							<hr color="black">
 				
-							<font face="Verdana" size="4"
+							<font face="Verdana" size="3"
 							color="white">
 								<a href="./Signup.php"  class="link-light">Click here </a> to signup for free on ilife. 
 								If already signed up <a href="./login.php"  class="link-light">click here </a> to login.
@@ -379,13 +376,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								<tr>
 									<td width="30%">
 										<hr color="black">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Name
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<input type="text" size="40">
 										</font>
@@ -393,13 +390,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								</tr>
 								<tr>
 									<td width="30%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Email
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<input type="email" size="40">
 										</font>
@@ -407,13 +404,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								</tr>
 								<tr>
 									<td width="30%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Number
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<input type="number" size="12">
 										</font>
@@ -421,13 +418,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								</tr>
 								<tr>
 									<td width="30%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Message
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<textarea rows="5"
 												cols="37">
@@ -442,7 +439,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 									<td width="70%">
 										<button type="Submit">
 											<font face="Verdana"
-												size="4" color="black">
+												size="3" color="black">
 												<b>Submit</b>
 											</font>
 										</button>

@@ -12,13 +12,13 @@
     //require  './_nav.php'; 
    
     //$user=$_SESSION['loggedin'];
-    echo '<nav class="navbar navbar-expand-lg "style="background-color: rgb(213, 190, 232);">
+    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
                 <a style="color: darkred;" class="navbar-brand" href="#"><h3>ilife</h3></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" style="font-size: 1.2em;" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="./loggedinhome.php">Home</a>
@@ -32,8 +32,8 @@
 					</ul>
 					<ul class="navbar-nav col-1  mb-2 mb-lg-0">
                        <li class="nav-item">
-						<button class="btn btn-outline-success px-2 py-0 " >
-                            <a class="nav-link" href="./login.php">Login</a>
+						<button class="btn btn-success px-3 py-0 " >
+                            <a style="font-size: 1.2em;" class="nav-link" href="./login.php">Login</a>
 						</button>
                         </li>
                     </ul>
@@ -66,8 +66,8 @@
     </div> -->
     
 	<!--Home(start)-->
-	<table id="home" border="1" width="100%"
-		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to right, rgb(131, 193, 157), rgb(74, 105, 84)  );">
+	<table id="home"  width="100%"
+		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to bottom, rgb(213, 190, 232), rgb(90, 100, 255));">
 		<tr>
 			<td>
 				<table border="0" cellpadding="15"
@@ -121,7 +121,7 @@
 						</td>
 
 						<td width="60%">
-							<font face="Verdana" size="4"
+							<font face="Verdana" size="3"
 								color="white">
 								Thanks for your interest, here 
 								is a quick story about this 
@@ -153,7 +153,7 @@
 							<hr color="black">
 							<hr color="black">
 				
-							<font face="Verdana" size="4"
+							<font face="Verdana" size="3"
 							color="white">
 								<a href="./Signup.php" class="link-light">Click here </a> to signup for free on ilife. 
 								If already signed up <a href="./login.php" class="link-light">click here </a> to login.
@@ -360,13 +360,13 @@
 								<tr>
 									<td width="30%">
 										<hr color="black">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Name
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<input type="text" size="40">
 										</font>
@@ -374,13 +374,13 @@
 								</tr>
 								<tr>
 									<td width="30%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Email
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<input type="email" size="40">
 										</font>
@@ -388,13 +388,13 @@
 								</tr>
 								<tr>
 									<td width="30%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Number
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<input type="number" size="12">
 										</font>
@@ -402,13 +402,13 @@
 								</tr>
 								<tr>
 									<td width="30%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											Message
 										</font>
 									</td>
 									<td width="70%">
-										<font face="Verdana" size="4"
+										<font face="Verdana" size="3"
 											color="#ffffff">
 											<textarea rows="5"
 												cols="37">
@@ -423,7 +423,7 @@
 									<td width="70%">
 										<button type="Submit">
 											<font face="Verdana"
-												size="4" color="black">
+												size="3" color="black">
 												<b>Submit</b>
 											</font>
 										</button>
