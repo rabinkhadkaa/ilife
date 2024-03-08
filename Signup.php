@@ -37,10 +37,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <title>Sign Up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
-  <body>
+  <body style="background-image: linear-gradient(to bottom right, rgb(0, 238, 255), rgb(184, 22, 220)  );    height: min-content;">
     <?php 
    // require  './_nav.php'; 
-   echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+   /* echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">iNotes</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                     </form>
                 </div>
             </div>
-          </nav>';
+          </nav>'; */
      
     if($insert){
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -88,8 +88,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             </div>';
     }
     ?>
-    <div class="container col-md-6 my-4">
-        <h2 class = "text-center">Signup to our website</h2>
+    <div class="container my-5 p-4 col-md-3 " style="background-color: rgba(254, 251, 251, 0.825); height: 85vh; font-family: sans-serif ;">
+    <br>
+        <h2 class = "text-center">Sign Up</h2>
         <form action = "signup.php" method="POST">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
@@ -104,8 +105,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 <input type="password" class="form-control" id="cpassword" name="cpassword">
                 <div class ="form-text">Make sure to type the same password</div> 
             </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
-            <div>Already signed up? <a href="./login.php">Click here </a>to login.</div>
+            <button type="submit" class="btn btn-primary">Sign Up</button> <br><br><br><br><br><br><br><br><br>
+            <div class>Already signed up? <a href="./login.php">Click here </a>to login.</div>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
