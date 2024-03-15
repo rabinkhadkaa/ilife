@@ -1,0 +1,19 @@
+version: "2"
+services:
+  whateverwewant:
+    image: ilife-image
+    ports: 
+      -"80:80"
+    volumes:
+      ./app:/var/www/html
+    environment:
+      MYSQL_DB_CONNECTION: test
+      MYSQL_DB_NAME: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      SITE_URL: http://localhost
+    networks:
+      - impact
+networks:
+  impact:
+    external: true
