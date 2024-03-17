@@ -1,6 +1,6 @@
 <?php
 //include 'login.php';
-
+//2nd day practice
 session_start();
 if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
