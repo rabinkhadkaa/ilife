@@ -3,9 +3,9 @@
 /* $update = false;
 $delete = false; */
   // Connect to the database
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
+  $servername = "sql105.infinityfree.com";
+  $username = "if0_36143180";
+  $password = "Shova595";
   $database = "notes";
 
   //Create a connection
