@@ -27,15 +27,17 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
       $SN = $_POST['snoEdit'];
       $title = $_POST['titleEdit'];
       $description = $_POST["DescEdit"];
-    
+      
       $sql = "UPDATE `notes` SET `Title` = '$title', `Description` = '$description' WHERE `notes`.`SN` = $SN";
       $result = mysqli_query($conn, $sql);
       if($result){
         $update = true;
+        
       }else {
         echo "We could not update the record successfully";
       }
-    } else {
+    } 
+    else {
     $title = $_POST['title'];
     $description = $_POST["Desc"];
     $myuser = $_SESSION['username'];
@@ -45,7 +47,6 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
       $result = mysqli_query($conn, $sql);
       if ($result){
         $insert = true;
-        echo $myuser." your data sent";
       }
     }} 
   }  

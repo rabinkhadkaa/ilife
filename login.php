@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         session_start();
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
-        header("location: Loggedinhome.php");
+        header("location: loggedinhome.php");
       } else {
         $showerror = true;
       }
@@ -110,7 +110,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <br><br><br><br><br><br>
 
 
-        <a style="text-decoration: none;" href="./Signup.php">New Here? Sign up </a>
+        <a style="text-decoration: none;" href="./signup.php">New Here? Sign up </a>
         
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

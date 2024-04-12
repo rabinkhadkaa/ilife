@@ -117,7 +117,7 @@
 
 					<tr>
 						<td  width="40%">
-							<img src="ilife_thumb.jpg">
+							<img src="ilife_thumb.jpg" width = "300px" height = "300px">
 						</td>
 
 						<td width="60%">
@@ -155,7 +155,7 @@
 				
 							<font face="Verdana" size="3"
 							color="white">
-								<a href="./Signup.php" class="link-light">Click here </a> to signup for free on ilife. 
+								<a href="./signup.php" class="link-light">Click here </a> to signup for free on ilife. 
 								If already signed up <a href="./login.php" class="link-light">click here </a> to login.
 							</font>
 							<hr color="black">
@@ -195,7 +195,7 @@
 								<ul>
 									<li>
 										iNotes
-										<a href="./Loggedin.php"
+										<a href="./loggedin.php"
 										style="text-decoration:none">
 											 ➲
 										</a>
@@ -203,8 +203,8 @@
 
 									<li>
 										<hr color="#c2c0c3">
-										iCalculator
-										<a href="#"
+										iUploads
+										<a href="iuploads.php"
 										style="text-decoration:none"
 											color="#c2c0c3">
 											 ➲

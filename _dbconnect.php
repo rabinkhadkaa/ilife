@@ -3,10 +3,10 @@
 /* $update = false;
 $delete = false; */
   // Connect to the database
-  $servername = "sql105.infinityfree.com";
-  $username = "if0_36143180";
-  $password = "Shova595";
-  $database = "notes";
+  $servername = "localhost";
+  $username = "root";
+  $password = "@Shova595Bhandari";
+  $database = "ilife";
 
   //Create a connection
   $conn = mysqli_connect($servername, $username, $password, $database);

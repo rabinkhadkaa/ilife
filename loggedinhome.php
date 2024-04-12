@@ -133,7 +133,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 
 					<tr>
 						<td  width="40%">
-							<img src="ilife_thumb.jpg">
+							<img src="Family.JPG" width="300px" height="300px">
 						</td>
 
 						<td width="60%">
@@ -171,7 +171,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 				
 							<font face="Verdana" size="3"
 							color="white">
-								<a href="./Signup.php"  class="link-light">Click here </a> to signup for free on ilife. 
+								<a href="./signup.php"  class="link-light">Click here </a> to signup for free on ilife. 
 								If already signed up <a href="./login.php"  class="link-light">click here </a> to login.
 							</font>
 							<hr color="black">
@@ -211,7 +211,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								<ul>
 									<li>
 										iNotes
-										<a href="./Loggedin.php"
+										<a href="./loggedin.php"
 										style="text-decoration:none">
 											 ➲
 										</a>
@@ -219,8 +219,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 
 									<li>
 										<hr color="#c2c0c3">
-										iCalculator
-										<a href="#"
+										iUploads
+										<a href="iuploads.php"
 										style="text-decoration:none"
 											color="#c2c0c3">
 											 ➲
