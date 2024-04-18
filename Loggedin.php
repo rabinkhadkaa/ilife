@@ -1,6 +1,6 @@
 <?php
 include '_loggedindatabase.php';
-
+//include 'iuploads.php'; 
 // session_start();
 
 if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
@@ -111,18 +111,43 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     if($delete){
       echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success! </strong> your notes has been deleted successfully.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
       }
+    if ($emptyerror){
+      echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>All the fields marked with <span style="color: red;">*</span> are mandatory.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+    }
     ?>
     <div class = "container my-3">
         <h2>Add a note</h2>
-        <form action = "loggedin.php" method = "post">
+        <form action = "loggedin.php" method = "post" enctype="multipart/form-data">
             <div class="mb-3">
-              <label for="title" class="form-label">Note title</label>
+              <label for="title" class="form-label">Note title <span style="color: red;">*</span></label>
               <input type="text" name = "title" class="form-control" id="title" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
-              <label for="Desc" class="form-label">Note Description</label>
+              <label for="noteid" class="form-label">Note ID <span style="color: red;">*</span></label>
+              <input type="text" name = "noteid" class="form-control" id="noteid" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="Desc" class="form-label">Note Description <span style="color: red;">*</span></label>
               <textarea name = "Desc" class="form-control" rows = "3" id="Desc"></textarea>
             </div>
+            
+            <?php
+              if($fileExistError){
+                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, file already exists.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+              }
+              if($fileSizeError){
+                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">File is too large.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+              }
+              if($fileTypeError){
+                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, only JPG, JPEG, PNG & GIF files are allowed.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+              }
+            ?>
+
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Please choose file to upload.</label>
+              <input class="form-control" type="file" id="formFile" name = "my_file">
+            </div>
+                          
             <button type="submit" class="btn btn-primary">Add Note</button>
           </form>
     </div>
@@ -131,6 +156,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         <thead>
           <tr>
             <th scope="col">SN</th>
+            <th scope="col">NoteID</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Actions</th>
@@ -138,9 +164,9 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         </thead>
         <tbody>
           <?php
-            $myusername = $_SESSION['username'];
+            $username = $_SESSION['username'];
             
-            $sql = "SELECT * FROM `notes` WHERE username = '$myusername'";
+            $sql = "SELECT * FROM `notes` WHERE username = '$username'";
             $result = mysqli_query ($conn, $sql);
 
             if($result){
@@ -152,6 +178,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
               $SNo=$SNo+1;
               echo " <tr>
                         <th scope='row'>".$SNo."</th>
+                        <td>".$row['NoteID']."</td>
                         <td>".$row['Title']."</td>
                         <td>".$row['Description']."</td>
                         <td><button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id=".$row['SN'].">Edit</button>

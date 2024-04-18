@@ -1,13 +1,11 @@
 <?php
-//include '_loggedindatabase.php';
-
-// session_start();
-require  './_nav.php'; 
-if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
+//session_start();
+//require  './_nav.php'; 
+/* if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     header("location: index.php");
     exit;
 
-}
+} */
  $fileExistError = false;
  $fileSizeError = false;
  $fileTypeError = false;
@@ -29,13 +27,9 @@ if (isset($_POST["submit"])) {
   
             // Create a new file or direcotry 
             mkdir($targetDir, 0777, true); 
-            echo "directory created";
-        } else {
-            echo "directory exist: ".$targetDir;
-        }
-        
-        var_dump($targetDir);
-        $targetFile = $targetDir . basename($_FILES["my_file"]["name"]);
+        } 
+        $uploadedFile = $targetDir . basename($_FILES["my_file"]["name"]);
+        $targetFile = rename($uploadedFile, $noteid);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         
@@ -93,49 +87,3 @@ if (isset($_POST["submit"])) {
     }
 }
 ?>
-
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Login</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    </head>
-    <body>
-        <?php
-        if($fileExistError){
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, file already exists.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        }
-        if($fileSizeError){
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">File is too large.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        }
-        if($fileTypeError){
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, only JPG, JPEG, PNG & GIF files are allowed.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        }
-        ?>
-        <form action="iuploads.php" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-            <label for="formFile" class="form-label">Please choose file to upload.</label>
-            
-            <input class="form-control" type="file" id="formFile" name = "my_file">
-            <input type="submit" name="submit" value="Upload">
-            </div>
-        </form>
-
-        <h1>Display uploaded Image:</h1>
-        <?php if (isset($_FILES["my_file"]) && $uploadOk == 1) :
-            print_r($targetFile);
-        ?>
-            <img src="<?php echo $targetFile; ?>" alt="Uploaded Image">
-        <?php endif; ?>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </body>
-</html>
-
-
-
-
-
- 
-
