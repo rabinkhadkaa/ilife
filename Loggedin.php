@@ -114,6 +114,9 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     if ($emptyerror){
       echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>All the fields marked with <span style="color: red;">*</span> are mandatory.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     }
+    if ($noteIDerror){
+      echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>This noteID has already been used. Please try another noteID.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+    }
     ?>
     <div class = "container my-3">
         <h2>Add a note</h2>
@@ -139,7 +142,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
                   echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">File is too large.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
               }
               if($fileTypeError){
-                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, only JPG, JPEG, PNG & GIF files are allowed.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, only .pdf, .doc, .docx, .docm files are allowed.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
               }
             ?>
 
@@ -170,15 +173,17 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             $result = mysqli_query ($conn, $sql);
 
             if($result){
-              
               $num = mysqli_num_rows($result);
             }
+            
             $SNo = 0;
             while ($row = mysqli_fetch_assoc($result)){
               $SNo=$SNo+1;
+              $noteid = $row['NoteID'];
+              $_COOKIE['note_id'] = $noteid;
               echo " <tr>
                         <th scope='row'>".$SNo."</th>
-                        <td>".$row['NoteID']."</td>
+                        <td class = 'noteidpass' id = ".$row['NoteID']."> <a href = '/notesDetails.php'> ".$row['NoteID']."</a></td>
                         <td>".$row['Title']."</td>
                         <td>".$row['Description']."</td>
                         <td><button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id=".$row['SN'].">Edit</button>
@@ -227,6 +232,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             }
           }) 
         }) 
+
+        /* passnoteid = document.getElementByClassName( 'noteidpass');
+        Array.from(passnoteid).foreach(element()=>{
+          element.addEventListener("click", (e)=>{
+            console.log("passnoteid", );
+          })
+        }) */
     </script>
   </body>
 </html>
