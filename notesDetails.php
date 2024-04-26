@@ -9,17 +9,14 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 }
 
 require './_nav.php';
+
 ?>
 
 <?php
-        $noteid = $_COOKIE['note_id']; 
-        
         $sql = "SELECT Title FROM notes WHERE username= '$myusername' AND NoteID = $noteid";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result);
         echo $row['Title'];
-        echo "ssss";
-        exit();
     ?>
 <!doctype html>
 <html lang="en">
@@ -34,7 +31,7 @@ require './_nav.php';
     </head>
   <body>
     <h2>Note Details Form <h2>
-    
+    <p>This is test line </p>
     <div class="container text-center">
         <div class="row">
             <div class="col">

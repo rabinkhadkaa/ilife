@@ -179,11 +179,9 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             $SNo = 0;
             while ($row = mysqli_fetch_assoc($result)){
               $SNo=$SNo+1;
-              $noteid = $row['NoteID'];
-              $_COOKIE['note_id'] = $noteid;
               echo " <tr>
                         <th scope='row'>".$SNo."</th>
-                        <td class = 'noteidpass' id = ".$row['NoteID']."> <a href = '/notesDetails.php'> ".$row['NoteID']."</a></td>
+                        <td onclick ='getId()' class = 'NoteIDDetails' id = ".$row['NoteID']."> <a href = 'notesDetails.php'> ".$row['NoteID']." </a></td>
                         <td>".$row['Title']."</td>
                         <td>".$row['Description']."</td>
                         <td><button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id=".$row['SN'].">Edit</button>
@@ -233,12 +231,19 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
           }) 
         }) 
 
-        /* passnoteid = document.getElementByClassName( 'noteidpass');
-        Array.from(passnoteid).foreach(element()=>{
-          element.addEventListener("click", (e)=>{
-            console.log("passnoteid", );
+        
+          ids = document.getElementsByClassName("NoteIDDetails");
+          Array.from(ids).foreach((element)=>{
+            element.addEventListener("click", (e)=>{
+              tr = e.target.tagName;
+              Nids =tr.getElementsByTagName("td")[0].innerText;
+              window.alert(Nids);
+            })
           })
-        }) */
+          
+        
+        
+      
     </script>
   </body>
 </html>
