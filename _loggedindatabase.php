@@ -29,12 +29,13 @@
   }
 
   if($_SERVER['REQUEST_METHOD']=='POST'){
+    
     if(isset($_POST['snoEdit'])){
       $SN = $_POST['snoEdit'];
       $title = $_POST['titleEdit'];
       $description = $_POST["DescEdit"];
       
-      $sql = "UPDATE `notes` SET `Title` = '$title', `Description` = '$description' WHERE `notes`.`SN` = $SN";
+      $sql = "UPDATE `notes` SET `Title` = '$title', `Description` = '$description' WHERE `notes`.`SN` = '$SN'";
       $result = mysqli_query($conn, $sql);
       if($result){
         $update = true;
@@ -44,17 +45,19 @@
       }
     } 
     else {
-      $title = $_POST['title'];
       $noteid = $_POST['noteid'];
+      $title = $_POST['title'];
       $description = $_POST["Desc"];
       $myusername = $_SESSION['username'];
       
-      if(empty($title)||empty($noteid)||empty($description)){
+      if(empty($noteid)||empty($title)||empty($description)){
       $emptyerror = true;
       } else {
       
-        $sql = "SELECT * FROM notes WHERE username= '$myusername' AND NoteID = $noteid";
-        $result = mysqli_query($conn, $sql);
+        $query = "SELECT * FROM `notes` WHERE Username= '$myusername' AND NoteID = '$noteid'";
+        
+        $result = mysqli_query($conn, $query);
+        
         if($result->num_rows>0){
           $noteIDerror = true;
         } else {

@@ -15,7 +15,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PHP CRUD (<?php echo $_SESSION['username']?>)</title>
+    <title>iNotes -<?php echo $_SESSION['username']?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
@@ -119,40 +119,41 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     }
     ?>
     <div class = "container my-3">
-        <h2>Add a note</h2>
-        <form action = "loggedin.php" method = "post" enctype="multipart/form-data">
-            <div class="mb-3">
-              <label for="title" class="form-label">Note title <span style="color: red;">*</span></label>
-              <input type="text" name = "title" class="form-control" id="title" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="noteid" class="form-label">Note ID <span style="color: red;">*</span></label>
-              <input type="text" name = "noteid" class="form-control" id="noteid" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="Desc" class="form-label">Note Description <span style="color: red;">*</span></label>
-              <textarea name = "Desc" class="form-control" rows = "3" id="Desc"></textarea>
-            </div>
-            
-            <?php
-              if($fileExistError){
-                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, file already exists.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-              }
-              if($fileSizeError){
-                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">File is too large.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-              }
-              if($fileTypeError){
-                  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, only .pdf, .doc, .docx, .docm files are allowed.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-              }
-            ?>
+      <h2>Add a note</h2>
+      <form action = "loggedin.php" method = "post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="noteid" class="form-label">Note ID <span style="color: red;">*</span></label>
+            <input type="text" name = "noteid" class="form-control" id="noteid" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="title" class="form-label">Note title <span style="color: red;">*</span></label>
+            <input type="text" name = "title" class="form-control" id="title" aria-describedby="emailHelp">
+          </div>
+          
+          <div class="mb-3">
+            <label for="Desc" class="form-label">Note Description <span style="color: red;">*</span></label>
+            <textarea name = "Desc" class="form-control" rows = "3" id="Desc"></textarea>
+          </div>
+          
+          <?php
+            if($fileExistError){
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, file already exists.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }
+            if($fileSizeError){
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">File is too large.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }
+            if($fileTypeError){
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">Sorry, only .pdf, .doc, .docx, .docm files are allowed.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }
+          ?>
 
-            <div class="mb-3">
-              <label for="formFile" class="form-label">Please choose file to upload.</label>
-              <input class="form-control" type="file" id="formFile" name = "my_file">
-            </div>
-                          
-            <button type="submit" class="btn btn-primary">Add Note</button>
-          </form>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Please choose file to upload.</label>
+            <input class="form-control" type="file" id="formFile" name = "my_file">
+          </div>
+                        
+          <button type="submit" class="btn btn-primary">Add Note</button>
+      </form>
     </div>
     <div class = "container my-4">
       <table class="table table-bordered table-striped" color="white;" id = "myTable">
@@ -171,7 +172,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             
             $sql = "SELECT * FROM `notes` WHERE username = '$username'";
             $result = mysqli_query ($conn, $sql);
-
+              
             if($result){
               $num = mysqli_num_rows($result);
             }
@@ -179,9 +180,10 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             $SNo = 0;
             while ($row = mysqli_fetch_assoc($result)){
               $SNo=$SNo+1;
+              //$url = "test.php?noteID = ".$row['NoteID'];
               echo " <tr>
                         <th scope='row'>".$SNo."</th>
-                        <td onclick ='getId()' class = 'NoteIDDetails' id = ".$row['NoteID']."> <a href = 'notesDetails.php'> ".$row['NoteID']." </a></td>
+                        <td> <a href = 'notesDetails.php?noteID=".$row['NoteID']."'> ".$row['NoteID']." </a></td>
                         <td>".$row['Title']."</td>
                         <td>".$row['Description']."</td>
                         <td><button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id=".$row['SN'].">Edit</button>
@@ -203,8 +205,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         element.addEventListener("click", (e)=>{
           console.log("edit", );
           tr = e.target.parentNode.parentNode;
-          title = tr.getElementsByTagName("td")[0].innerText;
-          Desc = tr.getElementsByTagName("td")[1].innerText;
+          title = tr.getElementsByTagName("td")[1].innerText;
+          Desc = tr.getElementsByTagName("td")[2].innerText;
           console.log(title, Desc);
           titleEdit.value = title;
           DescEdit.value = Desc;
@@ -230,20 +232,6 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             }
           }) 
         }) 
-
-        
-          ids = document.getElementsByClassName("NoteIDDetails");
-          Array.from(ids).foreach((element)=>{
-            element.addEventListener("click", (e)=>{
-              tr = e.target.tagName;
-              Nids =tr.getElementsByTagName("td")[0].innerText;
-              window.alert(Nids);
-            })
-          })
-          
-        
-        
-      
     </script>
   </body>
 </html>
