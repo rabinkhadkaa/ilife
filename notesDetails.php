@@ -16,7 +16,7 @@ if(isset($_GET['noteID'])){
 } else{
     echo "Not passed";
 }
-include './_dbconnect.php';
+
 $username = $_SESSION['username'];
 $sql1 = "SELECT * FROM `notes` WHERE Username ='$username' && NoteID = '$nid'";
 $result = mysqli_query ($conn, $sql1);
@@ -41,7 +41,7 @@ $row = mysqli_fetch_assoc($result);
             <div class="col">
                 <form>
                     <label for='noteid'>Note ID:</label>
-                    <input type = "text" value = "<?php echo $noteid; ?> " readonly>
+                    <input type = "text" value = "<?php echo $nid; ?> " readonly>
                     <label for='Title'>Note Title:</label>
                     <input type = "text" value = "<?php echo $row['Title']; ?> " readonly>  
                     <label for='Description'>Decription:</label>
@@ -49,7 +49,10 @@ $row = mysqli_fetch_assoc($result);
                 </form> 
             </div>
             <div class="col">
-             <embed src="/mnt/useruploads/<?php echo $username ?>/<?php echo $nid ?>.pdf" type="application/pdf" width="100%" height="600px" />
+            <iframe src="/mnt/useruploads/rabin/456.pdf"><iframe>
+                <?php 
+                $_SERVER['DOCUMENT']
+                ?>
             </div>
             </div>
         </div>

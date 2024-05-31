@@ -1,9 +1,12 @@
-<?php
-if(isset($_GET['noteID'])){
-    $NID = $_GET['noteID'];
-    echo $NID;
-} else{
-    echo "Not passed";
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h3> hello </h3>
 
-?>
+</body>
+</html>
