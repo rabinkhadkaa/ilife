@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
   $insert = false;
   $update = false;
   $delete = false;
@@ -29,12 +32,13 @@
   }
 
   if($_SERVER['REQUEST_METHOD']=='POST'){
+    
     if(isset($_POST['snoEdit'])){
       $SN = $_POST['snoEdit'];
       $title = $_POST['titleEdit'];
       $description = $_POST["DescEdit"];
       
-      $sql = "UPDATE `notes` SET `Title` = '$title', `Description` = '$description' WHERE `notes`.`SN` = $SN";
+      $sql = "UPDATE `notes` SET `Title` = '$title', `Description` = '$description' WHERE `notes`.`SN` = '$SN'";
       $result = mysqli_query($conn, $sql);
       if($result){
         $update = true;
@@ -44,17 +48,19 @@
       }
     } 
     else {
-      $title = $_POST['title'];
       $noteid = $_POST['noteid'];
+      $title = $_POST['title'];
       $description = $_POST["Desc"];
       $myusername = $_SESSION['username'];
       
-      if(empty($title)||empty($noteid)||empty($description)){
+      if(empty($noteid)||empty($title)||empty($description)){
       $emptyerror = true;
       } else {
       
-        $sql = "SELECT * FROM notes WHERE username= '$myusername' AND NoteID = $noteid";
-        $result = mysqli_query($conn, $sql);
+        $query = "SELECT * FROM `notes` WHERE Username= '$myusername' AND NoteID = '$noteid'";
+        
+        $result = mysqli_query($conn, $query);
+        
         if($result->num_rows>0){
           $noteIDerror = true;
         } else {
@@ -62,10 +68,10 @@
           $targetDir = "/mnt/useruploads/$myusername/";
           
           if (!file_exists($targetDir)) { 
-              mkdir($targetDir, 0777, true); 
+              mkdir($targetDir, 777, true); 
           } 
           $targetFile = $targetDir . basename($_FILES["my_file"]["name"]);
-            
+          
           $uploadOk = 1;
           $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         
@@ -80,13 +86,18 @@
           } 
 
           if ($uploadOk == 1) {
-            if (move_uploaded_file($_FILES["my_file"]["tmp_name"], $targetFile)) {
-                /* echo '<div class="alert alert-success alert-dismissible fade show" role="alert">The file '. htmlspecialchars(basename($_FILES["my_file"]["name"])) . ' has been uploaded.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'; */
+            $moved = move_uploaded_file($_FILES["my_file"]["tmp_name"], $targetFile);
+                        
+            if ($moved) {
+                echo 'ssss';
                 $fileRename = "/mnt/useruploads/$myusername/$noteid.$fileType";
-                
+                echo $fileRename;
                 $renamedFile = rename($targetFile, $fileRename);
-            } 
-            
+            } else {
+              $error = error_get_last();
+              var_dump($error); // Print out the error for debugging
+              exit();
+              }
             $sql = "INSERT INTO `notes` (`SN`, `Username`,`NoteID`, `Title`, `Description`, `Timestamp`) VALUES (NULL, '$myusername', '$noteid', '$title', '$description', current_timestamp())";
             if($sql != NULL){
               $result = mysqli_query($conn, $sql);
