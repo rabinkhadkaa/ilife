@@ -1,10 +1,14 @@
 <?php
+ob_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include './_dbconnect.php';
 $login = false;
 $showerror = false;
 if($_SERVER['REQUEST_METHOD']=='POST'){
   $username = $_POST['username'];
   $password = $_POST["password"];
+  
   
   $sql = "SELECT * FROM user WHERE username= '$username'";
   $result = mysqli_query($conn, $sql);
@@ -16,9 +20,22 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         session_start();
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
-        header("location: loggedinhome.php");
+        $sql = "SELECT Role FROM user WHERE username= '$username'";
+        $result = mysqli_query($conn, $sql);
+        while($role = mysqli_fetch_assoc($result)){
+          $_SESSION['role'] = $role['Role'];
+        }
+        if($_SESSION['role']=='Admin'){
+        header("location:../Admin/loggedinhome.php");
+      } 
+      if(($_SESSION['role']=='Buyer')){
+        header("location:../Buyer/loggedinhome.php");
+      }elseif(($_SESSION['role']=='Supplier')){
+        header("location:../Supplier/loggedinhome.php");
+      }
       } else {
         $showerror = true;
+
       }
     }
   }

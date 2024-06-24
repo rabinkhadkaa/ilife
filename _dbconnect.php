@@ -1,9 +1,9 @@
 <?php
-
+ob_start();
 /* $update = false;
 $delete = false; */
   // Connect to the database
-  $servername = "localhost";
+  $servername = "db";
   $username = "root";
   $password = "@Shova595Bhandari";
   $database = "ilife";
@@ -18,4 +18,3 @@ if (!$conn){
     die("Sorry we failed to connect to database: ". mysqli_connect_error());
 }
 ?>
-  

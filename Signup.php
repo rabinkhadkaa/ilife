@@ -7,6 +7,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $username = $_POST['username'];
     $password = $_POST["password"];
     $cpassword = $_POST["cpassword"];
+    $role = $_POST['role'];
     
     $sql = "SELECT * FROM user WHERE username = '$username'";
     $result = mysqli_query($conn, $sql);
@@ -16,7 +17,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     } else {
     if($password == $cpassword){
         $hash = password_hash($password, PASSWORD_DEFAULT);
-      $sql = "INSERT INTO `user` (`username`, `password`, `dt`) VALUES ('$username', '$hash', current_timestamp());";
+      $sql = "INSERT INTO `user` (`username`, `password`, `Role`, `dt`) VALUES ('$username', '$hash', '$role', current_timestamp());";
       $result = mysqli_query($conn, $sql);
       if ($result){
         $insert = true;
@@ -105,7 +106,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 <input type="password" class="form-control" id="cpassword" name="cpassword">
                 <div class ="form-text">Make sure to type the same password</div> 
             </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button> <br><br><br><br><br><br><br><br><br>
+            <div class="mb-3">
+              <select name = "role" class="form-select" aria-label="Default select example">
+                Role
+                <option value="admin">Admin</option>
+                <option value="supplier">Supplier</option>
+                <option value="buyer">Buyer</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button> <br><br><br><br><br><br><br>
             <div class>Already signed up? <a href="./login.php">Click here </a>to login.</div>
         </form>
     </div>

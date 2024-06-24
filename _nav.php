@@ -3,6 +3,13 @@
 //2nd day practice
 
 if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
+    if($_SESSION['role'] == "Admin"){
+        $role = "Admin";
+    }elseif($_SESSION['role'] == "Buyer"){
+        $role = "Buyer";
+    } else {
+        $role = "Supplier";
+    }
     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">iNotes</a>
@@ -37,11 +44,11 @@ if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
                     <ul class="navbar-nav col-1  mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="./img/user.png" style="width: 30px;" class="rounded-pill">
+                            <img src="../img/user.png" style="width: 30px;" class="rounded-pill">
                         </a>
                         <ul class="dropdown-menu dropdown-right">
                             <li><a class="dropdown-item" href="#">Hi '.$_SESSION['username'].'</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">As '.$role.'</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="./logout.php">Logout</a></li>
                           </ul>
