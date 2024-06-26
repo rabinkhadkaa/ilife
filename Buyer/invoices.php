@@ -56,6 +56,13 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
       require '../_nav.php';
       require '../_vnav.php';
     ?>
+<div class ="row">
+  <div class = "column">
+    <?php 
+      echo $vnav;
+    ?>
+  </div>
+  <div class = "column>
     <div class = "container my-3">
       <h2>View Invoices</h2>
     </div>
@@ -98,6 +105,12 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+
+
+
+
     <hr>
   
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
