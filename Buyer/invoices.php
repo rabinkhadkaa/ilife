@@ -30,7 +30,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             <h1 class="modal-title fs-5" id="editModalLabel">Edit this notes</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action = "loggedin.php" method = "post" >
+          <form action = "invoices.php" method = "post" >
             <div class="modal-body">
               <input type="hidden" name="snoEdit" id = "snoEdit">
               <div class="mb-3">
@@ -56,63 +56,62 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
       require '../_nav.php';
       require '../_vnav.php';
     ?>
-<div class ="row">
-  <div class = "column">
-    <?php 
-      echo $vnav;
-    ?>
-  </div>
-  <div class = "column>
-    <div class = "container my-3">
-      <h2>View Invoices</h2>
+
+<div class ="container-fluid px-0 h-100">
+  <div class ="row w-100 mx-0">
+    <div class = "col-1 px-0">
+      <?php 
+        echo $vnav;
+      ?>
     </div>
-    <div class = "container my-4">
-      <table class="table table-bordered table-striped" color="white;" id = "myTable">
-        <thead>
-          <tr>
-            <th scope="col">SN</th>
-            <th scope="col">NoteID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            $username = $_SESSION['username'];
-            
-            $sql = "SELECT * FROM `notes` WHERE username = '$username'";
-            $result = mysqli_query ($conn, $sql);
+    <div class = "col-11" >
+      <div class = "container my-3">
+        <h2>View Invoices</h2>
+      </div>
+      <div class = "container my-4">
+        <table class="table table-bordered table-striped" color="white;" id = "myTable">
+          <thead>
+            <tr>
+              <th scope="col">SN</th>
+              <th scope="col">NoteID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              $username = $_SESSION['username'];
               
-            if($result){
-              $num = mysqli_num_rows($result);
-            }
-            
-            $SNo = 0;
-            while ($row = mysqli_fetch_assoc($result)){
-              $SNo=$SNo+1;
-              //$url = "test.php?noteID = ".$row['NoteID'];
-              echo " <tr>
-                        <th scope='row'>".$SNo."</th>
-                        <td> <a href = 'notesDetails.php?noteID=".$row['NoteID']."'> ".$row['NoteID']." </a></td>
-                        <td>".$row['Title']."</td>
-                        <td>".$row['Description']."</td>
-                        <td><button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id=".$row['SN'].">Edit</button>
-                        <button type='button' class='delete btn btn-primary'  id=d".$row['SN'].">Delete</button></td>
-                      </tr>";
-            }
-          ?> 
-        </tbody>
-      </table>
+              $sql = "SELECT * FROM `notes` WHERE username = '$username'";
+              $result = mysqli_query ($conn, $sql);
+                
+              if($result){
+                $num = mysqli_num_rows($result);
+              }
+              
+              $SNo = 0;
+              while ($row = mysqli_fetch_assoc($result)){
+                $SNo=$SNo+1;
+                //$url = "test.php?noteID = ".$row['NoteID'];
+                echo " <tr>
+                          <th scope='row'>".$SNo."</th>
+                          <td> <a href = 'notesDetails.php?noteID=".$row['NoteID']."'> ".$row['NoteID']." </a></td>
+                          <td>".$row['Title']."</td>
+                          <td>".$row['Description']."</td>
+                          <td><button type='button' class='edit btn btn-primary' data-bs-toggle='modal' data-bs-target='#editModal' id=".$row['SN'].">Edit</button>
+                          <button type='button' class='delete btn btn-primary'  id=d".$row['SN'].">Delete</button></td>
+                        </tr>";
+              }
+            ?> 
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
-
-
-
-
-    <hr>
-  
+</body>
+</html>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src = "//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>let table = new DataTable('#myTable');</script>
@@ -143,12 +142,10 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             if(confirm("Are you sure you want to delete this note!")){
               console.log("yes--");
               console.log(SN);
-              window.location = `/loggedin.php?delete=${SN}`;
+              window.location = `/Buyer/invoices.php?delete=${SN}`;
             } else {
               console.log("No");
             }
           }) 
         }) 
     </script>
-  </body>
-</html>
