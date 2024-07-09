@@ -180,8 +180,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 
 									<li>
 										<hr color="#c2c0c3">
-										iUploads
-										<a href="iuploads.php"
+										iEmails
+										<a href="../sendemailform.php"
 										style="text-decoration:none"
 											color="#c2c0c3">
 											 ➲
