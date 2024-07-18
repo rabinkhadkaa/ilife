@@ -19,9 +19,9 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="/custom.css">
+    
   </head>
-  <body>
+  <body style="background-image: linear-gradient(to bottom right, rgb(0, 238, 255), rgb(184, 22, 220)  );">
     <!-- Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -56,15 +56,15 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
       require '../_nav.php';
       require '../_vnav.php';
     ?>
-  
-<div class ="container d-flex flex-column flex-md-row">
-  
-    <nav class = "navbar navbar-expand-md navbar-light d-flex flex-md-column">
+
+<div class ="container-fluid px-0 h-100">
+  <div class ="row w-100 mx-0">
+    <div class = "col-1 px-0">
       <?php 
         echo $vnav;
       ?>
-    </nav>
-    <main class = "ps-0 ps-md-5 flex-grow-1" >
+    </div>
+    <div class = "col-11" >
       <div class = "container my-3">
         <h2>View Invoices</h2>
       </div>
@@ -107,7 +107,9 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
           </tbody>
         </table>
       </div>
-    </main>
+    </div>
+  </div>
+</div>
 </body>
 </html>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
