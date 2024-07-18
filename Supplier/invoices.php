@@ -120,7 +120,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     ?>
     <div class = "container my-3">
       <h2>Add a note</h2>
-      <form action = "loggedin.php" method = "post" enctype="multipart/form-data">
+      <form action = "invoices.php" method = "post" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="noteid" class="form-label">Note ID <span style="color: red;">*</span></label>
             <input type="text" name = "noteid" class="form-control" id="noteid" aria-describedby="emailHelp">
