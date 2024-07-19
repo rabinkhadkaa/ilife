@@ -1,5 +1,16 @@
 <?php
-$vnav = ' 
+
+$vnav =
+'<aside>
+    <nav>
+        <ul>
+            <li><a  class="header-nav-links" href="#">Home</a></li>
+            <li><a  class="header-nav-links" href="#">Invoices</a></li>
+        </ul>
+    </nav>
+</aside>';
+
+/* $vnav = ' 
 <button class ="navbar-toggler"
         type ="button"
         data-bs-toggle="collapse"
@@ -28,5 +39,5 @@ $vnav = '
       </li>
     </ul>
 </div>';
-
+ */
 ?>

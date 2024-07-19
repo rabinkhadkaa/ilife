@@ -1,6 +1,19 @@
+
 <?php
 //include 'login.php';
 //2nd day practice
+
+$hnav =
+'<header>
+    <nav>
+        <ul>
+            <li><a class="header-nav-links" href="#">Ilife</a></li>
+            <li><a class="header-nav-links dropdown" href="#">User dropdown</a></li>
+        </ul>
+    </nav>
+</header>';
+
+
 
 if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
     if($_SESSION['role'] == "Admin"){
@@ -10,7 +23,8 @@ if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
     } else {
         $role = "Supplier";
     }
-    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+    echo $hnav;
+   /*  $h_nav = '<nav class="navbar navbar-expand-lg navbar-dark bg-primary "> 
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">iNotes</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,9 +70,10 @@ if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
                     </ul>
                 </div>
             </div>
-        </nav>'; 
+        </nav>'; */
 } else {
-    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    echo $hnav;
+    /* $h_nav ='<nav class="navbar navbar-expand-lg navbar-dark bg-primary"> 
     <div class="container-fluid">
         <a style="color: darkred;" class="navbar-brand" href="#"><h3>ilife</h3></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,6 +104,8 @@ if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
             </form> -->
         </div>
     </div>
-  </nav>';
+  </nav>';*/
 }
+
+
 ?>

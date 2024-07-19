@@ -1,21 +1,31 @@
-@media (min-width: 992px) {
-    .navbar, .navbar-collapse {
-      flex-direction: column;
-    }
-    .navbar-expand-lg .navbar-nav {
-      flex-direction: column;
-    }
-    .navbar {
-      width: 28%;
-      height: 100vh;
-      align-items: flex-start;
-    }
-    .navbar-brand {
-      margin-left: 0.5em;
-      padding-bottom: 0;
-      border-bottom: 4px solid #464646;
-    }
-    form input {
-      margin-bottom: 0.7em;
-    }
-  }
+header nav ul,
+aside nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 4px 8px;
+}
+header nav ul{
+    display: flex;
+    background-color: rgb(64, 152, 235);
+    gap:16px;
+    height: 40px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+aside nav ul{
+    display: flex;
+    flex-direction: column;
+  
+    gap:16px;
+    height: 40px;
+    align-items: center;
+    justify-content: flex-end;
+}
+aside nav {
+    background-color: rgb(64, 152, 235);
+}
+.header-nav-links {
+    list-style: none;
+    color: white;
+}
