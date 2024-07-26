@@ -57,14 +57,18 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
       require '../_vnav.php';
     ?>
   
-<div class ="container d-flex flex-column flex-md-row">
-  
-    <nav class = "navbar navbar-expand-md navbar-light d-flex flex-md-column">
+<div>
+    <div class = "navbar-horizontal">
+      <?php 
+        echo $hnav;
+      ?>
+    </div>
+    <div class ="navbar-vertical">
       <?php 
         echo $vnav;
       ?>
-    </nav>
-    <main class = "ps-0 ps-md-5 flex-grow-1" >
+    </div>
+    <div class = "content" >
       <div class = "container my-3">
         <h2>View Invoices</h2>
       </div>
@@ -107,7 +111,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
           </tbody>
         </table>
       </div>
-    </main>
+    </div>
+<div>
 </body>
 </html>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>

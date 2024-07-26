@@ -1,31 +1,108 @@
-header nav ul,
-aside nav ul {
-    list-style: none;
+/* styles.css */
+
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 4px 8px;
-}
-header nav ul{
-    display: flex;
-    background-color: rgb(64, 152, 235);
-    gap:16px;
-    height: 40px;
-    align-items: center;
-    justify-content: flex-end;
+    padding: 0;
 }
 
-aside nav ul{
+/* Horizontal Navigation Bar */
+.navbar-horizontal {
     display: flex;
-    flex-direction: column;
-  
-    gap:16px;
-    height: 40px;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-end;
+    background-color: #333;
+    padding: 10px 20px;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1000; /* Ensure it is above other content */
 }
-aside nav {
-    background-color: rgb(64, 152, 235);
+.navbar-horizontal .company-name {
+    font-size: 1.5em;
 }
-.header-nav-links {
-    list-style: none;
-    color: white;
+.navbar-horizontal .user-dropdown {
+    position: relative;
+}
+.navbar-horizontal .dropdown-button {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em; /* Adjust icon size */
+}
+.navbar-horizontal .dropdown-button:hover {
+    background: #555;
+}
+.navbar-horizontal .dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #fff;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 1000;
+}
+.navbar-horizontal .dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+.navbar-horizontal .dropdown-menu a:hover {
+    background: #f0f0f0;
+}
+.navbar-horizontal .user-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Vertical Navigation Bar */
+.navbar-vertical {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    position: fixed;
+    top: 60px; /* Adjust based on height of horizontal nav */
+    left: 0;
+    height: calc(100% - 60px); /* Adjust based on height of horizontal nav */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+.navbar-vertical a {
+    display: block;
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.navbar-vertical a:hover {
+    background-color: #ddd;
+}
+
+/* Main Content */
+.content {
+    margin-left: 220px; /* To ensure content is not hidden behind vertical nav */
+    margin-top: 70px; /* To ensure content is not hidden behind horizontal nav */
+    padding: 20px;
+}
+
+.navbar-horizontal .login-button button {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+.navbar-horizontal .login-button button:hover {
+    background: #555;
 }

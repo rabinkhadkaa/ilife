@@ -3,15 +3,7 @@
 //include 'login.php';
 //2nd day practice
 
-$hnav =
-'<header>
-    <nav>
-        <ul>
-            <li><a class="header-nav-links" href="#">Ilife</a></li>
-            <li><a class="header-nav-links dropdown" href="#">User dropdown</a></li>
-        </ul>
-    </nav>
-</header>';
+
 
 
 
@@ -23,7 +15,20 @@ if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
     } else {
         $role = "Supplier";
     }
-    echo $hnav;
+    
+        $hnav = '<div class="navbar-horizontal">
+                    <div class="company-name">Company Name</div>
+                    <div class="user-dropdown">
+                        <button class="dropdown-button">
+                            <img src="../img/user.png" style="width: 15px;" class="rounded-pill">
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#profile">Profile</a>
+                            <a href="#settings">Settings</a>
+                            <a href="./logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>';
    /*  $h_nav = '<nav class="navbar navbar-expand-lg navbar-dark bg-primary "> 
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">iNotes</a>
@@ -72,7 +77,12 @@ if(isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] == true){
             </div>
         </nav>'; */
 } else {
-    echo $hnav;
+    $hnav = '<div class="navbar-horizontal">
+        <div class="company-name">Company Name</div>
+        <button class="btn btn-success px-3 py-0 login-button" >
+            <a style="font-size: 1.2em;" class="nav-link" href="./login.php">Login</a>
+        </button>
+    </div>';
     /* $h_nav ='<nav class="navbar navbar-expand-lg navbar-dark bg-primary"> 
     <div class="container-fluid">
         <a style="color: darkred;" class="navbar-brand" href="#"><h3>ilife</h3></a>
