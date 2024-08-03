@@ -32,6 +32,7 @@
     <div class="content">
         <h1>Welcome to the Website</h1>
         <p>This is where the main content goes. The horizontal and vertical nav bars are set up above.</p>
+        <p>This is where the main content goes. The horizontal and vertical nav bars are set up above.</p>
     </div>
 </div>
 </body>

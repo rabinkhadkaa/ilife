@@ -1,0 +1,53 @@
+STEPS
+>>see docker running containers : docker ps
+>>get into docker server : docker exec -it <container_id> bash
+>>find php.ini file
+>>generally the location in docker: /usr/local/etc/php
+>>if php.ini does not exits then copy the php.ini-production to php.ini file, running this code: cp php.ini-production php.ini
+>> add or edit following code in php.ini file using nano or vim
+>>Ensure the Session Directory Exists and is Writable
+>>mkdir -p /var/lib/php/sessions
+>> chown -R www-data:www-data /var/lib/php/sessions
+>>chmod -R 700 /var/lib/php/sessions
+>>service apache2 restart
+All done
+
+//php.ini file
+[Session]
+; Handler used to store/retrieve data.
+session.save_handler = files
+
+; Argument passed to save_handler.  In the case of files, this is the path
+; where data files are stored. Note: ensure that this directory is writable
+; by the web server.
+session.save_path = "/var/lib/php/sessions"
+
+; Name of the session (used as cookie name).
+session.name = PHPSESSID
+
+; Initialize session on request startup.
+session.auto_start = 0
+
+; Lifetime in seconds of cookie or, if 0, until browser is restarted.
+session.cookie_lifetime = 0
+
+; The path for which the cookie is valid.
+session.cookie_path = /
+
+; The domain for which the cookie is valid.
+session.cookie_domain =
+
+; Whether the cookie should only be sent over secure connections.
+session.cookie_secure = 0
+
+; Whether to use cookies.
+session.use_cookies = 1
+
+; Specifies the number of seconds after which data will be seen as 'garbage' and cleaned up by the garbage collection process.
+session.gc_maxlifetime = 1440
+
+; Probability of GC (garbage collection) running.
+session.gc_probability = 1
+
+; Divisor used to calculate the probability.
+session.gc_divisor = 1000
