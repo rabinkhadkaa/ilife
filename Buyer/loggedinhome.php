@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-	<link href="../custom.css" rel="stylesheet">
+	<link rel="stylesheet" href="../custom.css">
 </head>
   <body>
 <?php
    error_reporting(E_ALL);
-   ini_set('display_errors', 1); 
-    //require  './_nav.php'; 
+   ini_set('display_errors', 0); 
+
    
 session_start();
 
@@ -19,28 +19,10 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     header("location: ../index.php");
     exit;
 } else {
-	require  '../_nav.php'; 
+require  '../_nav_afterLogin.php'; 
     } 
 ?>
-    <!-- <div class="container text-center">
-        <div class="row">
-            <div class="col-sm-3">
-            Level 1: .col-sm-3
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit dignissimos nobis, magni repellendus quo officiis accusamus odit sed facere illo, voluptatem, quam hic cum autem maiores eius obcaecati? Velit, nihil.
-            </div>
-            <div class="col-sm-9">
-                <div class="row">
-                    <div class="col-8 col-sm-6">
-                    Level 2: .col-8 .col-sm-6
-                    </div>
-                    <div class="col-4 col-sm-6">
-                    Level 2: .col-4 .col-sm-6
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    
+   
 	<!--Home(start)-->
 	<table id="home" width="100%"
 		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to bottom, rgb(213, 190, 232), rgb(90, 100, 255));">
@@ -173,8 +155,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								size="5" color="black">
 								<ul>
 									<li>
-										Invoices
-										<a href="./invoices.php"
+										Dashboard
+										<a href="./dashboard.php"
 										style="text-decoration:none">
 											 ➲
 										</a>
