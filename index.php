@@ -9,6 +9,7 @@
   </head>
   <body>
     <?php 
+		include './nocatche.php';
     	require  './_nav_beforeLogin.php'; 
     ?>
 	<!--Home(start)-->
