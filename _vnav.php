@@ -4,8 +4,8 @@
     <i class="fa fa-caret-down"></i>
     </a>
     <div class="dropdown-container">
-      <a href="#CreatePO.php">Create PO</a>
-      <a href="#SubmitedPO.php">Submitted PO</a>
+      <a href="../<?php echo $_SESSION['role'] ?>/createPO.php">Create PO</a>
+      <a href="../<?php echo $_SESSION['role'] ?>/submittedPO.php">Submitted PO</a>
     </div>
     <a href="#timesheet.php">Timesheet</a>
     <a href="#invoice.php">Invoice</a>
