@@ -1,5 +1,9 @@
 <?php 
-        include './nocatche.php';
+error_reporting(-1);
+ini_set("display_errors", 1);
+ini_set('error_reporting', E_ALL);
+
+        //include './nocatche.php';
         session_start();
         if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             header("location: index.php");
@@ -63,7 +67,8 @@
 </head>
 <body>
     <?php 
-        include './nocatche.php';
+        //include './nocatche.php';
+        include '../_dbconnect.php';
         require '../_nav_afterLogin.php';
     ?>
     <?php 
@@ -85,7 +90,7 @@
                 <label for="serviceType">Service Type</label>
                 <select id="serviceType" name="serviceType" required>
                     <option value="">Select a product</option>
-                    <option value="Service1">Design and Consulting</option>
+                    <option value="Design and Consulting">Design and Consulting</option>
                 </select>
             </div>
                 <div class="form-group">
@@ -108,30 +113,34 @@
             <?php
             if (isset($_POST['submit'])) {
                 // Retrieve form data
-                $customerName = htmlspecialchars($_POST['customerName']);
-                $email = htmlspecialchars($_POST['email']);
-                $product = htmlspecialchars($_POST['product']);
-                $quantity = intval($_POST['quantity']);
+                $requestId = htmlspecialchars($_POST['requestId']);
+                $supplierName = htmlspecialchars($_POST['supplierName']);
+                $serviceType = htmlspecialchars($_POST['serviceType']);
+                $startDate = htmlspecialchars($_POST['startDate']);
+                $endDate = htmlspecialchars($_POST['endDate']);
+                $description = htmlspecialchars($_POST['description']);
+                
 
                 // Basic validation
-                if (empty($customerName) || empty($email) || empty($product) || $quantity <= 0) {
+                if (empty($requestId) || empty($supplierName) || empty($serviceType) || empty($startDate) || empty($endDate) || empty($description)) {
                     echo '<p class="message" style="color: red;">Please fill out all fields correctly.</p>';
                 } else {
                     // Process the order (e.g., save to database, send email, etc.)
                     // For demonstration, we're just displaying the information
 
-                    echo '<p class="message" style="color: green;">Order Submitted Successfully!</p>';
-                    echo '<p><strong>Customer Name:</strong> ' . $customerName . '</p>';
-                    echo '<p><strong>Email:</strong> ' . $email . '</p>';
-                    echo '<p><strong>Product:</strong> ' . $product . '</p>';
-                    echo '<p><strong>Quantity:</strong> ' . $quantity . '</p>';
                     
-                    // Normally, you'd also save this data to a database or send an email
-                    // Example (commented out): 
-                    // $conn = new mysqli('localhost', 'username', 'password', 'database');
-                    // $sql = "INSERT INTO orders (customerName, email, product, quantity) VALUES ('$customerName', '$email', '$product', $quantity)";
-                    // $conn->query($sql);
-                    // $conn->close();
+                    $query = "INSERT INTO `Purchase_Order` (`RequestID`, `SupplierName`, `ServiceType`, `StartDate`, `EndDate`, `Description`, `Status`, `SubmittedDate`) VALUES ('$requestId', '$supplierName', '$serviceType', '$startDate', '$endDate', '$description', 'Pending', CURRENT_TIMESTAMP())";
+                    print_r($conn);
+                    echo $query;
+                    exit();
+                    $result = mysqli_query($query, $conn);
+                    
+                    if($result){
+                        echo '<p class="message" style="color: green;">Order Submitted Successfully!</p>';
+                    } else {
+                        echo "not submitted";
+                    }
+
                 }
             }
             ?>

@@ -1,0 +1,90 @@
+/* Basic Reset */
+body, h1, a {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Horizontal Navigation Bar */
+.horizontal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+.company-name h1 {
+    margin: 0;
+}
+
+.user-dropdown {
+    position: relative;
+}
+
+.user-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #333;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Vertical Navigation Bar */
+.vertical-nav {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.vertical-nav a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+.vertical-nav a:hover {
+    background-color: #ddd;
+}
+
+/* Main Content */
+.content {
+    margin-left: 220px;
+    padding: 20px;
+}
