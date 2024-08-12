@@ -1,14 +1,13 @@
 <?php 
-error_reporting(-1);
-ini_set("display_errors", 1);
-ini_set('error_reporting', E_ALL);
-
-        //include './nocatche.php';
-        session_start();
-        if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
-            header("location: index.php");
-            exit;
-        } 
+    include '../_dbconnect.php';
+    
+    
+    //include './nocatche.php';
+    session_start();
+    if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
+        header("location: index.php");
+        exit;
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -68,13 +67,19 @@ ini_set('error_reporting', E_ALL);
 <body>
     <?php 
         //include './nocatche.php';
-        include '../_dbconnect.php';
+        include 'createPO_function.php';
         require '../_nav_afterLogin.php';
-    ?>
-    <?php 
         require '../_vnav.php';
+        error_reporting(-1);
+        ini_set("display_errors", 1);
+        ini_set('error_reporting', E_ALL);
     ?>
     <div class = "main-content">
+        <?php
+            if($submitted){
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success! </strong>your request has been submitted successfully.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }
+        ?>
         <div class="form-container">
             <h1>Service Request Form</h1>
             <form action="createPO.php" method="POST">
@@ -109,43 +114,9 @@ ini_set('error_reporting', E_ALL);
                     <button type="submit" name="submit">Submit Order</button>
                 </div>
             </form>
-
-            <?php
-            if (isset($_POST['submit'])) {
-                // Retrieve form data
-                $requestId = htmlspecialchars($_POST['requestId']);
-                $supplierName = htmlspecialchars($_POST['supplierName']);
-                $serviceType = htmlspecialchars($_POST['serviceType']);
-                $startDate = htmlspecialchars($_POST['startDate']);
-                $endDate = htmlspecialchars($_POST['endDate']);
-                $description = htmlspecialchars($_POST['description']);
-                
-
-                // Basic validation
-                if (empty($requestId) || empty($supplierName) || empty($serviceType) || empty($startDate) || empty($endDate) || empty($description)) {
-                    echo '<p class="message" style="color: red;">Please fill out all fields correctly.</p>';
-                } else {
-                    // Process the order (e.g., save to database, send email, etc.)
-                    // For demonstration, we're just displaying the information
-
-                    
-                    $query = "INSERT INTO `Purchase_Order` (`RequestID`, `SupplierName`, `ServiceType`, `StartDate`, `EndDate`, `Description`, `Status`, `SubmittedDate`) VALUES ('$requestId', '$supplierName', '$serviceType', '$startDate', '$endDate', '$description', 'Pending', CURRENT_TIMESTAMP())";
-                    print_r($conn);
-                    echo $query;
-                    exit();
-                    $result = mysqli_query($query, $conn);
-                    
-                    if($result){
-                        echo '<p class="message" style="color: green;">Order Submitted Successfully!</p>';
-                    } else {
-                        echo "not submitted";
-                    }
-
-                }
-            }
-            ?>
         </div>
     </div>
+    
     <script src = "../vnavdropdown.js"></script>
 </body>
 </html>

@@ -23,53 +23,15 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
   <body>
-    <!-- Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="editModalLabel">Edit this notes</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form action = "invoices.php" method = "post" >
-            <div class="modal-body">
-              <input type="hidden" name="snoEdit" id = "snoEdit">
-              <div class="mb-3">
-                <label for="title" class="form-label">Note title</label>
-                <input type="text" name = "titleEdit" class="form-control" id="titleEdit" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="Desc" class="form-label">Note Description</label>
-                <textarea name = "DescEdit" class="form-control" rows = "3" id="DescEdit"></textarea>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <?php 
+    require '../_nav_afterLogin.php';
+    ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-  
-<div>
-
-      <?php 
-        require '../_nav_afterLogin.php';
-      ?>
-
-      <?php 
-        require '../_vnav.php';
-      ?>
-
-    <div class = "main-content" >
-      <div class = "container my-3">
-        <h2>View Invoices</h2>
-      </div>
-      <div class = "container my-4">
+    <?php 
+    require '../_vnav.php';
+    ?>
+    <div class ="main-content">
+    <div class = "container my-4">
         <table class="table table-bordered table-striped" color="white;" id = "myTable">
           <thead>
             <tr>
@@ -88,7 +50,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             <?php
               $username = $_SESSION['username'];
               
-              $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
+              $sql = "SELECT * FROM `Purchase_Order` WHERE SupplierName = '$username'";
               $result = mysqli_query ($conn, $sql);
                 
               if($result){
@@ -125,9 +87,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         </table>
       </div>
     </div>
-<div>
-</body>
-</html>
+    <hr>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src = "//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src = "../vnavdropdown.js"></script>
@@ -159,10 +120,12 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
             if(confirm("Are you sure you want to delete this note!")){
               console.log("yes--");
               console.log(SN);
-              window.location = `/Buyer/invoices.php?delete=${SN}`;
+              window.location = `/loggedin.php?delete=${SN}`;
             } else {
               console.log("No");
             }
           }) 
         }) 
     </script>
+  </body>
+</html>

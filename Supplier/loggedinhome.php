@@ -153,8 +153,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								size="5" color="black">
 								<ul>
 									<li>
-										Invoices
-										<a href="./invoices.php"
+										Dashboard
+										<a href="./dashboard.php"
 										style="text-decoration:none">
 											 ➲
 										</a>
