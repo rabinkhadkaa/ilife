@@ -72,7 +72,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
                 }
                 echo " <tr>
                           <td scope='row'>".$SNo."</td>
-                          <td> <a href = 'notesDetails.php?noteID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
+                          <td> <a href = 'notesDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
                           <td>".$row['SupplierName']."</td>
                           <td>".$row['ServiceType']."</td>
                           <td>".$row['StartDate']."</td>

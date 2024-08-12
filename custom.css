@@ -87,8 +87,7 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-left: 200px; /* To ensure content is not hidden behind vertical nav */
-
+    margin-left: 250px; /* To ensure content is not hidden behind vertical nav */
     padding: 20px;
 }
 
