@@ -1,3 +1,9 @@
+<?php
+	include './_nocatche.php';
+	ob_start();
+		nocache();
+	ob_end_flush();
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,8 +14,7 @@
 	<link rel="stylesheet" href="./custom.css">
   </head>
   <body>
-    <?php 
-		include './nocatche.php';
+    <?php  
     	require  './_nav_beforeLogin.php'; 
     ?>
 	<!--Home(start)-->

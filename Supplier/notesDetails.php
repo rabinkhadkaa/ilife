@@ -14,8 +14,10 @@ require '../_nav.php';
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+ini_set("display_errors", 1);
+ini_set('error_reporting', E_ALL);
+$POupdate = false;
+$POupdateFailed = false;
 // Start session
 //session_start();
 
@@ -61,12 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "All fields are required.";
     } else {
         // Update invoice status and comments in the database
-        $update_query = "UPDATE Purchase_Order SET status = '$status', comments = '$comments' WHERE requestID = '$requestID'";
+        $update_query = "UPDATE Purchase_Order SET Status = '$status', comments = '$comments' WHERE requestID = '$requestID'";
         $resu = mysqli_query($conn, $update_query);
         if ($resu) {
-            echo "PO request updated successfully.";
+            //echo "PO request updated successfully.";
+            $POupdate = true;
         } else {
-            echo "Update failed!";
+            $POupdateFailed = true;
         }
     }
 }
@@ -81,6 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Invoice Details</title>
     <link rel="stylesheet" href="../custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 </head>
 <body>
     <?php 
@@ -90,6 +95,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require '../_vnav.php';
     ?>
     <div class ="main-content">
+        <?php 
+            if($POupdate){
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success! </strong>PO request updated successfully.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }
+            if($POupdateFailed){
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Sorry! </strong>PO request has not been updated.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }
+
+            error_reporting(E_ALL);
+ini_set("display_errors", 1);
+ini_set('error_reporting', E_ALL);
+        ?>
         <h1>PO Request Details</h1>
         
         <!-- Display invoice details -->

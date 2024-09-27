@@ -1,12 +1,12 @@
-version: '3.8'
-
 services:
   web:
     build: .
     ports:
-      - "80:80"
+      - "8080:80"
+      - "8443:443"
     volumes:
       - .:/var/www/html
+      - /etc/letsencrypt/live/ilifes.store:/etc/letsencrypt/live/ilifes.store
     depends_on:
       - db
 
@@ -15,8 +15,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: '@Shova595Bhandari'
       MYSQL_DATABASE: "ilife"
-      MYSQL_USER: "root"
-      MYSQL_PASSWORD: '@Shova595Bhandari'
+            
     volumes:
       - db_data:/var/lib/mysql
 
@@ -26,7 +25,7 @@ services:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: '@Shova595Bhandari'
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - db
 

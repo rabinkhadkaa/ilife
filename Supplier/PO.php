@@ -31,13 +31,14 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     require '../_vnav.php';
     ?>
     <div class ="main-content">
+      <h2>PO Request</h2>
     <div class = "container my-4">
         <table class="table table-bordered table-striped" color="white;" id = "myTable">
           <thead>
             <tr>
               <th scope="col">SN</th>
               <th scope="col">Request ID</th>
-              <th scope="col">Supplier Name</th>
+              <th scope="col">Request By</th>
               <th scope="col">Service Type</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
@@ -73,7 +74,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
                 echo " <tr>
                           <td scope='row'>".$SNo."</td>
                           <td> <a href = 'notesDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
-                          <td>".$row['SupplierName']."</td>
+                          <td>".$row['user']."</td>
                           <td>".$row['ServiceType']."</td>
                           <td>".$row['StartDate']."</td>
                           <td>".$row['EndDate']."</td>
