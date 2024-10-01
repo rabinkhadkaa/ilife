@@ -10,7 +10,7 @@
  $username = $_SESSION['username'];
  //why I'm getting $username null
  
- echo $username;
+
 
  $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
  
@@ -41,7 +41,22 @@
     if($result){
         $num = mysqli_num_rows($result);
     }
-    
+                
+     // Count the number of rows in the result set
+     $num = 0;
+     if ($result) {
+         $num = mysqli_num_rows($result);
+     }
+
+    echo '<div class="container">
+            <div class="row"> 
+                <div class="col-md-4 d-flex align-items-center">
+                    <label for="total" class="form-label mb-0 me-4">Total records:</label>
+                    <input type="number" name="total" id="total" class="form-control" style="flex-grow: 1;" value = ' . $num . ' readonly>
+                </div>
+            </div>
+        </div>';
+
     echo "<table class='table table-bordered table-striped' color='white;' id = 'myTable'>
         <thead>
             <tr>
