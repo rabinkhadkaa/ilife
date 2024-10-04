@@ -12,23 +12,23 @@
 
 
 
- $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
+ $sql = "SELECT * FROM `Timesheet` WHERE user = '$username'";
  
  //check if data was sent via POST method
  if ($_SERVER['REQUEST_METHOD']=='POST'){
     //Get the requestID and supplierName from the POST request
-    $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
-    $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName']: '';
+    $timesheetID = isset($_POST['timesheetID']) ? $_POST['timesheetID'] : '';
+    $buyerName = isset($_POST['buyerName']) ? $_POST['buyerName']: '';
     $fromDate = isset($_POST['fromDate']) ? $_POST['fromDate']: '';
     $toDate = isset($_POST['toDate']) ? $_POST['toDate']: '';
 
     $conditions = [];
-    if(!empty($requestID)){
-        $conditions[]= "requestID = '" . $conn->real_escape_string($requestID) . "'";
+    if(!empty($timesheetID)){
+        $conditions[]= "requestID = '" . $conn->real_escape_string($timesheetID) . "'";
 
     }
-    if(!empty($supplierName)){
-        $conditions[]= "supplierName ='" . $conn->real_escape_string($supplierName) . "'";
+    if(!empty($buyerName)){
+        $conditions[]= "supplierName ='" . $conn->real_escape_string($buyerName) . "'";
     }
     if(!empty($fromDate)){
         $conditions[]= "startDate >= '" . $conn->real_escape_string($fromDate) . "'";
@@ -36,7 +36,7 @@
     if(!empty($toDate)){
         $conditions[]= "endDate <= '" . $conn->real_escape_string($toDate) . "'";
     }
-
+    
 
     $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
     //Append conditions if exist
@@ -69,13 +69,14 @@
         <thead>
             <tr>
             <th scope='col'>SN</th>
-            <th scope='col'>Request ID</th>
-            <th scope='col'>Supplier Name</th>
+            <th scope='col'>Timesheet ID</th>
+            <th scope='col'>Buyer Name</th>
             <th scope='col'>Service Type</th>
-            <th scope='col'>Start Date</th>
-            <th scope='col'>End Date</th>
-            <th scope='col'>Description</th>
+            <th scope='col'>From Date</th>
+            <th scope='col'>To Date</th>
             <th scope='col'>Status</th>
+            <th scope='col'>Hours</th>
+            <th scope='col'>Description</th>
             <th scope='col'>Submitted Date</th>
             </tr>
         </thead>";
@@ -97,20 +98,20 @@
             
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
-                    <td> <a href = 'notesDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
-                    <td>".$row['SupplierName']."</td>
+                    <td> <a href = 'notesDetails.php?timesheetID=".$row['TimesheetID']."'> ".$row['TimesheetID']." </a></td>
+                    <td>".$row['BuyerName']."</td>
                     <td>".$row['ServiceType']."</td>
-                    <td>".$row['StartDate']."</td>
-                    <td>".$row['EndDate']."</td>
+                    <td>".$row['FromDate']."</td>
+                    <td>".$row['ToDate']."</td>
                     <td>".$row['Description']."</td>
                     <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
+                    <td>".$row['Hours']."</td>
                     <td>".$row['SubmittedDate']."</td>
                 </tr>";
         }
         echo " </tbody>";
         echo "</table>";
 
- }
-
+    }
 
     ?> 

@@ -12,15 +12,14 @@
 
 
 
- $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
+ $sql = "SELECT * FROM `Timesheet` WHERE user = '$username'";
  
  //check if data was sent via POST method
  if ($_SERVER['REQUEST_METHOD']=='POST'){
     //Get the requestID and supplierName from the POST request
     $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
     $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName']: '';
-    $fromDate = isset($_POST['fromDate']) ? $_POST['fromDate']: '';
-    $toDate = isset($_POST['toDate']) ? $_POST['toDate']: '';
+    
 
     $conditions = [];
     if(!empty($requestID)){
@@ -30,13 +29,6 @@
     if(!empty($supplierName)){
         $conditions[]= "supplierName ='" . $conn->real_escape_string($supplierName) . "'";
     }
-    if(!empty($fromDate)){
-        $conditions[]= "startDate >= '" . $conn->real_escape_string($fromDate) . "'";
-    }
-    if(!empty($toDate)){
-        $conditions[]= "endDate <= '" . $conn->real_escape_string($toDate) . "'";
-    }
-
 
     $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
     //Append conditions if exist
