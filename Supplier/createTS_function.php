@@ -10,7 +10,7 @@ ini_set('display_errors', 1);
     $submitted = false;
     if (isset($_POST['submit'])) {
         // Retrieve form data
-        $timesheetId = htmlspecialchars($_POST['timesheetID']);
+        $timesheetId = htmlspecialchars($_POST['timesheetID']);   
         $buyerName = htmlspecialchars($_POST['buyerName']);
         $serviceType = htmlspecialchars($_POST['serviceType']);
         $fromDate = htmlspecialchars($_POST['fromDate']);
@@ -25,7 +25,7 @@ ini_set('display_errors', 1);
         } else {
             // Process the order (e.g., save to database, send email, etc.)
             
-            $query = "INSERT INTO `Timesheet` (`TimesheetID`, `BuyerName`, `ServiceType`, `FromDate`, `ToDate`, `Hours`, `Status`, `Description`, `Datestamo`) VALUES ('$timesheetId', '$buyerName', '$serviceType', '$fromDate', '$toDate', '$hours', 'Pending', '$description', CURRENT_TIMESTAMP());";
+            $query = "INSERT INTO `Timesheet` (`TimesheetID`, `BuyerName`, `ServiceType`, `FromDate`, `ToDate`, `Hours`, `Status`, `Description`, `user`, `Datestamo`) VALUES ('$timesheetId', '$buyerName', '$serviceType', '$fromDate', '$toDate', '$hours', 'Pending', '$description','$myusername', CURRENT_TIMESTAMP());";
         
             $result = mysqli_query($conn, $query);
             

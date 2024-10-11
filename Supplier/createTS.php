@@ -89,7 +89,7 @@
             <form action="createTS.php" method="POST">
                 <div class="form-group">
                     <label for="timesheetID">Timesheet ID</label>
-                    <input type="text" id="timesheetID" name="timesheetID" value = '<?php echo $timesheetID ?>'disabled>
+                    <input type="text" id="timesheetID" name="timesheetID" value = '<?php echo htmlspecialchars($timesheetID) ?>'readonly>
                 </div>
                 <div class="form-group">
                     <label for="buyerName">Request To</label>
@@ -216,7 +216,7 @@
 
             // Show the textarea after saving
             descriptionTextarea.removeAttribute('hidden');
-            
+
             $('#descriptionModal').modal('hide');
         });
 

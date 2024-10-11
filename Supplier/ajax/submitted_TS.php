@@ -24,28 +24,30 @@
 
     $conditions = [];
     if(!empty($timesheetID)){
-        $conditions[]= "requestID = '" . $conn->real_escape_string($timesheetID) . "'";
+        $conditions[]= "TimesheetID = '" . $conn->real_escape_string($timesheetID) . "'";
 
     }
     if(!empty($buyerName)){
-        $conditions[]= "supplierName ='" . $conn->real_escape_string($buyerName) . "'";
+        $conditions[]= "BuyerName ='" . $conn->real_escape_string($buyerName) . "'";
     }
     if(!empty($fromDate)){
-        $conditions[]= "startDate >= '" . $conn->real_escape_string($fromDate) . "'";
+        $conditions[]= "FromDate >= '" . $conn->real_escape_string($fromDate) . "'";
     }
     if(!empty($toDate)){
-        $conditions[]= "endDate <= '" . $conn->real_escape_string($toDate) . "'";
+        $conditions[]= "ToDate <= '" . $conn->real_escape_string($toDate) . "'";
     }
     
 
-    $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
+    $sql = "SELECT * FROM `Timesheet` WHERE user = '$username'";
     //Append conditions if exist
     if(count($conditions)>0){
         $sql .= " AND " . implode(" AND ", $conditions);
     }
 
     $result = mysqli_query ($conn, $sql);
-        
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }   
     if($result){
         $num = mysqli_num_rows($result);
     }
@@ -106,7 +108,7 @@
                     <td>".$row['Description']."</td>
                     <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
                     <td>".$row['Hours']."</td>
-                    <td>".$row['SubmittedDate']."</td>
+                    <td>".$row['Datestamo']."</td>
                 </tr>";
         }
         echo " </tbody>";

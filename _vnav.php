@@ -31,7 +31,7 @@
     <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/createTS.php">Create Timesheet</a>
     <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/submittedTS.php">Submitted TS</a>
     </div>
-    <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/PO.php">Submitted PO</a>
+    <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/PO.php">Received PO</a>
     <a href="#invoice.php">Invoice</a>
     <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/notesDetails.php">Note Details</a>
   <?php

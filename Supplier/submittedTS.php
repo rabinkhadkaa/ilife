@@ -6,7 +6,9 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     header("location: ../index.php");
     exit;
 }
- 
+error_reporting(-1);
+ini_set("display_errors", 1);
+ini_set('error_reporting', E_ALL);
 ?>
 
 <!doctype html>
@@ -35,40 +37,40 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
           <h2>View Submitted Time Sheet</h2>
         </div>
         <form id="viewTS" class="mt-4">
-  <div class="container">
-    <div class="row g-3">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="fromDate" class="form-label">From Date:</label>
-          <input type="date" name="fromDate" id="fromDate" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="toDate" class="form-label">To Date:</label>
-          <input type="date" name="toDate" id="toDate" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="timesheetID" class="form-label">Timesheet ID:</label>
-          <input type="text" name="timesheetID" id="timesheetID" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="buyerName" class="form-label">Buyer Name:</label>
-          <input type="text" name="buyerName" id="buyerName" class="form-control">
-        </div>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </div>
-</form>
+            <div class="container">
+                <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="fromDate" class="form-label">From Date:</label>
+                    <input type="date" name="fromDate" id="fromDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="toDate" class="form-label">To Date:</label>
+                    <input type="date" name="toDate" id="toDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="timesheetID" class="form-label">Timesheet ID:</label>
+                    <input type="text" name="timesheetID" id="timesheetID" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="buyerName" class="form-label">Buyer Name:</label>
+                    <input type="text" name="buyerName" id="buyerName" class="form-control">
+                    </div>
+                </div>
+                </div>
+                <div class="row mt-3">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </div>
+            </div>
+        </form>
 
         <div id="result"></div> <!-- Container to display the results -->
       </div>
@@ -82,7 +84,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
           //Gather form data
           var formData = {
             requestID: $('#timesheetID').val(),
-            supplierName: $('#buyerName').val()
+            supplierName: $('#buyerName').val(),
             fromDate: $('#fromDate').val(),
             toDate: $('#toDate').val()
           };
