@@ -1,108 +1,115 @@
 <?php
 
- include '../../_dbconnect.php'; 
- session_start();
+include '../../_dbconnect.php';
+session_start();
 
- ini_set('display_errors', 1);
- ini_set('display_startup_errors', 1);
- error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
- $username = $_SESSION['username'];
- //why I'm getting $username null
- 
+// Check if 'username' is set in the session
+if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} else {
+    echo "Session 'username' is not set or is empty.";
+    exit;
+}
 
+// Define the allowed columns for sorting
+$columns = ['RequestID', 'SupplierName', 'ServiceType', 'StartDate', 'EndDate', 'Status', 'SubmittedDate'];
+$column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : 'RequestID'; // Default sort column
 
- $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
- 
- //check if data was sent via POST method
- if ($_SERVER['REQUEST_METHOD']=='POST'){
-    //Get the requestID and supplierName from the POST request
+// Get sorting order from URL parameter, default is ascending
+$order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'desc' : 'asc';
+
+// Determine the next sort order
+$next_order = $order == 'asc' ? 'desc' : 'asc';
+
+// Base SQL query
+$sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
+
+// Check if POST data is provided for filtering
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
-    $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName']: '';
-    
+    $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName'] : '';
 
     $conditions = [];
-    if(!empty($requestID)){
-        $conditions[]= "requestID = '" . $conn->real_escape_string($requestID) . "'";
-
+    if (!empty($requestID)) {
+        $conditions[] = "RequestID = '" . $conn->real_escape_string($requestID) . "'";
     }
-    if(!empty($supplierName)){
-        $conditions[]= "supplierName ='" . $conn->real_escape_string($supplierName) . "'";
+    if (!empty($supplierName)) {
+        $conditions[] = "SupplierName = '" . $conn->real_escape_string($supplierName) . "'";
     }
 
-    $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
-    //Append conditions if exist
-    if(count($conditions)>0){
+    if (count($conditions) > 0) {
         $sql .= " AND " . implode(" AND ", $conditions);
     }
+}
 
-    $result = mysqli_query ($conn, $sql);
-        
-    if($result){
-        $num = mysqli_num_rows($result);
-    }
-                
-     // Count the number of rows in the result set
-     $num = 0;
-     if ($result) {
-         $num = mysqli_num_rows($result);
-     }
+// Modify the query to include sorting
+$sql .= " ORDER BY $column $order";
 
-    echo '<div class="container">
-            <div class="row"> 
-                <div class="col-md-4 d-flex align-items-center">
-                    <label for="total" class="form-label mb-0 me-4">Total records:</label>
-                    <input type="number" name="total" id="total" class="form-control" style="flex-grow: 1;" value = ' . $num . ' readonly>
-                </div>
+// Execute the query
+$result = mysqli_query($conn, $sql);
+$num = $result ? mysqli_num_rows($result) : 0;
+
+// Display the total number of records
+echo '<div class="container">
+        <div class="row"> 
+            <div class="col-md-4 d-flex align-items-center">
+                <label for="total" class="form-label mb-0 me-4">Total records:</label>
+                <input type="number" name="total" id="total" class="form-control" style="flex-grow: 1;" value = ' . $num . ' readonly>
             </div>
-        </div>';
+        </div>
+    </div>';
 
-    echo "<table class='table table-bordered table-striped' color='white;' id = 'myTable'>
+// Start table output with sortable headers
+echo "<table class='table table-bordered table-striped' color='white;' id='myTable'>
         <thead>
             <tr>
-            <th scope='col'>SN</th>
-            <th scope='col'>Request ID</th>
-            <th scope='col'>Supplier Name</th>
-            <th scope='col'>Service Type</th>
-            <th scope='col'>Start Date</th>
-            <th scope='col'>End Date</th>
-            <th scope='col'>Description</th>
-            <th scope='col'>Status</th>
-            <th scope='col'>Submitted Date</th>
+                <th scope='col'>SN</th>
+                <th scope='col'><a href='?column=RequestID&order=$next_order'>Request ID</a></th>
+                <th scope='col'><a href='?column=SupplierName&order=$next_order'>Supplier Name</a></th>
+                <th scope='col'><a href='?column=ServiceType&order=$next_order'>Service Type</a></th>
+                <th scope='col'><a href='?column=StartDate&order=$next_order'>Start Date</a></th>
+                <th scope='col'><a href='?column=EndDate&order=$next_order'>End Date</a></th>
+                <th scope='col'><a href='?column=Description&order=$next_order'>Description</a></th>
+                <th scope='col'><a href='?column=Status&order=$next_order'>Status</a></th>
+                <th scope='col'><a href='?column=SubmittedDate&order=$next_order'>Submitted Date</a></th>
             </tr>
         </thead>";
-        echo "<tbody>";
-        $SNo = 0;
-        while ($row = mysqli_fetch_assoc($result)){
-            $SNo=$SNo+1;
-            switch ($row['Status']){
-            case 'Pending':
-                $bgColor = 'yellow';
-                break;
-            case 'Accepted':
-                $bgColor = 'green';
-                break;
-            case 'Rejected':
-                $bgColor = 'red';
-            }
-                
-            
-             echo "<tr>
-                    <td scope='row'>".$SNo."</td>
-                    <td> <a href = 'notesDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
-                    <td>".$row['SupplierName']."</td>
-                    <td>".$row['ServiceType']."</td>
-                    <td>".$row['StartDate']."</td>
-                    <td>".$row['EndDate']."</td>
-                    <td>".$row['Description']."</td>
-                    <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
-                    <td>".$row['SubmittedDate']."</td>
-                </tr>";
-        }
-        echo " </tbody>";
-        echo "</table>";
+echo "<tbody>";
+$SNo = 0;
+while ($row = mysqli_fetch_assoc($result)) {
+    $SNo++;
+    switch ($row['Status']) {
+        case 'Pending':
+            $bgColor = 'yellow';
+            break;
+        case 'Accepted':
+            $bgColor = 'green';
+            break;
+        case 'Rejected':
+            $bgColor = 'red';
+            break;
+        default:
+            $bgColor = 'white';
+    }
 
- }
+    echo "<tr>
+            <td scope='row'>" . $SNo . "</td>
+            <td><a href='notesDetails.php?requestID=" . $row['RequestID'] . "'> " . $row['RequestID'] . " </a></td>
+            <td>" . $row['SupplierName'] . "</td>
+            <td>" . $row['ServiceType'] . "</td>
+            <td>" . $row['StartDate'] . "</td>
+            <td>" . $row['EndDate'] . "</td>
+            <td>" . $row['Description'] . "</td>
+            <td style='background-color: " . $bgColor . ";'>" . $row['Status'] . "</td>
+            <td>" . $row['SubmittedDate'] . "</td>
+        </tr>";
+}
+echo "</tbody>";
+echo "</table>";
 
-
-    ?> 
+$conn->close();
+?>
