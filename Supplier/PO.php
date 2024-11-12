@@ -31,62 +31,45 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     require '../_vnav.php';
     ?>
     <div class ="main-content">
-      <h2>PO Request</h2>
-    <div class = "container my-4">
-        <table class="table table-bordered table-striped" color="white;" id = "myTable">
-          <thead>
-            <tr>
-              <th scope="col">SN</th>
-              <th scope="col">Request ID</th>
-              <th scope="col">Request By</th>
-              <th scope="col">Service Type</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Submitted Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $username = $_SESSION['username'];
-              
-              $sql = "SELECT * FROM `Purchase_Order` WHERE SupplierName = '$username'";
-              $result = mysqli_query ($conn, $sql);
-                
-              if($result){
-                $num = mysqli_num_rows($result);
-              }
-              
-              $SNo = 0;
-              while ($row = mysqli_fetch_assoc($result)){
-                $SNo=$SNo+1;
-                switch ($row['Status']){
-                  case 'Pending':
-                    $bgColor = 'yellow';
-                    break;
-                  case 'Accepted':
-                    $bgColor = 'green';
-                    break;
-                  case 'Rejected':
-                    $bgColor = 'red';
-                }
-                echo " <tr>
-                          <td scope='row'>".$SNo."</td>
-                          <td> <a href = 'notesDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
-                          <td>".$row['user']."</td>
-                          <td>".$row['ServiceType']."</td>
-                          <td>".$row['StartDate']."</td>
-                          <td>".$row['EndDate']."</td>
-                          <td>".$row['Description']."</td>
-                          <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
-                          <td>".$row['SubmittedDate']."</td>
-                        </tr>";
-              }
-            ?> 
-          </tbody>
-        </table>
+      <div class = "container my-4">
+        <h2>Requested Purchase Orders</h2> 
       </div>
+        <form id="receivedPO" class="mt-4">
+            <div class="container">
+                <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="startDate" class="form-label">Start Date:</label>
+                    <input type="date" name="startDate" id="startDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="endDate" class="form-label">End Date:</label>
+                    <input type="date" name="endDate" id="endDate" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="requestID" class="form-label">Request ID:</label>
+                    <input type="text" name="requestID" id="requestID" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="buyerName" class="form-label">Requested By:</label>
+                    <input type="text" name="buyerName" id="buyerName" class="form-control">
+                    </div>
+                </div>
+                </div>
+                <div class="row mt-3">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </div>
+            </div>
+        </form>
+        <div id="result"></div> <!-- Container to display the results -->
     </div>
     <hr>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -94,39 +77,38 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     <script src = "//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src = "../vnavdropdown.js"></script>
     <script>let table = new DataTable('#myTable');</script>
-    <script> 
-    edits = document.getElementsByClassName('edit');
-      Array.from(edits).forEach((element)=>{
-        element.addEventListener("click", (e)=>{
-          console.log("edit", );
-          tr = e.target.parentNode.parentNode;
-          title = tr.getElementsByTagName("td")[1].innerText;
-          Desc = tr.getElementsByTagName("td")[2].innerText;
-          console.log(title, Desc);
-          titleEdit.value = title;
-          DescEdit.value = Desc;
-          snoEdit.value = e.target.id;
-          console.log(e.target.id);
-          $('#editModal').modal('toggle');
-        })
-      }) 
+    <script>
+      $(document).ready(function(){
+        console.log("jquery");
+        $('#receivedPO').on('submit', function(e){
+          e.preventDefault(); //Prevent the default form submission
 
-       deletes = document.getElementsByClassName('delete');
-        Array.from(deletes).forEach((element)=>{
-          element.addEventListener("click", (e)=>{
-            console.log("edit", );
-            //SN.value = e.target.id;
-            SN = e.target.id.substr(1,);
-            //console.log(SN);
-            if(confirm("Are you sure you want to delete this note!")){
-              console.log("yes--");
-              console.log(SN);
-              window.location = `/loggedin.php?delete=${SN}`;
-            } else {
-              console.log("No");
+          //Gather form data
+          var formData = {
+            requestID: $('#requestID').val(),
+            supplierName: $('#buyerName').val(),
+            fromDate: $('#startDate').val(),
+            toDate: $('#endDate').val()
+          };
+          console.log('Form Data: ', formData); // Debugging the captured form data
+
+          //Ajax call
+          $.ajax({
+            type: 'POST',
+            url: 'ajax/Received_PO.php',
+            data: formData,
+            success: function(response){
+              console.log('AJAX Response: ', response); // Debugging the response
+              //show the server response in the "result" div
+              $('#result').html(response);
+            },
+            error: function(xhr, status, error){
+              //Handle errors
+              alert('Error: '+ error);
             }
-          }) 
-        }) 
+          });
+        });
+      });
     </script>
   </body>
 </html>

@@ -85,7 +85,7 @@
             <form action="createPO.php" method="POST">
                 <div class="form-group">
                     <label for="requestId">Request ID</label>
-                    <input type="text" id="requestId" name="requestId" placeholder = "Service ID" required>
+                    <input type="text" id="requestId" name="requestId" placeholder = "Service Request ID" required>
                 </div>
                 <div class="form-group">
                     <label for="supplierName">Request To</label>

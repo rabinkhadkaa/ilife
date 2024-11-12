@@ -31,7 +31,8 @@ $sql = "SELECT * FROM `Purchase_Order` WHERE user = '$username'";
 // Check if POST data is provided for filtering
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
-    $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName'] : '';
+    $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName']: '';
+    
 
     $conditions = [];
     if (!empty($requestID)) {
@@ -40,6 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($supplierName)) {
         $conditions[] = "SupplierName = '" . $conn->real_escape_string($supplierName) . "'";
     }
+    if(!empty($fromDate)){
+        $conditions[]= "startDate >= '" . $conn->real_escape_string($fromDate) . "'";
+    }
+    if(!empty($toDate)){
+        $conditions[]= "endDate <= '" . $conn->real_escape_string($toDate) . "'";
+    }
+
 
     if (count($conditions) > 0) {
         $sql .= " AND " . implode(" AND ", $conditions);
