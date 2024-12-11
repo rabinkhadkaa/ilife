@@ -8,8 +8,8 @@
   </head>
   <body>
 <?php
-   error_reporting(E_ALL);
-   ini_set('display_errors', 1); 
+//    error_reporting(E_ALL);
+//    ini_set('display_errors', 1); 
     
 session_start();
 
@@ -171,8 +171,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 								size="5" color="black">
 								<ul>
 									<li>
-										Invoices
-										<a href="./invoices.php"
+										Dashboard
+										<a href="./dashboard.php"
 										style="text-decoration:none">
 											 ➲
 										</a>

@@ -1,4 +1,4 @@
 <?php
-    define('invocesURL',$_SESSION['role']);
-    echo constant("invoicesURL");
+    define('SITE_URL','/');
+    
 ?>

@@ -36,7 +36,25 @@ if ($res->num_rows > 0) {
 }
 
 // Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $status = $_POST['status'];
+    $comments = $_POST['comments'];
 
+    // Validate input
+    if (empty($status) || empty($comments)) {
+        echo "All fields are required.";
+    } else {
+        // Update invoice status and comments in the database
+        $update_query = "UPDATE Purchase_Order SET Status = '$status', comments = '$comments' WHERE requestID = '$requestID'";
+        $resu = mysqli_query($conn, $update_query);
+        if ($resu) {
+            //echo "PO request updated successfully.";
+            $POupdate = true;
+        } else {
+            $POupdateFailed = true;
+        }
+    }
+}
 
 ?>
 
@@ -91,37 +109,29 @@ if ($res->num_rows > 0) {
                     </div>
 
                     <!-- Form for updating PO status -->
-                    <!-- Check for Rejection Comments -->
-                    <?php if ($result['Status'] === 'Rejected' && !empty($result['Comments'])): ?>
-                        <div class="alert alert-warning" role="alert">
-                            <strong>Rejection Message:</strong> <?php echo htmlspecialchars($result['Comments']); ?>
-                        </div>
-                    <?php endif; ?>
-
-                </div>
-
-                <!-- Right Column: PDF Options -->
-                <div class="col-md-6">                    
-                    <!-- PDF Generation Button -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h5>Create PDF</h5>
+                    <div class="card shadow mb-5">
+                        <div class="card-header bg-secondary text-white">
+                            <h5>Update PO Request Status</h5>
                         </div>
                         <div class="card-body">
-                            <form action="generate_pdf.php" method="post" target="_blank">
-                                <input type="hidden" name="requestID" value="<?php echo htmlspecialchars($result['RequestID']); ?>">
-                                <button type="submit" class="btn btn-success">Generate PDF</button>
+                            <form method="post" action="">
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status:</label>
+                                    <select name="status" id="status" class="form-select" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Accepted">Accept</option>
+                                        <option value="Rejected">Reject</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3" class="mb-3" id="comments-container" style="display: none;">
+                                    <label for="comments" class="form-label">Supplier's Comments:</label>
+                                    <textarea id="comments" name="comments" class="form-control" rows="4"><?php echo htmlspecialchars($result['Comments']); ?></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Status</button>
                             </form>
                         </div>
                     </div>
-
-                    <!-- PDF Preview -->
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <iframe src="/files/PO_files/<?php echo 'PO_Request_'.$result['RequestID']; ?>.pdf" width="100%" height="500px"></iframe>
-                        </div>
-                    </div>
-                </div>
+                </div>                
             </div>
         </div>
     </div>

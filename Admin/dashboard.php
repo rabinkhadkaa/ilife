@@ -28,7 +28,7 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
     <?php 
         require '../_vnav.php';
     ?>
-    <div class = "main-content" >Hi, <?php echo $_SESSION['username'];?><br><br>Welcome  to <?php echo $_SESSION['role'];?> dashboard</div>
+    <div class = "main-content" >Hi, <?php echo $_SESSION['username'];?><br><br>Welcome  to Admin dashboard</div>
     <script src = "../vnavdropdown.js"></script>
 </body>
 </html>

@@ -3,9 +3,9 @@
  include '../../_dbconnect.php'; 
  session_start();
 
- ini_set('display_errors', 1);
- ini_set('display_startup_errors', 1);
- error_reporting(E_ALL);
+//  ini_set('display_errors', 1);
+//  ini_set('display_startup_errors', 1);
+//  error_reporting(E_ALL);
 
  $username = $_SESSION['username'];
  //why I'm getting $username null
@@ -97,7 +97,7 @@
                 }
                 echo " <tr>
                           <td scope='row'>".$SNo."</td>
-                          <td> <a href = 'notesDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
+                          <td> <a href = 'poDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
                           <td>".$row['user']."</td>
                           <td>".$row['ServiceType']."</td>
                           <td>".$row['StartDate']."</td>

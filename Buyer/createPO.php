@@ -70,9 +70,9 @@
         include 'createPO_function.php';
         require '../_nav_afterLogin.php';
         require '../_vnav.php';
-        error_reporting(-1);
-        ini_set("display_errors", 1);
-        ini_set('error_reporting', E_ALL);
+        // error_reporting(-1);
+        // ini_set("display_errors", 1);
+        // ini_set('error_reporting', E_ALL);
     ?>
     <div class = "main-content">
         <?php

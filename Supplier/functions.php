@@ -2,20 +2,20 @@
 // Database connection
 include '../_dbconnect.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 // $newTimesheetId = generateNewTimesheetId($conn);
 // echo "New Timesheet ID: " . $newTimesheetId;
 
 // Function to generate the new timesheet ID
-function generateNewTimesheetId($conn) {
-    $prefix = "TS".date("mdY")."-";
+function generateNewId($conn, $tablename, $pre) {
+    $prefix = $pre.date("mdY")."-";
     echo $prefix ."</br>";
 
     // Query to get the latest timesheet ID
-    $query = "SELECT TimesheetID FROM Timesheet where TimesheetID like '$prefix%'";
+    $query = "SELECT ID FROM $tablename where ID like '$prefix%'";
     $result = mysqli_query($conn, $query);
     
     if ($result && mysqli_num_rows($result) > 0) {        

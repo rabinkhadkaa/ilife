@@ -18,7 +18,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Timesheet</title>
+    <title>Create Invoice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../custom.css">
@@ -65,6 +65,80 @@
         ::placeholder {
             opacity: 0.5;
         }
+        
+         /* Style for the dropdown container */
+         .dropdown-container {
+            position: relative;
+            width: 300px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style for the input field */
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for the dropdown list */
+        .dropdown-list {
+            position: relative;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        /* Style for each dropdown item */
+        .dropdown-item {
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Last item should not have bottom border */
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Hover effect for dropdown items */
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+            color: #007BFF;
+        }
+
+        /* Scrollbar styling for dropdown */
+        .dropdown-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .dropdown-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dropdown-list::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 5px;
+        }
+
+        .dropdown-list::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+
+    
     </style>
 </head>
 <body>
@@ -74,9 +148,10 @@
         require '../_nav_afterLogin.php';
         require '../_vnav.php';
         include 'functions.php';
-        $tableName = 'Timesheet';
-        $prefix = 'TS';
-        $timesheetID = generateNewId($conn, $tableName, $prefix);
+        
+        $tableName = 'Invoice';
+        $prefix = 'INV';
+        $invoiceID = generateNewId($conn, $tableName, $prefix);
         //q: why I'm getting generate
     ?>
     <div class = "main-content">
@@ -86,15 +161,17 @@
             }
         ?>
         <div class="form-container">
-            <h1>Create Timesheet Form</h1>
-            <form action="createTS.php" method="POST">
+            <h1>Create Invoice Form</h1>
+            <form action="createInvoice.php" method="POST">
                 <div class="form-group">
-                    <label for="timesheetID">Timesheet ID</label>
-                    <input type="text" id="timesheetID" name="timesheetID" value = '<?php echo htmlspecialchars($timesheetID) ?>'readonly>
+                    <label for="invoiceID">Invoice ID</label>
+                    <input type="text" id="invoiceID" name="invoiceID" value = '<?php echo htmlspecialchars($invoiceID) ?>'readonly>
                 </div>
-                <div class="form-group">
-                    <label for="buyerName">Request To</label>
-                    <input type="text" id="buyerName" name="buyerName" placeholder = "Buyer Name" required>
+                <div class="form-group" id="dropdown-container">
+                    <label for="buyer_name">Buyer Name</label>
+                    <input type="text" id="buyer_name" name="buyer_name" placeholder = "Buyer Name" autocomplete="off" required>
+                    
+                    <div class="dropdown-list" id="dropdown_list"></div>
                 </div>
                 <div class="form-group">
                     <label for="serviceType">Service Type</label>
@@ -223,5 +300,62 @@
 
     });
 </script>
+<script>
+        $(document).ready(function () {
+            // When the user types in the input field
+            $("#buyer_name").on("keyup", function () {
+                let query = $(this).val();
+
+                if (query.length >= 1) {
+                    // AJAX request to fetch buyer list
+                    $.ajax({
+                        url: "ajax/getbuyerlist.php", // Backend script to fetch buyer names
+                        method: "GET",
+                        data: { query: query },
+                        success: function (response) {
+                            let buyers = JSON.parse(response);
+                            let dropdownList = $("#dropdown_list");
+                            dropdownList.empty(); // Clear previous results
+
+                            if (buyers.length > 0) {
+                                // Populate dropdown with buyer names
+                                buyers.forEach(function (buyer) {
+                                    dropdownList.append(
+                                        `<div class="dropdown-item" data-name="${buyer.username}">${buyer.username}</div>`
+                                    );
+                                });
+
+                                // Show the dropdown list
+                                dropdownList.show();
+                            } else {
+                                // Hide the dropdown if no results
+                                dropdownList.hide();
+                            }
+                        },
+                        error: function () {
+                            console.error("Error fetching buyer list");
+                        }
+                    });
+                } else {
+                    // Hide dropdown if input is less than 3 characters
+                    $("#dropdown_list").hide();
+                }
+            });
+
+            // Event to select a buyer from the dropdown
+            $(document).on("click", ".dropdown-item", function () {
+                let selectedName = $(this).data("name");
+                $("#buyer_name").val(selectedName); // Set selected value to input field
+                $("#dropdown_list").hide(); // Hide the dropdown list
+            });
+
+            // Close the dropdown when clicking outside the dropdown
+            $(document).on("click", function (e) {
+                if (!$(e.target).closest("#buyer_name, #dropdown_list").length) {
+                    $("#dropdown_list").hide(); // Hide dropdown if clicked outside
+                }
+            });
+        });
+    </script>
 </body>
 </html>
