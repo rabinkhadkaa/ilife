@@ -25,7 +25,7 @@
         } else {
             // Process the order (e.g., save to database, send email, etc.)
             
-            $query = "INSERT INTO `Timesheet` (`TimesheetID`, `BuyerName`, `ServiceType`, `FromDate`, `ToDate`, `Hours`, `Status`, `Description`, `user`, `Datestamo`) VALUES ('$timesheetId', '$buyerName', '$serviceType', '$fromDate', '$toDate', '$hours', 'Pending', '$description','$myusername', CURRENT_TIMESTAMP());";
+            $query = "INSERT INTO `Timesheet` (`ID`, `BuyerName`, `ServiceType`, `FromDate`, `ToDate`, `Hours`, `Status`, `Description`, `user`, `Datestamo`) VALUES ('$timesheetId', '$buyerName', '$serviceType', '$fromDate', '$toDate', '$hours', 'Pending', '$description','$myusername', CURRENT_TIMESTAMP());";
         
             $result = mysqli_query($conn, $query);
             

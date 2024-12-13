@@ -129,15 +129,7 @@
             background: #f1f1f1;
         }
 
-        .dropdown-list::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 5px;
-        }
-
-        .dropdown-list::-webkit-scrollbar-thumb:hover {
-            background: #aaa;
-        }
-
+     
     
     </style>
 </head>
@@ -189,11 +181,12 @@
                     <input type="date" id="toDate" name="toDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="description">Description</label>                    
-                    <textarea id="description" name="description" rows="4" class="form-control" placeholder="Descriptions will appear here..." hidden readonly></textarea>
+                    <label for="description">Add Approved Timesheet</label>  
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#descriptionModal">
                     <i class="fas fa-plus"></i> 
-                    </button> Click here to add description
+                    </button> Click here to add Timesheet                  
+                    <textarea id="description" name="description" rows="4" class="form-control" placeholder="Descriptions will appear here..." hidden readonly></textarea>
+                   
                 </div>
                 <div class="form-group">
                     <label for="hours">Hours</label>
@@ -211,7 +204,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="descriptionModalLabel">Add Description</h5>
+                    <h5 class="modal-title" id="descriptionModalLabel">Add Timesheet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -248,11 +241,9 @@
                 <div class="col-2">
                     <input type="number" class="form-control" name="number[]" value="${currentSN++}" required readonly>
                 </div>
-                <div class="col-4">
-                    <input type="date" class="form-control" name="descriptionDate[]" required>
-                </div>
-                <div class="col-6">
-                    <input type="text" class="form-control" name="descriptionText[]" placeholder="Description" required>
+
+                <div class="col-10">
+                    <input type="text" class="form-control" name="descriptionText[]" placeholder="Enter Timesheet ID"; required>
                 </div>
             `;
             descriptionFields.appendChild(newRow);
@@ -271,19 +262,23 @@
             console.log("Save button clicked");
 
             // Clear any existing descriptions before appending
+            
             descriptionTextarea.value = '';
             let descriptions = '';
-
+            let timesheetIds = []; // Array to hold Timesheet IDs
             // Loop through the description fields and add them to the main form
             const rows = descriptionFields.getElementsByClassName('row mb-3');
             //console.log(rows);
             for (let row of rows) {
-                const numInput = row.querySelector('input[name="number[]"]').value;
-                const dateInput = row.querySelector('input[name="descriptionDate[]"]').value;
+                const numInput = row.querySelector('input[name="number[]"]').value;                
                 const textInput = row.querySelector('input[name="descriptionText[]"]').value;
                 
+                // Add Timesheet ID to the array
+                timesheetIds.push(textInput.trim());
+                console.log(timesheetIds);
+
                  // Format the description and add to the string
-                descriptions += `${numInput}. ${dateInput}- ${textInput}\n`;
+                descriptions += `${numInput}. ${textInput}\n`;
 
                     // Append the new description to the main description container
                     //mainDescriptionContainer.appendChild(descriptionDiv);
@@ -291,9 +286,22 @@
             }
             // Set the textarea value to the concatenated descriptions
             descriptionTextarea.value = descriptions.trim(); // Remove trailing newline
-
+            console.log(timesheetIds);
             // Show the textarea after saving
             descriptionTextarea.removeAttribute('hidden');
+            $.ajax({
+                url: 'ajax/getTotalHours.php', // Backend script to fetch hours
+                method: 'POST',
+                data: { timesheet_ids: timesheetIds }, // Send array of Timesheet IDs
+                
+                success: function (response) {
+                    $('#hours').val(response); // Update Hours field dynamically
+                },
+                error: function () {
+                    console.error('Error fetching total hours');
+                    $('#hours').val('Error'); // Fallback for errors
+                }
+            });
 
             $('#descriptionModal').modal('hide');
         });
