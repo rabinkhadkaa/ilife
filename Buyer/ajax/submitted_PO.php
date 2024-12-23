@@ -3,9 +3,9 @@
 include '../../_dbconnect.php';
 session_start();
 
-// ini_set('display_errors', 0);
-// ini_set('display_startup_errors', 0);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Check if 'username' is set in the session
 if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
@@ -17,7 +17,7 @@ if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
 
 // Define the allowed columns for sorting
 $columns = ['RequestID', 'SupplierName', 'ServiceType', 'StartDate', 'EndDate', 'Status', 'SubmittedDate'];
-$column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : 'RequestID'; // Default sort column
+$column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : 'ID'; // Default sort column
 
 // Get sorting order from URL parameter, default is ascending
 $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'desc' : 'asc';
@@ -36,16 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $conditions = [];
     if (!empty($requestID)) {
-        $conditions[] = "RequestID = '" . $conn->real_escape_string($requestID) . "'";
+        $conditions[] = "ID = '" . $conn->real_escape_string($requestID) . "'";
     }
     if (!empty($supplierName)) {
         $conditions[] = "SupplierName = '" . $conn->real_escape_string($supplierName) . "'";
     }
     if(!empty($fromDate)){
-        $conditions[]= "startDate >= '" . $conn->real_escape_string($fromDate) . "'";
+        $conditions[]= "StartDate >= '" . $conn->real_escape_string($fromDate) . "'";
     }
     if(!empty($toDate)){
-        $conditions[]= "endDate <= '" . $conn->real_escape_string($toDate) . "'";
+        $conditions[]= "EndDate <= '" . $conn->real_escape_string($toDate) . "'";
     }
 
 
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Modify the query to include sorting
 $sql .= " ORDER BY $column $order";
-
+echo $sql;
 // Execute the query
 $result = mysqli_query($conn, $sql);
 $num = $result ? mysqli_num_rows($result) : 0;
@@ -76,7 +76,7 @@ echo "<table class='table table-bordered table-striped' color='white;' id='myTab
         <thead>
             <tr>
                 <th scope='col'>SN</th>
-                <th scope='col'><a href='?column=RequestID&order=$next_order'>Request ID</a></th>
+                <th scope='col'><a href='?column=ID&order=$next_order'>Request ID</a></th>
                 <th scope='col'><a href='?column=SupplierName&order=$next_order'>Supplier Name</a></th>
                 <th scope='col'><a href='?column=ServiceType&order=$next_order'>Service Type</a></th>
                 <th scope='col'><a href='?column=StartDate&order=$next_order'>Start Date</a></th>
@@ -106,7 +106,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     echo "<tr>
             <td scope='row'>" . $SNo . "</td>
-            <td><a href='PoDetails.php?requestID=" . $row['RequestID'] . "'> " . $row['RequestID'] . " </a></td>
+            <td><a href='PoDetails.php?ID=" . $row['ID'] . "'> " . $row['ID'] . " </a></td>
             <td>" . $row['SupplierName'] . "</td>
             <td>" . $row['ServiceType'] . "</td>
             <td>" . $row['StartDate'] . "</td>

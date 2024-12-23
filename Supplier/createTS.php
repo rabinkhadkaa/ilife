@@ -174,11 +174,38 @@
                 <div class="col-4">
                     <input type="date" class="form-control" name="descriptionDate[]" required>
                 </div>
-                <div class="col-6">
+                <div class="col-4 d-flex align-items-center ">
                     <input type="text" class="form-control" name="descriptionText[]" placeholder="Description" required>
+                </div>
+                <div class="col-2 d-flex align-items-center ">
+                    <input type="number" class="form-control" name="hour[]" placeholder="Hours" required>
+                    <button type="button" class="btn btn-sm" id="removeRow">-</button>
                 </div>
             `;
             descriptionFields.appendChild(newRow);
+            // Attach the remove event listener for the newly created row
+            newRow.querySelector('#removeRow').addEventListener('click', function () {
+            removeRow(newRow);
+        });
+        }
+
+        // Function to remove the row
+        function removeRow(row) {
+            descriptionFields.removeChild(row);
+
+            // Update the serial number after removing a row
+            updateSerialNumbers();
+        }
+
+        // Function to update serial numbers
+        function updateSerialNumbers() {
+            let serialNumber = 1; // Reset serial number
+            const rows = descriptionFields.getElementsByClassName('row mb-3');
+            for (let row of rows) {
+                const numInput = row.querySelector('input[name="number[]"]');
+                numInput.value = serialNumber++;
+            }
+            currentSN = serialNumber; // Update the current serial number for the next row
         }
 
         // Add the first row when the modal is opened

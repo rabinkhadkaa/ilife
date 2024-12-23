@@ -24,7 +24,7 @@
             echo '<p class="message" style="color: red;">Please fill out all fields correctly.</p>';
         } else {
             // Process the order (e.g., save to database, send email, etc.)
-            $query = "INSERT INTO `Invoice` (`ID`, `Buyer Name`, `Service Type`, `Hours`, `Rate`, `Amount`, `Supplier`, `Submitted Date`) VALUES ('$invoiceID', '$buyer_name', '$serviceType', '$hours', '$rate', '$amount', '$myusername', CURRENT_TIMESTAMP());";
+            $query = "INSERT INTO `Invoice` (`ID`, `BuyerName`, `ServiceType`,`TimesheetID`, `Hours`, `Rate`, `Amount`, `Supplier`,`Status`, `SubmittedDate`) VALUES ('$invoiceID', '$buyer_name', '$serviceType', '$timesheetIds', '$hours', '$rate', '$amount', '$myusername', 'Pending', CURRENT_TIMESTAMP());";
         
             $result = mysqli_query($conn, $query);
             

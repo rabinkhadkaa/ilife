@@ -70,9 +70,13 @@
         include 'createPO_function.php';
         require '../_nav_afterLogin.php';
         require '../_vnav.php';
-        // error_reporting(-1);
-        // ini_set("display_errors", 1);
-        // ini_set('error_reporting', E_ALL);
+        require 'functions.php';
+        error_reporting(-1);
+        ini_set("display_errors", 1);
+        ini_set('error_reporting', E_ALL);
+        $tableName = 'Purchase_Order';
+        $prefix = 'PO';
+        $POID = generateNewId($conn, $tableName, $prefix);
     ?>
     <div class = "main-content">
         <?php
@@ -85,7 +89,7 @@
             <form action="createPO.php" method="POST">
                 <div class="form-group">
                     <label for="requestId">Request ID</label>
-                    <input type="text" id="requestId" name="requestId" placeholder = "Service Request ID" required>
+                    <input type="text" id="requestId" name="requestId" value = <?php echo $POID; ?> required readonly>
                 </div>
                 <div class="form-group">
                     <label for="supplierName">Request To</label>

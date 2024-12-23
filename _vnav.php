@@ -18,7 +18,7 @@
       <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/submittedPO.php">Submitted PO</a>
     </div>
     <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/timeSheet.php">Timesheet</a>
-    <a href="#invoice.php">Invoice</a>
+    <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/receivedInvoice.php">Invoice</a>
     <a href="../<?php echo htmlspecialchars($_SESSION['role']) ?>/notesDetails.php">Note Details</a>
   <?php
   }

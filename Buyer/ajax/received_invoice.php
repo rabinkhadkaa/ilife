@@ -8,36 +8,45 @@
 //  error_reporting(E_ALL);
 
  $username = $_SESSION['username'];
- //why I'm getting $username null
-
-
-
-
- 
+  
  //check if data was sent via POST method
  if ($_SERVER['REQUEST_METHOD']=='POST'){
     //Get the requestID and supplierName from the POST request
-    $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
+    $fromDate = isset($_POST['fromDate']) ? $_POST['fromDate'] : '';
+    $toDate = isset($_POST['toDate']) ? $_POST['toDate'] : '';
+    $invoiceID = isset($_POST['invoiceID']) ? $_POST['invoiceID'] : '';
+    $hours = isset($_POST['hours']) ? $_POST['hours'] : '';
+    $status = isset($_POST['status']) ? $_POST['status'] : '';
     $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName']: '';
     
 
     $conditions = [];
-    if(!empty($requestID)){
-        $conditions[]= "requestID = '" . $conn->real_escape_string($requestID) . "'";
-
+    if(!empty($fromDate)){
+        $conditions[]= "SubmittedDate >= '" . $conn->real_escape_string($fromDate) . "'";
+    }
+    if(!empty($toDate)){
+        $conditions[]= "SubmittedDate <= '" . $conn->real_escape_string($toDate) . "'";
+    }
+    if(!empty($invoiceID)){
+        $conditions[]= "ID = '" . $conn->real_escape_string($invoiceID) . "'";
+    }
+    if(!empty($hours)){
+        $conditions[]= "Hours = '" . $conn->real_escape_string($hours) . "'";
+    }
+    if(!empty($status)){
+        $conditions[]= "Status ='" . $conn->real_escape_string($status) . "'";
     }
     if(!empty($supplierName)){
-        $conditions[]= "supplierName ='" . $conn->real_escape_string($supplierName) . "'";
+        $conditions[]= "supplier ='" . $conn->real_escape_string($supplierName) . "'";
     }
 
-    $sql = "SELECT * FROM `Timesheet` WHERE BuyerName = '$username'";
+    $sql = "SELECT * FROM `Invoice` WHERE BuyerName = '$username'";
     //Append conditions if exist
     if(count($conditions)>0){
         $sql .= " AND " . implode(" AND ", $conditions);
     }
-echo $sql;
-    $result = mysqli_query ($conn, $sql);
-        
+
+    $result = mysqli_query ($conn, $sql);  
     if($result){
         $num = mysqli_num_rows($result);
     }
@@ -64,9 +73,10 @@ echo $sql;
             <th scope='col'>Request ID</th>
             <th scope='col'>Supplier Name</th>
             <th scope='col'>Service Type</th>
-            <th scope='col'>Start Date</th>
-            <th scope='col'>End Date</th>
-            <th scope='col'>Description</th>
+            <th scope='col'>Timesheet ID</th>
+            <th scope='col'>Hours</th>
+            <th scope='col'>Rate</th>
+            <th scope='col'>Amount</th>
             <th scope='col'>Status</th>
             <th scope='col'>Submitted Date</th>
             </tr>
@@ -84,15 +94,18 @@ echo $sql;
                 break;
             case 'Rejected':
                 $bgColor = 'red';
-            }                
+            }
+                
+            
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
-                    <td> <a href = 'notesDetails.php?requestID=".$row['ID']."'> ".$row['ID']." </a></td>
-                    <td>".$row['user']."</td>
+                    <td> <a href = 'invoiceDetails.php?ID=".$row['ID']."'> ".$row['ID']." </a></td>
+                    <td>".$row['Supplier']."</td>
                     <td>".$row['ServiceType']."</td>
-                    <td>".$row['StartDate']."</td>
-                    <td>".$row['EndDate']."</td>
-                    <td>".$row['Description']."</td>
+                    <td>".$row['TimesheetID']."</td>
+                    <td>".$row['Hours']."</td>
+                    <td>".$row['Rate']."</td>
+                    <td>".$row['Amount']."</td>
                     <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
                     <td>".$row['SubmittedDate']."</td>
                 </tr>";

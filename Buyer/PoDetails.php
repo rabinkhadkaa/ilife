@@ -12,15 +12,15 @@ $POupdate = false;
 $POupdateFailed = false;
 
 // Check if invoice ID is provided
-if (!isset($_GET['requestID']) || empty($_GET['requestID'])) {
+if (!isset($_GET['ID']) || empty($_GET['ID'])) {
     die("No PO request ID provided.");
 }
 
 // Sanitize invoice ID
-$requestID = $_GET['requestID'];
+$requestID = $_GET['ID'];
 
 // Fetch invoice details from the database
-$query = "SELECT * FROM Purchase_Order WHERE requestID = '$requestID'";
+$query = "SELECT * FROM Purchase_Order WHERE ID = '$requestID'";
 $res = mysqli_query($conn, $query);
 
 // Check if query was successful
@@ -79,7 +79,7 @@ if ($res->num_rows > 0) {
                     <div class="card shadow mb-4">
                         
                             <table class="table table-bordered">
-                                <tr><th>PO Request ID:</th><td><?php echo htmlspecialchars($result['RequestID']); ?></td></tr>
+                                <tr><th>PO Request ID:</th><td><?php echo htmlspecialchars($result['ID']); ?></td></tr>
                                 <tr><th>Service Type</th><td><?php echo htmlspecialchars($result['ServiceType']); ?></td></tr>
                                 <tr><th>Start Date</th><td><?php echo htmlspecialchars($result['StartDate']); ?></td></tr>
                                 <tr><th>End Date</th><td><?php echo htmlspecialchars($result['EndDate']); ?></td></tr>

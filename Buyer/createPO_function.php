@@ -26,7 +26,7 @@
             // For demonstration, we're just displaying the information
 
             
-            $query = "INSERT INTO `Purchase_Order` (`RequestID`, `SupplierName`, `ServiceType`, `StartDate`, `EndDate`, `Description`, `Status`, `user`, `SubmittedDate`) VALUES ('$requestId', '$supplierName', '$serviceType', '$startDate', '$endDate', '$description', 'Pending', '$myusername', CURRENT_TIMESTAMP())";
+            $query = "INSERT INTO `Purchase_Order` (`ID`, `SupplierName`, `ServiceType`, `StartDate`, `EndDate`, `Description`, `Status`, `user`, `SubmittedDate`) VALUES ('$requestId', '$supplierName', '$serviceType', '$startDate', '$endDate', '$description', 'Pending', '$myusername', CURRENT_TIMESTAMP())";
         
             $result = mysqli_query($conn, $query);
             

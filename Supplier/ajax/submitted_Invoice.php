@@ -10,34 +10,40 @@
  $username = $_SESSION['username'];
  //why I'm getting $username null
 
-
-
-
- 
  //check if data was sent via POST method
  if ($_SERVER['REQUEST_METHOD']=='POST'){
     //Get the requestID and supplierName from the POST request
-    $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
-    $supplierName = isset($_POST['supplierName']) ? $_POST['supplierName']: '';
-    
+    $invoiceID = isset($_POST['ID']) ? $_POST['ID'] : '';
+    $buyerName = isset($_POST['buyerName']) ? $_POST['buyerName']: '';
+    $fromDate = isset($_POST['fromDate']) ? $_POST['fromDate']: '';
+    $toDate = isset($_POST['toDate']) ? $_POST['toDate']: '';
 
     $conditions = [];
-    if(!empty($requestID)){
-        $conditions[]= "requestID = '" . $conn->real_escape_string($requestID) . "'";
+    if(!empty($invoiceID)){
+        $conditions[]= "ID = '" . $conn->real_escape_string($invoiceID) . "'";
 
     }
-    if(!empty($supplierName)){
-        $conditions[]= "supplierName ='" . $conn->real_escape_string($supplierName) . "'";
+    if(!empty($buyerName)){
+        $conditions[]= "BuyerName ='" . $conn->real_escape_string($buyerName) . "'";
     }
+    if(!empty($fromDate)){
+        $conditions[]= "SubmittedDate >= '" . $conn->real_escape_string($fromDate) . "'";
+    }
+    if(!empty($toDate)){
+        $conditions[]= "SubmittedDate <= '" . $conn->real_escape_string($toDate) . "'";
+    }
+    
 
-    $sql = "SELECT * FROM `Timesheet` WHERE BuyerName = '$username'";
+    $sql = "SELECT * FROM `Invoice` WHERE Supplier = '$username'";
     //Append conditions if exist
     if(count($conditions)>0){
         $sql .= " AND " . implode(" AND ", $conditions);
     }
-echo $sql;
+
     $result = mysqli_query ($conn, $sql);
-        
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }   
     if($result){
         $num = mysqli_num_rows($result);
     }
@@ -61,13 +67,15 @@ echo $sql;
         <thead>
             <tr>
             <th scope='col'>SN</th>
-            <th scope='col'>Request ID</th>
-            <th scope='col'>Supplier Name</th>
+            <th scope='col'>Timesheet ID</th>
+            <th scope='col'>Buyer Name</th>
             <th scope='col'>Service Type</th>
-            <th scope='col'>Start Date</th>
-            <th scope='col'>End Date</th>
-            <th scope='col'>Description</th>
+            <th scope='col'>Timesheet IDs</th>
+            <th scope='col'>From Date</th>
+            <th scope='col'>To Date</th>
             <th scope='col'>Status</th>
+            <th scope='col'>Hours</th>
+            <th scope='col'>Description</th>
             <th scope='col'>Submitted Date</th>
             </tr>
         </thead>";
@@ -84,23 +92,26 @@ echo $sql;
                 break;
             case 'Rejected':
                 $bgColor = 'red';
-            }                
+            }
+                
+            
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
-                    <td> <a href = 'notesDetails.php?requestID=".$row['ID']."'> ".$row['ID']." </a></td>
-                    <td>".$row['user']."</td>
+                    <td>".$row['ID']." </td>
+                    <td>".$row['BuyerName']."</td>
                     <td>".$row['ServiceType']."</td>
-                    <td>".$row['StartDate']."</td>
-                    <td>".$row['EndDate']."</td>
+                    <td>".$row['TimesheetID']."</td>
+                    <td>".$row['FromDate']."</td>
+                    <td>".$row['ToDate']."</td>
                     <td>".$row['Description']."</td>
                     <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
-                    <td>".$row['SubmittedDate']."</td>
+                    <td>".$row['Hours']."</td>
+                    <td>".$row['Datestamo']."</td>
                 </tr>";
         }
         echo " </tbody>";
         echo "</table>";
 
- }
-
+    }
 
     ?> 
