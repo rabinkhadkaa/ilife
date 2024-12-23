@@ -19,7 +19,7 @@ if (!isset($_GET['ID']) || empty($_GET['ID'])) {
 $requestID = $_GET['ID'];
 
 // Fetch invoice details from the database
-$query = "SELECT * FROM Purchase_Order WHERE ID = '$requestID'";
+$query = "SELECT * FROM Invoice WHERE ID = '$requestID'";
 $res = mysqli_query($conn, $query);
 
 // Check if query was successful
@@ -37,18 +37,15 @@ if ($res->num_rows > 0) {
 // Handle form submission for updating PO
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
     // Sanitize and capture updated data
-    $updatedServiceType = mysqli_real_escape_string($conn, $_POST['serviceType']);
-    $updatedStartDate = mysqli_real_escape_string($conn, $_POST['startDate']);
-    $updatedEndDate = mysqli_real_escape_string($conn, $_POST['endDate']);
-    $updatedDescription = mysqli_real_escape_string($conn, $_POST['description']);
-    $updatedStatus = mysqli_real_escape_string($conn, $_POST['status']);
-    $updatedComments = mysqli_real_escape_string($conn, $_POST['comments']);
+
+    $updatedHours = mysqli_real_escape_string($conn, $_POST['Hours']);
+    $updatedRate = mysqli_real_escape_string($conn, $_POST['Rate']);
+    $updatedAmount = $updatedHours * $updatedRate;
+
     
     // Update query
-    $updateQuery = "UPDATE Purchase_Order 
-                    SET ServiceType = '$updatedServiceType', StartDate = '$updatedStartDate', 
-                        EndDate = '$updatedEndDate', Description = '$updatedDescription', 
-                        Status = '$updatedStatus', Comments = '$updatedComments' 
+    $updateQuery = "UPDATE Invoice 
+                    SET Hours = '$updatedHours', Rate = '$updatedRate', Amount = '$updatedAmount'
                     WHERE ID = '$requestID'";
 
     if (mysqli_query($conn, $updateQuery)) {
@@ -101,12 +98,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
                         
                         <table class="table table-bordered">
                             <tr><th>PO Request ID:</th><td><?php echo htmlspecialchars($result['ID']); ?></td></tr>
+                            <tr><th>Buyer</th><td><?php echo htmlspecialchars($result['BuyerName']); ?></td></tr>
                             <tr><th>Service Type</th><td><?php echo htmlspecialchars($result['ServiceType']); ?></td></tr>
-                            <tr><th>Start Date</th><td><?php echo htmlspecialchars($result['StartDate']); ?></td></tr>
-                            <tr><th>End Date</th><td><?php echo htmlspecialchars($result['EndDate']); ?></td></tr>
-                            <tr><th>Description</th><td><?php echo htmlspecialchars($result['Description']); ?></td></tr>
+                            <tr><th>Timesheet IDs</th><td><?php echo htmlspecialchars($result['TimesheetID']); ?></td></tr>
+                            <tr><th>Hours</th><td><?php echo  htmlspecialchars($result['Hours']); ?></td></tr>
+                            <tr><th>Rate</th><td><?php echo  "$".htmlspecialchars($result['Rate']); ?></td></tr>
+                            <tr><th>Amount</th><td><?php echo "$".htmlspecialchars($result['Amount']); ?></td></tr>                            
                             <tr><th>Status</th><td><?php echo htmlspecialchars($result['Status']); ?></td></tr>
                             <tr><th>Submitted Date</th><td><?php echo htmlspecialchars($result['SubmittedDate']); ?></td></tr>
+                            <?php if($result['Comments'] != null){ ?>
+                            <tr><th>Comments</th><td><?php echo htmlspecialchars($result['Comments']); ?></td></tr>
+                            <?php }; ?>
                         </table>
                     </div>
 
@@ -150,23 +152,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="">
-                        <input type="hidden" name="requestID" value="<?php echo htmlspecialchars($result['ID']); ?>">
+                        <input type="hidden" name="requestID" value="<?php echo htmlspecialchars($result['ID']); ?>">                        
                         <div class="mb-3">
-                            <label for="serviceType" class="form-label">Service Type</label>
-                            <input type="text" class="form-control" id="serviceType" name="serviceType" value="<?php echo htmlspecialchars($result['ServiceType']); ?>" required>
+                            <label for="Hours" class="form-label">Hours</label>
+                            <input type="Number" class="form-control" id="Hours" name="Hours" value="<?php echo htmlspecialchars($result['Hours']); ?>">
                         </div>
                         <div class="mb-3">
-                            <label for="startDate" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="startDate" name="startDate" value="<?php echo htmlspecialchars($result['StartDate']); ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="endDate" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="endDate" name="endDate" value="<?php echo htmlspecialchars($result['EndDate']); ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" required><?php echo htmlspecialchars($result['Description']); ?></textarea>
-                        </div>
+                            <label for="Rate" class="form-label">Rate</label>
+                            <input type="Number" class="form-control" id="Rate" name="Rate" value="<?php echo htmlspecialchars($result['Rate']); ?>">
+                        </div>                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary" name="savePO">Save Changes</button>

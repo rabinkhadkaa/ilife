@@ -71,12 +71,12 @@
             <th scope='col'>Buyer Name</th>
             <th scope='col'>Service Type</th>
             <th scope='col'>Timesheet IDs</th>
-            <th scope='col'>From Date</th>
-            <th scope='col'>To Date</th>
-            <th scope='col'>Status</th>
             <th scope='col'>Hours</th>
-            <th scope='col'>Description</th>
+            <th scope='col'>Rate</th>
+            <th scope='col'>Amount</th>
+            <th scope='col'>Status</th>
             <th scope='col'>Submitted Date</th>
+            <th scope='col'>Comments</th>
             </tr>
         </thead>";
         echo "<tbody>";
@@ -97,16 +97,16 @@
             
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
-                    <td>".$row['ID']." </td>
+                    <td><a href='invoiceDetails.php?ID=" . $row['ID'] . "'> " . $row['ID'] . " </a> </td>
                     <td>".$row['BuyerName']."</td>
                     <td>".$row['ServiceType']."</td>
                     <td>".$row['TimesheetID']."</td>
-                    <td>".$row['FromDate']."</td>
-                    <td>".$row['ToDate']."</td>
-                    <td>".$row['Description']."</td>
-                    <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
                     <td>".$row['Hours']."</td>
-                    <td>".$row['Datestamo']."</td>
+                    <td>".$row['Rate']."</td>
+                    <td>".$row['Amount']."</td>
+                    <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
+                    <td>".$row['SubmittedDate']."</td>
+                    <td>".$row['Comments']."</td>
                 </tr>";
         }
         echo " </tbody>";
