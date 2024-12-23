@@ -100,7 +100,7 @@
             
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
-                    <td> <a href = 'notesDetails.php?timesheetID=".$row['ID']."'> ".$row['ID']." </a></td>
+                    <td> <a href = 'TSDetails.php?ID=".$row['ID']."'> ".$row['ID']." </a></td>
                     <td>".$row['BuyerName']."</td>
                     <td>".$row['ServiceType']."</td>
                     <td>".$row['FromDate']."</td>

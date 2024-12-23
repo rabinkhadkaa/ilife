@@ -232,15 +232,15 @@
                 <div class="form-group row">
                     <div class = "col-4">
                         <label for="hours">Hours</label>
-                        <input type="text" id="hours" name="hours" placeholder = "Claimed Hours" required>
+                        <input type="Number" id="hours" name="hours" placeholder = "Claimed Hours" required>
                     </div>
                     <div class = "col-4">
                         <label for="hours">Rate</label>
-                        <input type="text" id="rate" name="rate" placeholder = "Rate" required>
+                        <input type="Number" id="rate" name="rate" placeholder = "Rate" required>
                     </div>
                     <div class = "col-4">
                         <label for="hours">Total Invoice Amount $</label>
-                        <input type="text" id="amount" name="amount" placeholder = "Amount" require>
+                        <input type="Number" id="amount" name="amount" placeholder = "Amount" require>
                     </div>
                 </div>
 
