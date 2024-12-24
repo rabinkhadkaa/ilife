@@ -3,10 +3,6 @@ include '../_dbconnect.php';
 include '../_nocatche.php';
 session_start();
 
-// Enable error reporting for debugging
-// error_reporting(E_ALL);
-// ini_set("display_errors", 1);
-// ini_set('error_reporting', E_ALL);
 $POupdate = false;
 $POupdateFailed = false;
 
@@ -41,18 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
     $updatedStartDate = mysqli_real_escape_string($conn, $_POST['startDate']);
     $updatedEndDate = mysqli_real_escape_string($conn, $_POST['endDate']);
     $updatedDescription = mysqli_real_escape_string($conn, $_POST['description']);
-    $updatedStatus = mysqli_real_escape_string($conn, $_POST['status']);
-    $updatedComments = mysqli_real_escape_string($conn, $_POST['comments']);
+
     
     // Update query
     $updateQuery = "UPDATE Purchase_Order 
                     SET ServiceType = '$updatedServiceType', StartDate = '$updatedStartDate', 
                         EndDate = '$updatedEndDate', Description = '$updatedDescription', 
-                        Status = '$updatedStatus', Comments = '$updatedComments' 
+                        Status = 'Pending', Comments = '' 
                     WHERE ID = '$requestID'";
 
     if (mysqli_query($conn, $updateQuery)) {
         $POupdate = true;
+        require_once 'functions.php';
+        unlink("../files/PO_files/$requestID.pdf");
+        $pdfFile = generatepdf($requestID);
+        echo "<script>console.log('PDF: $pdfFile');</script>";
+        if(!$pdfFile){
+            echo '<p class="message" style="color: red;">Error updating PDF</p>';
+        } 
     } else {
         $POupdateFailed = true;
     }
@@ -115,24 +117,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
                 </div>
 
                 <!-- Right Column: PDF Options -->
-                <div class="col-md-6">
-                    <!-- PDF Generation Button -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header bg-primary text-white">
-                            <h5>Create PDF</h5>
-                        </div>
-                        <div class="card-body">
-                            <form action="generate_pdf.php" method="post" target="_blank">
-                                <input type="hidden" name="requestID" value="<?php echo htmlspecialchars($result['RequestID']); ?>">
-                                <button type="submit" class="btn btn-success">Generate PDF</button>
-                            </form>
-                        </div>
-                    </div>
-
+                <div class="col-md-6"> 
                     <!-- PDF Preview -->
                     <div class="card shadow">
                         <div class="card-body">
-                            <iframe src="/files/PO_files/<?php echo 'PO_Request_'.$result['RequestID']; ?>.pdf" width="100%" height="500px"></iframe>
+                            <iframe src="/files/PO_files/<?php echo $result['ID']; ?>.pdf" width="100%" height = "650px" ></iframe>
                         </div>
                     </div>
                 </div>

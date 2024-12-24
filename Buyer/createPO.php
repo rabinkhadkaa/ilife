@@ -70,10 +70,10 @@
         include 'createPO_function.php';
         require '../_nav_afterLogin.php';
         require '../_vnav.php';
-        require 'functions.php';
-        error_reporting(-1);
-        ini_set("display_errors", 1);
-        ini_set('error_reporting', E_ALL);
+        require_once 'functions.php';
+        // error_reporting(-1);
+        // ini_set("display_errors", 1);
+        // ini_set('error_reporting', E_ALL);
         $tableName = 'Purchase_Order';
         $prefix = 'PO';
         $POID = generateNewId($conn, $tableName, $prefix);

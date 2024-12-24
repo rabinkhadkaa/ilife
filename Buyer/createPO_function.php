@@ -2,6 +2,7 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
     include '../_dbconnect.php';
+    include_once 'functions.php';
 
     if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         header("location: index.php");
@@ -30,9 +31,14 @@
         
             $result = mysqli_query($conn, $query);
             
-            if($result){
+            if($result){                
                 $submitted = true; 
             }
+            $pdfFile = generatepdf($requestId);
+            echo "<script>console.log('PDF: $pdfFile');</script>";
+            if(!$pdfFile){
+                echo '<p class="message" style="color: red;">Error generating PDF</p>';
+            } 
         }
     }
     

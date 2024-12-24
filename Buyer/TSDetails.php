@@ -17,10 +17,10 @@ if (!isset($_GET['ID']) || empty($_GET['ID'])) {
 }
 
 // Sanitize invoice ID
-$invoiceID = $_GET['ID'];
+$TSID = $_GET['ID'];
 
 // Fetch invoice details from the database
-$query = "SELECT * FROM Invoice WHERE ID = '$invoiceID'";
+$query = "SELECT * FROM Timesheet WHERE ID = '$TSID'";
 $res = mysqli_query($conn, $query);
 
 // Check if query was successful
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $comment = $comments ? $comments : "";
             // Update invoice status and comments in the database
-            $update_query = "UPDATE Invoice SET Status = '$status', comments = '$comment' WHERE ID = '$invoiceID'";
+            $update_query = "UPDATE Timesheet SET Status = '$status', Comments = '$comment' WHERE ID = '$TSID'";
             $resu = mysqli_query($conn, $update_query);
             if ($resu) {
                 //echo "PO request updated successfully.";
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PO Request Details</title>
+    <title>Timesheet Details</title>
     <link rel="stylesheet" href="../custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -87,31 +87,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-md-6">
                     <?php if ($POupdate): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success!</strong> Invoice has been approved and notified to supplier successfully.
+                            <strong>Success!</strong> Timesheet has been approved and notified to supplier successfully.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php elseif ($POupdateFailed): ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>Error!</strong> PO request could not be updated.
+                            <strong>Error!</strong> Timesheet could not be updated.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif; ?>
 
-                    <h2 class="mb-4">Invoice Details</h2>
+                    <h2 class="mb-4">Timesheet Details</h2>
 
                     <!-- PO Request Information -->
                     <div class="card shadow mb-4">
                         
                             <table class="table table-bordered">
-                                <tr><th>Invoice ID:</th><td><?php echo htmlspecialchars($result['ID']); ?></td></tr>
+                                <tr><th>Timesheet ID:</th><td><?php echo htmlspecialchars($result['ID']); ?></td></tr>
                                 <tr><th>Service Type</th><td><?php echo htmlspecialchars($result['ServiceType']); ?></td></tr>
-                                <tr><th>Supplier Name</th><td><?php echo htmlspecialchars($result['Supplier']); ?></td></tr>
-                                <tr><th>Timesheet IDs</th><td><?php echo htmlspecialchars($result['TimesheetID']); ?></td></tr>
+                                <tr><th>Supplier Name</th><td><?php echo htmlspecialchars($result['user']); ?></td></tr>
+                                <tr><th>From</th><td><?php echo htmlspecialchars($result['FromDate']); ?></td></tr>
+                                <tr><th>To</th><td><?php echo htmlspecialchars($result['ToDate']); ?></td></tr>
                                 <tr><th>Hours</th><td><?php echo htmlspecialchars($result['Hours']); ?></td></tr>
-                                <tr><th>Rate</th><td><?php echo htmlspecialchars($result['Rate']); ?></td></tr>
-                                <tr><th>Amount</th><td><?php echo htmlspecialchars($result['Amount']); ?></td></tr>
+                                <tr><th>Description</th><td><?php echo htmlspecialchars($result['Description']); ?></td></tr>
                                 <tr><th>Status</th><td><?php echo htmlspecialchars($result['Status']); ?></td></tr>
-                                <tr><th>Submitted Date</th><td><?php echo htmlspecialchars($result['SubmittedDate']); ?></td></tr>
+                                <tr><th>Submitted Date</th><td><?php echo htmlspecialchars($result['Datestamo']); ?></td></tr>
                             </table>
                         
                     </div>
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <!-- Form for updating PO status -->
                     <div class="card shadow mb-5">
                         <div class="card-header bg-secondary text-white">
-                            <h5>Update Invoice Status</h5>
+                            <h5>Update Timesheet Status</h5>
                         </div>
                         <div class="card-body">
                             <form method="post" action="">

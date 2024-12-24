@@ -17,14 +17,14 @@
  //check if data was sent via POST method
  if ($_SERVER['REQUEST_METHOD']=='POST'){
     //Get the requestID and supplierName from the POST request
-    $requestID = isset($_POST['requestID']) ? $_POST['requestID'] : '';
+    $requestID = isset($_POST['ID']) ? $_POST['ID'] : '';
     $buyerName = isset($_POST['buyerName']) ? $_POST['buyerName']: '';
     $startDate = isset($_POST['startDate']) ? $_POST['startDate']: '';
     $endDate = isset($_POST['endDate']) ? $_POST['endDate']: '';
 
     $conditions = [];
     if(!empty($timesheetID)){
-        $conditions[]= "RequestID = '" . $conn->real_escape_string($timesheetID) . "'";
+        $conditions[]= "ID = '" . $conn->real_escape_string($timesheetID) . "'";
 
     }
     if(!empty($buyerName)){
@@ -97,7 +97,7 @@
                 }
                 echo " <tr>
                           <td scope='row'>".$SNo."</td>
-                          <td> <a href = 'poDetails.php?requestID=".$row['RequestID']."'> ".$row['RequestID']." </a></td>
+                          <td> <a href = 'poDetails.php?ID=".$row['ID']."'> ".$row['ID']." </a></td>
                           <td>".$row['user']."</td>
                           <td>".$row['ServiceType']."</td>
                           <td>".$row['StartDate']."</td>

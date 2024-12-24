@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
     
     // Update query
     $updateQuery = "UPDATE Invoice 
-                    SET Hours = '$updatedHours', Rate = '$updatedRate', Amount = '$updatedAmount'
+                    SET Hours = '$updatedHours', Rate = '$updatedRate', Amount = '$updatedAmount', Status = 'Pending'
                     WHERE ID = '$requestID'";
 
     if (mysqli_query($conn, $updateQuery)) {
@@ -106,13 +106,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
                             <tr><th>Amount</th><td><?php echo "$".htmlspecialchars($result['Amount']); ?></td></tr>                            
                             <tr><th>Status</th><td><?php echo htmlspecialchars($result['Status']); ?></td></tr>
                             <tr><th>Submitted Date</th><td><?php echo htmlspecialchars($result['SubmittedDate']); ?></td></tr>
-                            <?php if($result['Comments'] != null){ ?>
-                            <tr><th>Comments</th><td><?php echo htmlspecialchars($result['Comments']); ?></td></tr>
-                            <?php }; ?>
+                            
                         </table>
                     </div>
-
-                    <!-- Edit Button -->
+                    <?php if ($result['Comments'] != null) { ?>                         
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Buyer's Comments:</strong> <?php echo htmlspecialchars($result['Comments']); ?>
+                        </div>
+                    <?php } ?>
+                    
+                    <?php if ($result['Status'] == 'Accepted') { ?>
+                        <div class="alert alert-success" role="alert">
+                            <strong>PO Approved!</strong> Please proceed with the sending the payment link.
+                        </div>
+                    <?php } ?>
                     
                 </div>
 

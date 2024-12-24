@@ -65,6 +65,12 @@
         ::placeholder {
             opacity: 0.5;
         }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -178,7 +184,7 @@
                     <input type="text" class="form-control" name="descriptionText[]" placeholder="Description" required>
                 </div>
                 <div class="col-2 d-flex align-items-center ">
-                    <input type="number" class="form-control" name="hour[]" placeholder="Hours" required>
+                    <input type="number" class="form-control" name="hour[]" min="0" max="24" required>
                     <button type="button" class="btn btn-sm" id="removeRow">-</button>
                 </div>
             `;
@@ -186,7 +192,7 @@
             // Attach the remove event listener for the newly created row
             newRow.querySelector('#removeRow').addEventListener('click', function () {
             removeRow(newRow);
-        });
+            });
         }
 
         // Function to remove the row
@@ -204,6 +210,7 @@
             for (let row of rows) {
                 const numInput = row.querySelector('input[name="number[]"]');
                 numInput.value = serialNumber++;
+                console.log(numInput.value);
             }
             currentSN = serialNumber; // Update the current serial number for the next row
         }
@@ -226,21 +233,28 @@
 
             // Loop through the description fields and add them to the main form
             const rows = descriptionFields.getElementsByClassName('row mb-3');
+            let totalhour = 0;
             //console.log(rows);
             for (let row of rows) {
                 const numInput = row.querySelector('input[name="number[]"]').value;
                 const dateInput = row.querySelector('input[name="descriptionDate[]"]').value;
                 const textInput = row.querySelector('input[name="descriptionText[]"]').value;
+                const hourInput = row.querySelector('input[name="hour[]"]').value;
                 
+                const hour = parseFloat(hourInput) || 0;
                  // Format the description and add to the string
-                descriptions += `${numInput}. ${dateInput}- ${textInput}\n`;
+                descriptions += `${numInput}. ${dateInput}:- ${textInput} -${hourInput}\n`;
 
                     // Append the new description to the main description container
                     //mainDescriptionContainer.appendChild(descriptionDiv);
-               
+                    console.log(totalhour);
+                totalhour += hour;
             }
             // Set the textarea value to the concatenated descriptions
             descriptionTextarea.value = descriptions.trim(); // Remove trailing newline
+
+            //Assign total hours to hours field
+            document.getElementById('hours').value = totalhour;
 
             // Show the textarea after saving
             descriptionTextarea.removeAttribute('hidden');
