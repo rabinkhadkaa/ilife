@@ -224,7 +224,6 @@
                     <div id="descriptionFields">
                         
                     </div>
-                    
                     <button type="button" class="btn btn-secondary" id="addRowBtn">+</button>
                    <button type="button" class="btn btn-primary" id="saveDescriptions">Save</button>
                 </div>
@@ -339,15 +338,46 @@
                         <input type="number" class="form-control" name="number" value="${currentSN++}" required readonly>
                     </div>
 
-                    <div class="col-10">
+                    <div class="col-8">
                         <input type="text" class="form-control" id ="descriptionText" name="descriptionText" placeholder="Enter Timesheet ID" required>
                     </div>
                     <div class="dropdown-list" id="timesheetDropdown"></div>
+                    <div class="col-2 d-flex align-items-center ">
+                        <button type="button" class="btn btn-sm" id="removeRow">-</button>
+                    </div>
+                    
                 `;
-                descriptionFields.appendChild(newRow);
-                
+                descriptionFields.appendChild(newRow);                
                 addTimesheetDropdownLogic(newRow);
+
+                newRow.querySelector('#removeRow').addEventListener('click', function () {
+                removeRow(newRow);
+                });
             }
+
+            // Function to remove the row
+            function removeRow(row) {
+                console.log('Removing row:', row);
+                descriptionFields.removeChild(row);
+
+                // Update the serial number after removing a row
+                let serialNumber = 1; // Reset serial number
+                const rows = descriptionFields.getElementsByClassName('row mb-3');
+                for (let row of rows) {
+                    const numInput = row.querySelector('input[name="number"]');
+                    numInput.value = serialNumber++;
+                }
+                currentSN = serialNumber; // Update the current serial number for the next row
+            }
+            // function updateSerialNumbers() {
+            //     let serialNumber = 1; // Reset serial number
+            //     const rows = descriptionFields.getElementsByClassName('row mb-3');
+            //     for (let row of rows) {
+            //         const numInput = row.querySelector('input[name="number[]"]');
+            //         numInput.value = serialNumber++;
+            //     }
+            //     currentSN = serialNumber; // Update the current serial number for the next row
+            // }
             
             function addTimesheetDropdownLogic(row) {                
                 const dropdown =  row.querySelector('.dropdown-list');                

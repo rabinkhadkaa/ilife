@@ -12,7 +12,6 @@
 
 
 
- $sql = "SELECT * FROM `Timesheet` WHERE user = '$username'";
  
  //check if data was sent via POST method
  if ($_SERVER['REQUEST_METHOD']=='POST'){
@@ -24,20 +23,19 @@
 
     $conditions = [];
     if(!empty($timesheetID)){
-        $conditions[]= "TimesheetID = '" . $conn->real_escape_string($timesheetID) . "'";
+        $conditions[]= "ID = '" . $conn->real_escape_string($timesheetID) . "'";
 
     }
     if(!empty($buyerName)){
         $conditions[]= "BuyerName ='" . $conn->real_escape_string($buyerName) . "'";
     }
     if(!empty($fromDate)){
-        $conditions[]= "FromDate >= '" . $conn->real_escape_string($fromDate) . "'";
+        $conditions[]= "Datestamo >= '" . $conn->real_escape_string($fromDate) . "'";
     }
     if(!empty($toDate)){
-        $conditions[]= "ToDate <= '" . $conn->real_escape_string($toDate) . "'";
+        $conditions[]= "Datestamo <= '" . $conn->real_escape_string($toDate) . "'";
     }
     
-
     $sql = "SELECT * FROM `Timesheet` WHERE user = '$username'";
     //Append conditions if exist
     if(count($conditions)>0){
@@ -76,10 +74,11 @@
             <th scope='col'>Service Type</th>
             <th scope='col'>From Date</th>
             <th scope='col'>To Date</th>
-            <th scope='col'>Status</th>
-            <th scope='col'>Hours</th>
             <th scope='col'>Description</th>
+            <th scope='col'>Hours</th>
+            <th scope='col'>Status</th>
             <th scope='col'>Submitted Date</th>
+            <th scope='col'>Buyer's Comments</th>
             </tr>
         </thead>";
         echo "<tbody>";
@@ -95,9 +94,8 @@
                 break;
             case 'Rejected':
                 $bgColor = 'red';
-            }
-                
-            
+            }                
+            $row['Comments'] = $row['Comments'] ? $row['Comments'] : '--';
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
                     <td> <a href = 'TSDetails.php?ID=".$row['ID']."'> ".$row['ID']." </a></td>
@@ -106,9 +104,10 @@
                     <td>".$row['FromDate']."</td>
                     <td>".$row['ToDate']."</td>
                     <td>".$row['Description']."</td>
-                    <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
                     <td>".$row['Hours']."</td>
+                    <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>                    
                     <td>".$row['Datestamo']."</td>
+                    <td>".$row['Comments']."</td>
                 </tr>";
         }
         echo " </tbody>";

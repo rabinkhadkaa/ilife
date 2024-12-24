@@ -83,8 +83,8 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 
           //Gather form data
           var formData = {
-            requestID: $('#timesheetID').val(),
-            supplierName: $('#buyerName').val(),
+            timesheetID: $('#timesheetID').val(),
+            buyerName: $('#buyerName').val(),
             fromDate: $('#fromDate').val(),
             toDate: $('#toDate').val()
           };

@@ -12,15 +12,15 @@ $POupdate = false;
 $POupdateFailed = false;
 
 // Check if invoice ID is provided
-if (!isset($_GET['requestID']) || empty($_GET['requestID'])) {
+if (!isset($_GET['ID']) || empty($_GET['ID'])) {
     die("No PO request ID provided.");
 }
 
 // Sanitize invoice ID
-$requestID = $_GET['requestID'];
+$requestID = $_GET['ID'];
 
 // Fetch invoice details from the database
-$query = "SELECT * FROM Purchase_Order WHERE RequestID = '$requestID'";
+$query = "SELECT * FROM Purchase_Order WHERE ID = '$requestID'";
 $res = mysqli_query($conn, $query);
 
 // Check if query was successful
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          $errormsg ="Please add comments.";
     } else {
         // Update invoice status and comments in the database
-        $update_query = "UPDATE Purchase_Order SET Status = '$status', comments = '$comments' WHERE requestID = '$requestID'";
+        $update_query = "UPDATE Purchase_Order SET Status = '$status', Comments = '$comments' WHERE ID = '$requestID'";
         $resu = mysqli_query($conn, $update_query);
         if ($resu) {
             //echo "PO request updated successfully.";
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card shadow mb-4">
                         
                             <table class="table table-bordered">
-                                <tr><th>PO Request ID:</th><td><?php echo htmlspecialchars($result['RequestID']); ?></td></tr>
+                                <tr><th>PO Request ID:</th><td><?php echo htmlspecialchars($result['ID']); ?></td></tr>
                                 <tr><th>Service Type</th><td><?php echo htmlspecialchars($result['ServiceType']); ?></td></tr>
                                 <tr><th>Start Date</th><td><?php echo htmlspecialchars($result['StartDate']); ?></td></tr>
                                 <tr><th>End Date</th><td><?php echo htmlspecialchars($result['EndDate']); ?></td></tr>

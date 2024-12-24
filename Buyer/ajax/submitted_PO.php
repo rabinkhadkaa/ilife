@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Modify the query to include sorting
 $sql .= " ORDER BY $column $order";
-echo $sql;
 // Execute the query
 $result = mysqli_query($conn, $sql);
 $num = $result ? mysqli_num_rows($result) : 0;
@@ -84,6 +83,7 @@ echo "<table class='table table-bordered table-striped' color='white;' id='myTab
                 <th scope='col'><a href='?column=Description&order=$next_order'>Description</a></th>
                 <th scope='col'><a href='?column=Status&order=$next_order'>Status</a></th>
                 <th scope='col'><a href='?column=SubmittedDate&order=$next_order'>Submitted Date</a></th>
+                <th scope='col'><a href='?column=Comments&order=$next_order'>Supplier's Comments</a></th>
             </tr>
         </thead>";
 echo "<tbody>";
@@ -103,7 +103,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         default:
             $bgColor = 'white';
     }
-
+    $row['Comments'] = $row['Comments'] ? $row['Comments'] : '--';
     echo "<tr>
             <td scope='row'>" . $SNo . "</td>
             <td><a href='PoDetails.php?ID=" . $row['ID'] . "'> " . $row['ID'] . " </a></td>
@@ -114,6 +114,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             <td>" . $row['Description'] . "</td>
             <td style='background-color: " . $bgColor . ";'>" . $row['Status'] . "</td>
             <td>" . $row['SubmittedDate'] . "</td>
+            <td>" . $row['Comments'] . "</td>
         </tr>";
 }
 echo "</tbody>";

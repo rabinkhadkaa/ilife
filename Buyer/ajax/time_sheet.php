@@ -35,7 +35,6 @@
     if(count($conditions)>0){
         $sql .= " AND " . implode(" AND ", $conditions);
     }
-echo $sql;
     $result = mysqli_query ($conn, $sql);
         
     if($result){
@@ -67,8 +66,10 @@ echo $sql;
             <th scope='col'>Start Date</th>
             <th scope='col'>End Date</th>
             <th scope='col'>Description</th>
+            <th scope='col'>Hours</th>
             <th scope='col'>Status</th>
             <th scope='col'>Submitted Date</th>
+            <th scope='col'>Comments</th>
             </tr>
         </thead>";
         echo "<tbody>";
@@ -84,17 +85,20 @@ echo $sql;
                 break;
             case 'Rejected':
                 $bgColor = 'red';
-            }                
+            }
+            $row['Comments'] = $row['Comments'] ? $row['Comments'] : '--';                
              echo "<tr>
                     <td scope='row'>".$SNo."</td>
-                    <td> <a href = 'notesDetails.php?requestID=".$row['ID']."'> ".$row['ID']." </a></td>
+                    <td> <a href = 'TSDetails.php?ID=".$row['ID']."'> ".$row['ID']." </a></td>
                     <td>".$row['user']."</td>
                     <td>".$row['ServiceType']."</td>
-                    <td>".$row['StartDate']."</td>
-                    <td>".$row['EndDate']."</td>
+                    <td>".$row['FromDate']."</td>
+                    <td>".$row['ToDate']."</td>
                     <td>".$row['Description']."</td>
+                    <td>".$row['Hours']."</td>
                     <td style='background-color: " . $bgColor . ";'>".$row['Status']."</td>
-                    <td>".$row['SubmittedDate']."</td>
+                    <td>".$row['Datestamo']."</td>
+                    <td>".$row['Comments']."</td>
                 </tr>";
         }
         echo " </tbody>";
