@@ -94,13 +94,10 @@ function generatepdf($requestID){
     mysqli_query($conn, $sql);
     $result = mysqli_query($conn, $query);
     if($result){ 
-       echo "File saved and inserted record on table successfully.";
+       echo "<script>console.log('File saved and inserted record on table successfully');</script>";
     } else{
         echo "Error: " . mysqli_error($conn);
     }
     return $filePath;  // Return file path instead of 'true'
 }
-
-
-
 ?>

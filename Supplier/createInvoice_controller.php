@@ -33,6 +33,12 @@
             } else {
                 echo '<p class="message" style="color: red;">Error: ' . mysqli_error($conn) . '</p>';
             }
+            $pdfFile = generatepdf($timesheetId, 'Invoice');            
+            //echo "<script>console.log('PDF: $pdfFile');</script>";
+            if(!$pdfFile){
+                echo '<p class="message" style="color: red;">Error generating PDF</p>';
+            }else
+            sendmail('rabin.khadka40@yahoo.com', 'Invoice Request', 'Invoice has been submitted. Please check the attached PDF and provide approval.', $pdfFile); 
         }
     }
     
