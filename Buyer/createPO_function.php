@@ -35,7 +35,7 @@
             if($result){                             
                 $submitted = true; 
             }else{
-                echo mysqli_connect_error();
+                echo mysqli_error($conn);
             }
             $pdfFile = generatepdf($requestId);
             //echo "<script>console.log('PDF: $pdfFile');</script>";

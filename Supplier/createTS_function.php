@@ -2,6 +2,8 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
     include '../_dbconnect.php';
+    include_once 'functions.php';
+    include_once '../send-email.php';
 
     if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         header("location: index.php");
@@ -34,6 +36,12 @@
             } else {
                 echo '<p class="message" style="color: red;">Error: ' . mysqli_error($conn) . '</p>';
             }
+            $pdfFile = generatepdf($timesheetId, 'Timesheet');            
+            //echo "<script>console.log('PDF: $pdfFile');</script>";
+            if(!$pdfFile){
+                echo '<p class="message" style="color: red;">Error generating PDF</p>';
+            }else
+            sendmail('rabin.khadka40@yahoo.com', 'Timesheet Request', 'Timesheet has been submitted. Please check the attached PDF and provide approval.', $pdfFile); 
         }
     }
     
