@@ -1,0 +1,52 @@
+{
+    "name": "simplesamlphp/simplesamlphp-module-adfs",
+    "description": "A module that implements the WS-federation IDP",
+    "type": "simplesamlphp-module",
+    "keywords": ["simplesamlphp", "adfs"],
+    "license": "LGPL-2.1-or-later",
+    "authors": [
+        {
+            "name": "Tim van Dijen",
+            "email": "tvdijen@gmail.com"
+        }
+    ],
+    "config": {
+        "preferred-install": {
+            "simplesamlphp/simplesamlphp": "source",
+            "*": "dist"
+        },
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "simplesamlphp/composer-module-installer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SimpleSAML\\Module\\adfs\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "simplesamlphp/composer-module-installer": "^1.3.2",
+        "simplesamlphp/assert": "^1.0",
+        "simplesamlphp/xml-security": "^1.6"
+    },
+    "require-dev": {
+        "simplesamlphp/simplesamlphp": "^3@dev",
+        "simplesamlphp/simplesamlphp-test-framework": "^1.5.4"
+    },
+    "support": {
+        "issues": "https://github.com/simplesamlphp/simplesamlphp-module-adfs/issues",
+        "source": "https://github.com/simplesamlphp/simplesamlphp-module-adfs"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1.x-dev"
+        }
+    }
+}
