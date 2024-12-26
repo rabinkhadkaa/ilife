@@ -3,6 +3,7 @@
 // ini_set('display_errors', 1);
     include '../_dbconnect.php';
     include_once 'functions.php';
+    include_once '../send-email.php';
 
     if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
         header("location: index.php");
@@ -30,16 +31,18 @@
             $query = "INSERT INTO `Purchase_Order` (`ID`, `SupplierName`, `ServiceType`, `StartDate`, `EndDate`, `Description`, `Status`, `user`, `SubmittedDate`) VALUES ('$requestId', '$supplierName', '$serviceType', '$startDate', '$endDate', '$description', 'Pending', '$myusername', CURRENT_TIMESTAMP())";
         
             $result = mysqli_query($conn, $query);
-            
-            if($result){                
+      
+            if($result){                             
                 $submitted = true; 
+            }else{
+                echo mysqli_connect_error();
             }
             $pdfFile = generatepdf($requestId);
-            echo "<script>console.log('PDF: $pdfFile');</script>";
+            //echo "<script>console.log('PDF: $pdfFile');</script>";
             if(!$pdfFile){
                 echo '<p class="message" style="color: red;">Error generating PDF</p>';
-            } 
+            }
+            sendmail('rabin.khadka40@yahoo.com', 'PO Request', 'PO Request has been submitted. Please check the attached PDF.', $pdfFile); 
         }
     }
     
-?>

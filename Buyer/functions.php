@@ -93,8 +93,8 @@ function generatepdf($requestID){
     $sql = "INSERT INTO `PO_Files`(`POID`, `FileName`, `CreateDate`) VALUES ('$requestID','$filePath',CURRENT_TIMESTAMP());";
     mysqli_query($conn, $sql);
     $result = mysqli_query($conn, $query);
-    if($result){                
-       echo "File saved and inserted successfully.";
+    if($result){ 
+       echo "File saved and inserted record on table successfully.";
     } else{
         echo "Error: " . mysqli_error($conn);
     }

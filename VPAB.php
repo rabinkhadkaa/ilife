@@ -38,7 +38,7 @@ class VPAB
             $this->session['original_username'] = $this->session['username'];
 
             // Set buyer session
-            $this->session['role'] = 'buyer';
+            $this->session['role'] = 'Buyer';
             $this->session['user_id'] = $buyer['id'];
             $this->session['username'] = $buyer['username'];
             $this->session['is_impersonating'] = true;
