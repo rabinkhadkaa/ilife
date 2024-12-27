@@ -79,7 +79,7 @@
         include 'createTS_function.php';
         require '../_nav_afterLogin.php';
         require '../_vnav.php';
-        include 'functions.php';
+        include_once 'functions.php';
         $tableName = 'Timesheet';
         $prefix = 'TS';
         $timesheetID = generateNewId($conn, $tableName, $prefix);
