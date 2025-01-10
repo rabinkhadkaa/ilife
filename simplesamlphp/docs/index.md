@@ -1,4 +1,5 @@
-# SimpleSAMLphp Documentation
+SimpleSAMLphp Documentation
+===========================
 
 * Installation and upgrading
   * [Installing SimpleSAMLphp](simplesamlphp-install)
@@ -9,7 +10,6 @@
   * [Service Provider Quickstart](simplesamlphp-sp)
   * [Hosted SP Configuration Reference](./saml:sp)
   * [IdP remote reference](simplesamlphp-reference-idp-remote)
-  * [SP API reference (for your application)](simplesamlphp-sp-api).
   * [Configuring HTTP-Artifact](./simplesamlphp-artifact-sp)
   * [Using scoping](./simplesamlphp-scoping)
   * [Holder-of-Key profile](simplesamlphp-hok-sp)
@@ -28,7 +28,6 @@
   * [Authentication Processing Filters](simplesamlphp-authproc) - attribute filtering, attribute mapping, consent, group generation etc.
   * [State Information Lost](simplesamlphp-nostate) - more about this common error message
   * [Advanced features](simplesamlphp-advancedfeatures) - covers bridging protocols, attribute filtering, etc.
-  * [Developer documentation](simplesamlphp-developer-information) - code overview and other docs for new and returning developers
 * SimpleSAMLphp Modules
   * [Documentation for specific modules](/docs/contributed_modules.html)
   * [Theming SimpleSAMLphp](simplesamlphp-theming)

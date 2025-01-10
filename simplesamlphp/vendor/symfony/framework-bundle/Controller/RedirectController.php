@@ -27,9 +27,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RedirectController
 {
-    private ?UrlGeneratorInterface $router;
-    private ?int $httpPort;
-    private ?int $httpsPort;
+    private $router;
+    private $httpPort;
+    private $httpsPort;
 
     public function __construct(?UrlGeneratorInterface $router = null, ?int $httpPort = null, ?int $httpsPort = null)
     {
@@ -54,7 +54,7 @@ class RedirectController
      *
      * @throws HttpException In case the route name is empty
      */
-    public function redirectAction(Request $request, string $route, bool $permanent = false, bool|array $ignoreAttributes = false, bool $keepRequestMethod = false, bool $keepQueryParams = false): Response
+    public function redirectAction(Request $request, string $route, bool $permanent = false, $ignoreAttributes = false, bool $keepRequestMethod = false, bool $keepQueryParams = false): Response
     {
         if ('' == $route) {
             throw new HttpException($permanent ? 410 : 404);
@@ -119,7 +119,9 @@ class RedirectController
             $statusCode = $permanent ? 301 : 302;
         }
 
-        $scheme ??= $request->getScheme();
+        if (null === $scheme) {
+            $scheme = $request->getScheme();
+        }
 
         if (str_starts_with($path, '//')) {
             $path = $scheme.':'.$path;
@@ -129,6 +131,7 @@ class RedirectController
         if (parse_url($path, \PHP_URL_SCHEME)) {
             return new RedirectResponse($path, $statusCode);
         }
+
 
         if ($qs = $request->server->get('QUERY_STRING') ?: $request->getQueryString()) {
             if (!str_contains($path, '?')) {

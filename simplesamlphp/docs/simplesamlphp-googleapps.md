@@ -1,6 +1,13 @@
-# Setting up a SimpleSAMLphp SAML 2.0 IdP to use with Google Workspace for Education
+# Setting up a SimpleSAMLphp SAML 2.0 IdP to use with Google Workspace (G Suite / Google Apps) for Education
 
 [TOC]
+
+## SimpleSAMLphp news and documentation
+
+This document is part of the SimpleSAMLphp documentation suite.
+
+* [List of all SimpleSAMLphp documentation](https://simplesamlphp.org/docs)
+* [SimpleSAMLphp homepage](https://simplesamlphp.org)
 
 ## Introduction
 
@@ -10,8 +17,7 @@ This article assumes that you have already read the SimpleSAMLphp installation m
 a version of SimpleSAMLphp at your server.
 
 In this example we will setup this server as an IdP for Google Workspace:
-
-dev2.andreas.feide.no
+`dev2.andreas.feide.no`
 
 ## Enabling the Identity Provider functionality
 
@@ -19,6 +25,7 @@ Edit `config.php`, and enable the SAML 2.0 IdP:
 
 ```php
 'enable.saml20-idp' => true,
+'enable.shib13-idp' => false,
 ```
 
 ## Setting up a signing certificate
@@ -42,7 +49,7 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:UNINETT
 Organizational Unit Name (eg, section) []:
 Common Name (eg, YOUR name) []:dev2.andreas.feide.no
 Email Address []:
-
+    
 Please enter the following 'extra' attributes
 to be sent with your certificate request
 A challenge password []:
@@ -88,7 +95,6 @@ In this example we will use `example-userpass`, and hence that section is what m
 
 ```php
 <?php
-
 $config = [
     'example-userpass' => [
         'exampleauth:UserPass',
@@ -113,20 +119,20 @@ If you want to setup a SAML 2.0 IdP for Google Workspace, you need to configure 
 This is the configuration of the IdP itself. Here is some example config:
 
 ```php
-// The SAML entity ID is the index of this config.
-$metadata['https://example.org/saml-idp'] = [
+// The SAML entity ID is the index of this config. Dynamic:X will automatically generate an entity ID (recommended)
+$metadata['__DYNAMIC:1__'] => [
     // The hostname of the server (VHOST) that this SAML entity will use.
     'host' => '__DEFAULT__',
 
     // X.509 key and certificate. Relative to the cert directory.
-    'privatekey'   => 'googleworkspaceidp.pem',
-    'certificate'  => 'googleappsidp.crt',
+    'privatekey' => 'googleworkspaceidp.pem',
+    'certificate' => 'googleappsidp.crt',
 
     'auth' => 'example-userpass',
-]
+];
 ```
 
-**Note**: You can only have one entry in the file with host equal to `__DEFAULT__`, therefore you should replace the existing entry with this one, instead of adding this entry as a new entry in the file.
+**Note**: You can only have one entry in the file with host equal to `__DEFAULT__`, therefore you should replace the existing entry with this one, instead of adding this entry as a new entry in the file. 
 
 ### Configuring SAML 2.0 SP Remote metadata
 
@@ -134,47 +140,45 @@ In the `saml20-sp-remote.php` file we will configure an entry for Google Workspa
 
 ```php
 /*
- * This example shows an example config that works with Google Workspace for education.
- * You send the email address that identifies the user from your IdP in the SAML Name ID.
+ * This example shows an example config that works with Google Workspace (G Suite / Google Apps) for education.
+ * What is important is that you have an attribute in your IdP that maps to the local part of the email address
+ * at Google Workspace. E.g. if your google account is foo.com, and you have a user with email john@foo.com, then you
+ * must set the simplesaml.nameidattribute to be the name of an attribute that for this user has the value of 'john'.
  */
-$metadata['https://www.google.com/a/g.feide.no'] = [
-    'AssertionConsumerService' => 'https://www.google.com/a/g.feide.no/acs',
-    'NameIDFormat' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-    'simplesaml.attributes' => false,
-    'authproc' => [
-        1 => [
-          'class' => 'saml:AttributeNameID',
-          'identifyingAttribute' => 'mail',
-          'Format' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-        ],
-    ],
+$metadata['https://www.google.com/a/g.feide.no'] => [
+    'AssertionConsumerService'   => 'https://www.google.com/a/g.feide.no/acs', 
+    'NameIDFormat'               => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
+    'simplesaml.nameidattribute' => 'uid',
+    'simplesaml.attributes'      => false
 ];
 ```
 
-You should modify the entityID above and the `AssertionConsumerService` to
-include your Google Workspace domain name instead of `g.feide.no`.
+You must also map some attributes received from the authentication module into email field sent to Google Workspace. In this example, the  `uid` attribute is set.  When you later configure the IdP to connect to a LDAP directory or some other authentication source, make sure that the `uid` attribute is set properly, or you can configure another attribute to use here. The `uid` attribute contains the local part of the user name.
 
-(It is also possible to send only the local part of the email address to Google. E.g.
-for an e-mail address at GW `student@g.feide.no`, sending an attribute with the
-value `student`.)
+For an e-mail address `student@g.feide.no`, the `uid` should be set to `student`.
+
+You should modify the `AssertionConsumerService` to include your G Suite domain name instead of `g.feide.no`.
+
+For an explanation of the parameters, see the
+[SimpleSAMLphp Identity Provider QuickStart](simplesamlphp-idp).
 
 ## Configure Google Workspace
 
 Start by logging in to our Google Workspace for education account panel.
 Then select "Advanced tools":
 
-Figure 1. **We go to advanced tools**
+**Figure&nbsp;1.&nbsp;We go to advanced tools**
 
 ![We go to advanced tools](resources/simplesamlphp-googleapps/googleapps-menu.png)
 
 Then select "Set up single sign-on (SSO)":
 
-Figure 2. **We go to setup SSO**
+**Figure&nbsp;2.&nbsp;We go to setup SSO**
 
 ![We go to setup SSO](resources/simplesamlphp-googleapps/googleapps-sso.png)
 Upload a certificate, such as the googleworkspaceidp.crt created above:
 
-Figure 3. **Uploading certificate**
+**Figure&nbsp;3.&nbsp;Uploading certificate**
 
 ![Uploading certificate](resources/simplesamlphp-googleapps/googleapps-cert.png)
 Fill out the remaining fields:
@@ -187,7 +191,7 @@ You will find in the metadata the XML tag `<md:SingleSignOnService>`
 which contains the right URL to input in the field, it will look something
 like this:
 
-`https://dev2.andreas.feide.no/simplesaml/module.php/saml/idp/singleSignOnService`
+`https://dev2.andreas.feide.no/simplesaml/saml2/idp/SSOService.php`
 
 The Sign-out page or change password URL can be static pages on your server.
 (Google does not support SAML Single Log Out.)
@@ -196,26 +200,30 @@ The network mask determines which IP addresses will be asked for SSO login.
 IP addresses not matching this mask will be presented with the normal Google Workspace login page.
 It is normally best to leave this field empty to enable authentication for all URLs.
 
-Figure 4. **Fill out the remaining fields**
+**Figure&nbsp;4.&nbsp;Fill out the remaining fields**
 
 ![Fill out the remaining fields](resources/simplesamlphp-googleapps/googleapps-ssoconfig.png)
 
-### Add a user in Google Workspace that is known to the IdP
+### Add a user in G Suite that is known to the IdP
 
-Before we can test login, a new user must be defined in Google Workspace. This user must have a mail field matching the email from the attribute as described above in the metadata section.
+Before we can test login, a new user must be defined in Google Workspace. This user must have a mail field matching the email prefix mapped from the attribute as described above in the metadata section.
 
 ## Test to login to G Suite for education
 
 Go to the URL of your mail account for this domain, the URL is similar to the following:
 
-`http://mail.google.com/a/yourgoogleworkspacedomain.com`
+`http://mail.google.com/a/yourgoogleappsdomain.com`
 
 replacing the last part with your own Google Workspace domain name.
 
-## Support
+## Security Considerations
+
+Make sure that your IdP server runs HTTPS (TLS). The Apache documentation contains information for how to configure HTTPS.
+
+### Support
 
 If you need help to make this work, or want to discuss SimpleSAMLphp with other users of the software, you are fortunate: Around SimpleSAMLphp there is a great Open source community, and you are welcome to join! The forums are open for you to ask questions, contribute answers other further questions, request improvements or contribute with code or plugins of your own.
 
-* [SimpleSAMLphp homepage](https://simplesamlphp.org)
-* [List of all available SimpleSAMLphp documentation](https://simplesamlphp.org/docs/)
-* [Join the SimpleSAMLphp user's mailing list](https://simplesamlphp.org/lists)
+- [SimpleSAMLphp homepage](https://simplesamlphp.org)
+- [List of all available SimpleSAMLphp documentation](https://simplesamlphp.org/docs/)
+- [Join the SimpleSAMLphp user's mailing list](https://simplesamlphp.org/lists)

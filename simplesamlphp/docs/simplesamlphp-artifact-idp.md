@@ -1,5 +1,4 @@
-Adding HTTP-Artifact support to the IdP
-=======================================
+# Adding HTTP-Artifact support to the IdP
 
 This document describes the necessary steps to enable support for the HTTP-Artifact binding on a SimpleSAMLphp IdP:
 
@@ -7,8 +6,7 @@ This document describes the necessary steps to enable support for the HTTP-Artif
 2. Enable support for sending artifacts in `saml20-idp-hosted`.
 3. Add the webserver certificate to the generated metadata.
 
-Memcache
---------
+## Memcache
 
 To enable memcache, you must first install and configure memcache on the server hosting your IdP.
 You need both a memcache server and a the PHP memcached client (extension).
@@ -29,21 +27,19 @@ Once the memcache server is configured, you can configure simplesamlphp to use i
 You can do this by setting the `store.type` option in `config.php` to `memcache`.
 If you are running memcache on a different server than the IdP, you must also change the `memcache_store.servers` option in `config.php`.
 
-Enabling artifact on the IdP
-----------------------------
+## Enabling artifact on the IdP
 
 To enable the IdP to send artifacts, you must add the `saml20.sendartifact` option to the `saml20-idp-hosted` metadata file:
 
 ```php
-$metadata['https://example.org/saml-idp'] = [
+$metadata['__DYNAMIC:1__'] = [
     [....]
     'auth' => 'example-userpass',
     'saml20.sendartifact' => true,
 ];
 ```
 
-Add new metadata to SPs
------------------------
+## Add new metadata to SPs
 
 After enabling the Artifact binding, your IdP metadata will change to add a ArtifactResolutionService endpoint.
 You therefore need to update the metadata for your IdP at your SPs.
@@ -59,8 +55,7 @@ You therefore need to update the metadata for your IdP at your SPs.
 ],
 ```
 
-SP metadata on the IdP
-----------------------
+## SP metadata on the IdP
 
 An SP using the HTTP-Artifact binding must have an AssertionConsumerService endpoint supporting that binding.
 This means that you must use the complex endpoint format in `saml20-sp-remote` metadata.
@@ -83,8 +78,7 @@ In general, that should look something like:
 
 (The specific values of the various fields will vary depending on the SP.)
 
-Certificate in metadata
------------------------
+## Certificate in metadata
 
 Some SPs validates the SSL certificate on the ArtifactResolutionService using the certificates in the metadata.
 You may therefore have to add the webserver certificate to the metadata that your IdP generates.
@@ -92,7 +86,7 @@ To do this, you need to set the `https.certificate` option in the `saml20-idp-ho
 That option should refer to a file containing the webserver certificate.
 
 ```php
-$metadata['https://example.org/saml-idp'] = [
+$metadata['__DYNAMIC:1__'] = [
     [....]
     'auth' => 'example-userpass',
     'saml20.sendartifact' => true,

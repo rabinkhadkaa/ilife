@@ -32,8 +32,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class ConfigBuilderCacheWarmer implements CacheWarmerInterface
 {
-    private KernelInterface $kernel;
-    private ?LoggerInterface $logger;
+    private $kernel;
+    private $logger;
 
     public function __construct(KernelInterface $kernel, ?LoggerInterface $logger = null)
     {
@@ -42,17 +42,13 @@ class ConfigBuilderCacheWarmer implements CacheWarmerInterface
     }
 
     /**
-     * @param string|null $buildDir
+     * {@inheritdoc}
+     *
+     * @return string[]
      */
-    public function warmUp(string $cacheDir /* , string $buildDir = null */): array
+    public function warmUp(string $cacheDir)
     {
-        $buildDir = 1 < \func_num_args() ? func_get_arg(1) : null;
-
-        if (!$buildDir) {
-            return [];
-        }
-
-        $generator = new ConfigBuilderGenerator($buildDir);
+        $generator = new ConfigBuilderGenerator($this->kernel->getBuildDir());
 
         if ($this->kernel instanceof Kernel) {
             /** @var ContainerBuilder $container */
@@ -78,7 +74,9 @@ class ConfigBuilderCacheWarmer implements CacheWarmerInterface
             try {
                 $this->dumpExtension($extension, $generator);
             } catch (\Exception $e) {
-                $this->logger?->warning('Failed to generate ConfigBuilder for extension {extensionClass}: '.$e->getMessage(), ['exception' => $e, 'extensionClass' => $extension::class]);
+                if ($this->logger) {
+                    $this->logger->warning('Failed to generate ConfigBuilder for extension {extensionClass}.', ['exception' => $e, 'extensionClass' => \get_class($extension)]);
+                }
             }
         }
 
@@ -103,8 +101,11 @@ class ConfigBuilderCacheWarmer implements CacheWarmerInterface
         $generator->build($configuration);
     }
 
-    public function isOptional(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isOptional()
     {
-        return false;
+        return true;
     }
 }

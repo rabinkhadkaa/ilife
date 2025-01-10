@@ -1,1 +1,0 @@
-<saml:AuthenticatingAuthority xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://idp.example.com/SAML2</saml:AuthenticatingAuthority>

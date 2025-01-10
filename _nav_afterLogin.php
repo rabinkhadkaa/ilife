@@ -87,7 +87,7 @@ include 'view_as_buyer.php'; ?>
                 <?php endif; ?>
 
                 <a href="#settings">Settings</a>
-                <a href="./logout.php">Logout</a>
+                <a href="../logout.php">Logout</a>
             </div>
         </div>
     </div>

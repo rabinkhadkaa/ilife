@@ -1,10 +1,25 @@
 <?php
 ob_start();
- error_reporting(E_ALL);
- ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+//require_once('simplesaml/lib/_autoload.php');
+
 include '_dbconnect.php';
+//add condition to check weather session is active or not
+if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
+  if($_SESSION['role']=='Admin'){
+    header("location:../Admin/loggedinhome.php");
+  } 
+  if(($_SESSION['role']=='Buyer')){
+    header("location:../Buyer/loggedinhome.php");
+  }elseif(($_SESSION['role']=='Supplier')){
+    header("location:../Supplier/loggedinhome.php");
+  }
+  exit();
+}else{
 $login = false;
 $showerror = false;
+
 if($_SERVER['REQUEST_METHOD']=='POST'){
   $username = $_POST['username'];
   $password = $_POST["password"];
@@ -40,6 +55,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     }
   }
 } 
+}
+
 ?>
 
 
@@ -102,6 +119,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <div class="container my-5 p-4 col-md-3 " style="background-color: rgba(254, 251, 251, 0.825); height: 85vh; font-family: sans-serif ;">
       <br>
         <h2 class = "text-center">Login</h2>
+        </br>
+        <div class="text-center">
+          <form method="Get" action="sso.php">
+          <!-- Single Sign-On Button -->
+          <button type="submit" name="sso_login">Single Sign-On</button>
+        </form>
+        </div>
+        </br>
         <form action = "login.php" method="POST">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>

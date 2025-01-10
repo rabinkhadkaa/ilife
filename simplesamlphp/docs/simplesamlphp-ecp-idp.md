@@ -18,7 +18,7 @@ This feature has been tested to work with Microsoft Office 365, but other servic
 To enable the IdP to send ECP assertions you must add the `saml20.ecp` option to the `saml20-idp-hosted` metadata file:
 
 ```php
-$metadata['https://example.org/saml-idp'] = [
+$metadata['__DYNAMIC:1__'] = [
     [....]
     'auth' => 'example-userpass',
     'saml20.ecp' => true,
@@ -37,11 +37,11 @@ The `saml20-idp-remote` metadata for simpleSAMLphp SPs should contain something 
 'SingleSignOnService' => [
     0 => [
         'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
-        'Location' => 'https://idp.example.org/simplesaml/module.php/saml/idp/singleSignOnService',
+        'Location' => 'https://idp.example.org/simplesaml/saml2/idp/SSOService.php',
     ],
     1 => [
         'index' => 0,
-        'Location' => 'https://didp.example.org/simplesaml/module.php/saml/idp/singleSignOnService',
+        'Location' => 'https://didp.example.org/simplesaml/saml2/idp/SSOService.php',
         'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:SOAP',
     ],
 ],
@@ -56,14 +56,14 @@ In general, this should look like the following code:
 ```php
 'AssertionConsumerService' => [
     0 => [
-      'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
-      'Location' => 'https://sp.example.org/Shibboleth.sso/SAML2/POST',
-      'index' => 1,
+        'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
+        'Location' => 'https://sp.example.org/Shibboleth.sso/SAML2/POST',
+        'index' => 1,
     ],
     1 => [
-      'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:PAOS',
-      'Location' => 'https://sp.example.org/ECP',
-      'index' => 2,
+        'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:PAOS',
+        'Location' => 'https://sp.example.org/ECP',
+        'index' => 2,
     ],
 ],
 ```

@@ -1,10 +1,10 @@
-FROM php:7.4-apache
+FROM php:8.2-apache
 
 # Install necessary PHP extensions and tools
 RUN docker-php-ext-install mysqli
 
 # Enable Apache modules
-RUN a2enmod rewrite ssl
+RUN a2enmod rewrite ssl headers
 
 # Copy custom Apache configuration
 COPY ./apache-config.conf /etc/apache2/sites-available/000-default.conf

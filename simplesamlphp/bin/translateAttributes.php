@@ -6,8 +6,6 @@
  * translation file for each supported language.
  */
 
-declare(strict_types=1);
-
 $base = __DIR__ . '/../';
 
 include_once($base . 'vendor/autoload.php');
@@ -32,7 +30,7 @@ $trans = json_decode(file_get_contents($base . 'dictionaries/attributes.translat
 
 $attributes = [];
 
-$languages = Symfony\Component\Intl\Languages::getNames();
+$languages = SimpleSAML\Locale\Language::$language_names;
 $languages['nb'] = $languages['no'];
 unset($languages['no']);
 
@@ -61,7 +59,7 @@ foreach ($names as $name => $urn) {
             [
                 'en' => $defs['attribute_' . $lower]['en'],
             ],
-            $trans['attribute_' . $lower],
+            $trans['attribute_' . $lower]
         ),
     ];
 }

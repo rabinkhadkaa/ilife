@@ -1,12 +1,3 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  </head>
-  <body>
 <?php
 //    error_reporting(E_ALL);
 //    ini_set('display_errors', 1); 
@@ -21,6 +12,16 @@ if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 	require  '../_nav.php';
     }  
 ?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
+
 	<!--Home(start)-->
 	<table id="home" width="100%"
 		cellpadding="20" cellspacing="0" style="background-image: linear-gradient(to bottom, rgb(213, 190, 232), rgb(90, 100, 255));">
