@@ -1,6 +1,12 @@
 # SimpleSAML\Database
 
-[TOC]
+<!-- 
+	This file is written in Markdown syntax. 
+	For more information about how to use the Markdown syntax, read here:
+	http://daringfireball.net/projects/markdown/syntax
+-->
+
+<!-- {{TOC}} -->
 
 ## Purpose
 
@@ -23,7 +29,7 @@ $config = new \SimpleSAML\Configuration($myconfigarray, "mymodule/lib/Auth/Sourc
 $db = \SimpleSAML\Database::getInstance($config);
 ```
 
-That will create a new instance of the database, separate from the global instance, specific to the configuration defined in $myconfigarray. If you are going to specify an alternate config, your configuration array must contain the same keys that exist in the primary config (database.dsn, database.username, database.password, database.prefix, etc).
+That will create a new instance of the database, separate from the global instance, specific to the configuration defined in $myconfigarray. If you are going to specify an alternate config, your configuration array must contain the same keys that exist in the master config (database.dsn, database.username, database.password, database.prefix, etc).
 
 ## Database Prefix
 
@@ -41,7 +47,7 @@ You can query the database through two public functions read() and write() which
 
 ### Writing to The Database
 
-Since the database class allows administrators to configure primary and secondary database servers, the write function will always use the primary database connection.
+Since the database class allows administrators to configure master and slave database servers, the write function will always use the master database connection.
 
 The write function takes 2 parameters: SQL, params.
 
@@ -55,12 +61,12 @@ $values = [
 $query = $db->write("INSERT INTO $table (id, data) VALUES (:id, :data)", $values);
 ```
 
-The values specified in the $values array will be bound to the placeholders and will be executed on the primary. By default, values are binded as PDO::PARAM_STR. If you need to override this, you can specify it in the values array.
+The values specified in the $values array will be bound to the placeholders and will be executed on the master. By default, values are binded as PDO::PARAM_STR. If you need to override this, you can specify it in the values array.
 
 ```php
 $table = $db->applyPrefix("test");
 $values = [
-    'id' => [20, PDO::PARAM_INT],
+    'id' => [20, \PDO::PARAM_INT],
     'data' => 'Some data',
 ];
 
@@ -76,7 +82,7 @@ $query = $db->write("CREATE TABLE IF NOT EXISTS $table (id INT(16) NOT NULL, dat
 
 ### Reading The Database
 
-Since the database class allows administrators to configure primary and secondary database servers, the read function will randomly select a secondary server to query. If no secondaries are configured, it will read from the primary.
+Since the database class allows administrators to configure master and slave database servers, the read function will randomly select a slave server to query. If no slaves are configured, it will read from the master.
 
 The read function takes 2 parameters: SQL, params.
 
@@ -89,12 +95,12 @@ $values = [
 $query = $db->read("SELECT * FROM $table WHERE id = :id", $values);
 ```
 
-The values specified in the $values array will be bound to the placeholders and will be executed on the selected secondary. By default, values are binded as PDO::PARAM_STR. If you need to override this, you can specify it in the values array.
+The values specified in the $values array will be bound to the placeholders and will be executed on the selected slave. By default, values are binded as PDO::PARAM_STR. If you need to override this, you can specify it in the values array.
 
 ```php
 $table = $db->applyPrefix("test");
 $values = [
-    'id' => [20, PDO::PARAM_INT],
+    'id' => [20, \PDO::PARAM_INT],
 ];
 
 $query = $db->read("SELECT * FROM $table WHERE id = :id", $values);

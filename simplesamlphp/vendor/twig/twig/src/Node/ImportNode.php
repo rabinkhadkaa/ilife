@@ -11,38 +11,38 @@
 
 namespace Twig\Node;
 
-use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 use Twig\Node\Expression\NameExpression;
-use Twig\Node\Expression\Variable\AssignTemplateVariable;
 
 /**
  * Represents an import node.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-#[YieldReady]
 class ImportNode extends Node
 {
-    public function __construct(AbstractExpression $expr, AbstractExpression|AssignTemplateVariable $var, int $lineno)
+    public function __construct(AbstractExpression $expr, AbstractExpression $var, int $lineno, string $tag = null, bool $global = true)
     {
-        if (\func_num_args() > 3) {
-            trigger_deprecation('twig/twig', '3.15', \sprintf('Passing more than 3 arguments to "%s()" is deprecated.', __METHOD__));
-        }
-
-        if (!$var instanceof AssignTemplateVariable) {
-            trigger_deprecation('twig/twig', '3.15', \sprintf('Passing a "%s" instance as the second argument of "%s" is deprecated, pass a "%s" instead.', $var::class, __CLASS__, AssignTemplateVariable::class));
-
-            $var = new AssignTemplateVariable($var->getAttribute('name'), $lineno);
-        }
-
-        parent::__construct(['expr' => $expr, 'var' => $var], [], $lineno);
+        parent::__construct(['expr' => $expr, 'var' => $var], ['global' => $global], $lineno, $tag);
     }
 
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler)
     {
-        $compiler->subcompile($this->getNode('var'));
+        $compiler
+            ->addDebugInfo($this)
+            ->write('$macros[')
+            ->repr($this->getNode('var')->getAttribute('name'))
+            ->raw('] = ')
+        ;
+
+        if ($this->getAttribute('global')) {
+            $compiler
+                ->raw('$this->macros[')
+                ->repr($this->getNode('var')->getAttribute('name'))
+                ->raw('] = ')
+            ;
+        }
 
         if ($this->getNode('expr') instanceof NameExpression && '_self' === $this->getNode('expr')->getAttribute('name')) {
             $compiler->raw('$this');
@@ -61,3 +61,5 @@ class ImportNode extends Node
         $compiler->raw(";\n");
     }
 }
+
+class_alias('Twig\Node\ImportNode', 'Twig_Node_Import');

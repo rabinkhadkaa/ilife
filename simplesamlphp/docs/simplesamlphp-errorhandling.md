@@ -1,12 +1,18 @@
 # Exception and error handling in SimpleSAMLphp
 
-[TOC]
+<!--
+	This file is written in Markdown syntax.
+	For more information about how to use the Markdown syntax, read here:
+	http://daringfireball.net/projects/markdown/syntax
+-->
+
+<!-- {{TOC}} -->
 
 This document describes the way errors and exceptions are handled in authentication sources and authentication processing filters.
 The basic goal is to be able to throw an exception during authentication, and then have that exception transported back to the SP in a way that the SP understands.
 
 This means that internal SimpleSAMLphp exceptions must be mapped to transport specific error codes for the various transports that are supported by SimpleSAMLphp.
-E.g.: When a `\SAML2\Exception\Protocol\NoPassiveException` error is thrown by an authentication processing filter in a SAML 2.0 IdP, we want to map that exception to the `urn:oasis:names:tc:SAML:2.0:status:NoPassive` status code.
+E.g.: When a `\SimpleSAML\Error\NoPassive` error is thrown by an authentication processing filter in a SAML 2.0 IdP, we want to map that exception to the `urn:oasis:names:tc:SAML:2.0:status:NoPassive` status code.
 That status code should then be returned to the SP.
 
 ## Throwing exceptions
@@ -15,8 +21,8 @@ How you throw an exception depends on where you want to throw it from.
 The simplest case is if you want to throw it during the `authenticate()`-method in an authentication module or during the `process()`-method in a processing filter.
 In those methods, you can just throw an exception:
 
-```php
-public function process(array &$state): void
+```
+public function process(array &$state)
 {
     if ($state['something'] === false) {
         throw new \SimpleSAML\Error\Exception('Something is wrong...');
@@ -30,7 +36,6 @@ If you want to throw an exception outside of those methods, i.e. after you have 
 
 ```php
 <?php
-
 $id = $_REQUEST['StateId'];
 $state = \SimpleSAML\Auth\State::loadState($id, 'somestage...');
 \SimpleSAML\Auth\State::throwException(
@@ -41,7 +46,7 @@ $state = \SimpleSAML\Auth\State::loadState($id, 'somestage...');
 
 The `\SimpleSAML\Auth\State::throwException` function will then transfer your exception to the appropriate error handler.
 
-`Note`
+`Note:`
 
 Note that we use the `\SimpleSAML\Error\Exception` class in both cases.
 This is because the delivery of the exception may require a redirect to a different web page.
@@ -55,7 +60,7 @@ The `\SimpleSAML\Auth\State::throwException` function does not accept any except
 
 By default, all thrown exceptions will be converted to a generic SAML 2 error.
 In some cases, you may want to convert the exception to a specific SAML 2 status code.
-For example, the `\SAML2\Exception\Protocol\NoPassiveException` exception should be converted to a SAML 2 status code with the following properties:
+For example, the `\SimpleSAML\Error\NoPassive` exception should be converted to a SAML 2 status code with the following properties:
 
 * The top-level status code should be `urn:oasis:names:tc:SAML:2.0:status:Responder`.
 * The second-level status code should be `urn:oasis:names:tc:SAML:2.0:status:NoPassive`.
@@ -66,7 +71,7 @@ It represents a SAML 2 status code with three elements: the top-level status cod
 The second-level status code and the status message is optional, and can be `NULL`.
 
 The `\SimpleSAML\Module\saml\Error` class contains a helper function named `fromException`.
-The `fromException()` function is used to return SAML 2 errors to the SP.
+The `fromException()` function is used by `www/saml2/idp/SSOService.php` to return SAML 2 errors to the SP.
 The function contains a list which maps various exceptions to specific SAML 2 errors.
 If it is unable to convert the exception, it will return a generic SAML 2 error describing the original exception in its status message.
 
@@ -76,7 +81,7 @@ To return a specific SAML 2 error, you should:
 * Add that exception to the list in `fromException()`.
 * Consider adding the exception to `toException()` in the same file. (See the next section.)
 
-`Note`
+`Note:`
 
 While it is possible to throw SAML 2 errors directly from within authentication sources and processing filters, this practice is discouraged.
 Throwing SAML 2 errors will tie your code directly to the SAML 2 protocol, and it may be more difficult to use with other protocols.
@@ -85,10 +90,10 @@ Throwing SAML 2 errors will tie your code directly to the SAML 2 protocol, and i
 
 On the SP side, we want to convert SAML 2 errors to SimpleSAMLphp exceptions again.
 This is handled by the `toException()` method in `\SimpleSAML\Module\saml\Error`.
-The assertion consumer service of the SAML 2 authentication source uses this method.
+The assertion consumer script of the SAML 2 authentication source (`modules/saml2/sp/acs.php`) uses this method.
 The result is that generic exceptions are thrown from that authentication source.
 
-For example, `NoPassive` errors will be converted back to instances of `\SAML2\Exception\Protocol\NoPassiveException`.
+For example, `NoPassive` errors will be converted back to instances of `\SimpleSAML\Error\NoPassive`.
 
 ## Other protocols
 
@@ -130,6 +135,7 @@ There are two methods in this class that deals with exceptions:
 #### `throwException`
 
 This method delivers the exception to the code that initialized the exception handling in the authentication state.
+That would be `www/saml2/idp/SSOService.php` for processing filters.
 To configure how and where the exception should be delivered, there are two fields in the state-array which can be set:
 
 * `\SimpleSAML\Auth\State::EXCEPTION_HANDLER_FUNC`, in which case the exception will be delivered by a function call to the function specified in that field.
@@ -166,7 +172,7 @@ The result will be delivered directly if it is possible, but if not, it will be 
 
 The code for handling this becomes something like:
 
-```php
+```
 if (array_key_exists(\SimpleSAML\Auth\State::EXCEPTION_PARAM, $_REQUEST)) {
     $state = \SimpleSAML\Auth\State::loadExceptionState();
     $exception = $state[\SimpleSAML\Auth\State::EXCEPTION_DATA];
@@ -181,7 +187,7 @@ $state = [
     'ReturnURL' => \SimpleSAML\Utils\HTTP::getSelfURLNoQuery(),
     \SimpleSAML\Auth\State::EXCEPTION_HANDLER_URL => \SimpleSAML\Utils\HTTP::getSelfURLNoQuery(),
     [...],
-]
+];
 
 try {
     $procChain->processState($state);
@@ -189,6 +195,7 @@ try {
     /* Handle exception. */
     [...];
 }
+```
 
 #### Note
 
@@ -205,9 +212,9 @@ Example code for this function, which implements the same functionality as \Simp
 ```php
 public static function show(\SimpleSAML\Configuration $config, array $data)
 {
-    $t = new \SimpleSAML\XHTML\Template($config, 'error.twig', 'errors');
+    $t = new \SimpleSAML\XHTML\Template($config, 'error.php', 'errors');
     $t->data = array_merge($t->data, $data);
-    $t->send();
+    $t->show();
     exit;
 }
 ```

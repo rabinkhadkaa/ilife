@@ -18,23 +18,12 @@ use Twig\Node\Node;
 
 abstract class AbstractBinary extends AbstractExpression
 {
-    /**
-     * @param AbstractExpression $left
-     * @param AbstractExpression $right
-     */
     public function __construct(Node $left, Node $right, int $lineno)
     {
-        if (!$left instanceof AbstractExpression) {
-            trigger_deprecation('twig/twig', '3.15', 'Not passing a "%s" instance to the "left" argument of "%s" is deprecated ("%s" given).', AbstractExpression::class, static::class, \get_class($left));
-        }
-        if (!$right instanceof AbstractExpression) {
-            trigger_deprecation('twig/twig', '3.15', 'Not passing a "%s" instance to the "right" argument of "%s" is deprecated ("%s" given).', AbstractExpression::class, static::class, \get_class($right));
-        }
-
         parent::__construct(['left' => $left, 'right' => $right], [], $lineno);
     }
 
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler)
     {
         $compiler
             ->raw('(')
@@ -49,5 +38,7 @@ abstract class AbstractBinary extends AbstractExpression
         ;
     }
 
-    abstract public function operator(Compiler $compiler): Compiler;
+    abstract public function operator(Compiler $compiler);
 }
+
+class_alias('Twig\Node\Expression\Binary\AbstractBinary', 'Twig_Node_Expression_Binary');

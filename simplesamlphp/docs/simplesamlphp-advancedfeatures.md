@@ -55,19 +55,26 @@ simpleSAMLphp can be configured to send HTTP/S requests via such a proxy. The pr
 
 The default is not to use a proxy ('proxy' = null) and no username and password are used ('proxy.auth' = false).
 
+## Auth MemCookie
+
+[Auth MemCookie](http://authmemcookie.sourceforge.net/) support is deprecated in the standard code base of SimpleSAMLphp
+ and will no longer be available starting in SimpleSAMLphp 2.0. Please use the new
+ [memcookie module](https://github.com/simplesamlphp/simplesamlphp-module-memcookie) instead.
+
 ## Metadata signing
 
 SimpleSAMLphp supports signing of the metadata it generates. Metadata signing is configured by four options:
 
 - `metadata.sign.enable`: Whether metadata signing should be enabled or not. Set to `TRUE` to enable metadata signing. Defaults to `FALSE`.
-- `metadata.sign.privatekey`: Location of the private key data which should be used to sign the metadata.
+- `metadata.sign.privatekey`: Name of the file with the private key which should be used to sign the metadata. This file must exist in in the `cert` directory.
 - `metadata.sign.privatekey_pass`: Passphrase which should be used to open the private key. This parameter is optional, and should be left out if the private key is unencrypted.
-- `metadata.sign.certificate`: Location of certificate data which matches the private key.
+- `metadata.sign.certificate`: Name of the file with the certificate which matches the private key. This file must exist in in the `cert` directory.
 - `metadata.sign.algorithm`: The algorithm to use when signing metadata for this entity. Defaults to RSA-SHA256. Possible values:
+
   - `http://www.w3.org/2000/09/xmldsig#rsa-sha1`
-    *Note*: the use of SHA1 is **deprecated** and will be disallowed in the future.
+     *Note*: the use of SHA1 is **deprecated** and will be disallowed in the future.
   - `http://www.w3.org/2001/04/xmldsig-more#rsa-sha256`
-    The default.
+     The default.
   - `http://www.w3.org/2001/04/xmldsig-more#rsa-sha384`
   - `http://www.w3.org/2001/04/xmldsig-more#rsa-sha512`
 
@@ -82,21 +89,19 @@ Optional session checking function, called on session init and loading, defined 
 Example code for the function with GeoIP country check:
 
 ```php
-public static function checkSession(\SimpleSAML\Session $session, bool $init = false)
+public static function checkSession($session, $init = false)
 {
     $data_type = 'example:check_session';
     $data_key = 'remote_addr';
 
-    $remote_addr = strval($_SERVER['REMOTE_ADDR']);
+    $remote_addr = null;
+    if (!empty($_SERVER['REMOTE_ADDR'])) {
+        $remote_addr = (string)$_SERVER['REMOTE_ADDR'];
+    }
 
     if ($init) {
-        $session->setData(
-            $data_type,
-            $data_key,
-            $remote_addr,
-            \SimpleSAML\Session::DATA_TIMEOUT_SESSION_END
-        );
-        return;
+        $session->setData($data_type, $data_key, $remote_addr, \SimpleSAML\Session::DATA_TIMEOUT_SESSION_END);
+        return null;
     }
 
     if (!function_exists('geoip_country_code_by_name')) {
@@ -115,12 +120,7 @@ public static function checkSession(\SimpleSAML\Session $session, bool $init = f
 
     if ($country_a === $country_b) {
         if ($stored_remote_addr !== $remote_addr) {
-            $session->setData(
-                $data_type,
-                $data_key,
-                $remote_addr,
-                \SimpleSAML\Session::DATA_TIMEOUT_SESSION_END
-            );
+            $session->setData($data_type, $data_key, $remote_addr, \SimpleSAML\Session::DATA_TIMEOUT_SESSION_END);
         }
 
         return true;

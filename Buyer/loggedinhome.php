@@ -1,16 +1,23 @@
 <?php
+	if(!isset($_SESSION)){
+				
+	$login = true;
+	session_start();
+	echo "loggedin: ". $_SESSION['loggedin'];
+	echo "username: ".$_SESSION['username'];
+	exit();
+	}
 	// error_reporting(E_ALL);
 	// ini_set('display_errors', 1); 
 		//require  './_nav.php'; 
 	
-	session_start();
 
 	if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 		header("location: ../index.php");
 		exit;
 	} else {
 		require  '../_nav.php'; 
-		} 
+	} 
 ?>
 <!doctype html>
 <html lang="en">
@@ -174,7 +181,7 @@
 								<ul>
 								<li>
 										Dashboard
-										<a href="./dashboard.php"
+										<a href="dashboard.php"
 										style="text-decoration:none">
 											 ➲
 										</a>
