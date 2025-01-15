@@ -1,23 +1,26 @@
 <?php
 session_start();
-
-// Include the SimpleSAMLphp library
-require_once '/var/www/simplesamlphp/vendor/autoload.php';
-
-// Initialize the SimpleSAMLphp Auth source
-$auth = new SimpleSAML\Auth\Simple('auth0');
-
-// Perform a Single Logout (SLO) if the user is authenticated
-if ($auth->isAuthenticated()) {
-    // Trigger SLO in SimpleSAMLphp, which will also log the user out from Auth0
-    $auth->logout('https:../index.php'); // Redirect after logout
-} else {
-    // If not authenticated in SSO, just destroy the local session
-    session_unset();
-    session_destroy();
-    header("Location: ../index.php");
-    exit;
-}
-
+session_unset();
+session_destroy();
+header("Location: login.php");
+exit;
 ?>
-
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Logout</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <body style="background-image: linear-gradient(to bottom right, rgb(0, 238, 255), rgb(184, 22, 220)); height: min-content;">
+        <div class="container my-5 p-4 col-md-3" style="background-color: rgba(254, 251, 251, 0.825); height: 85vh; font-family: sans-serif;">
+            <div class="text-center">
+                <form method="get" action="login.php">
+                    <!-- Single Sign-On Button -->
+                    <button type="submit" name="login" class="btn btn-primary">Click here to login again</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
