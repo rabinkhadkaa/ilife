@@ -1,17 +1,7 @@
-<?php
-	if(!isset($_SESSION)){
-				
-	$login = true;
-	session_start();
-	echo "loggedin: ". $_SESSION['loggedin'];
-	echo "username: ".$_SESSION['username'];
-	exit();
-	}
-	// error_reporting(E_ALL);
-	// ini_set('display_errors', 1); 
-		//require  './_nav.php'; 
-	
-
+<?php	
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1); 
+	session_start();	
 	if(!isset($_SESSION['loggedin'])|| $_SESSION['loggedin'] != true){
 		header("location: ../index.php");
 		exit;

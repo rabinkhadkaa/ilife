@@ -1,8 +1,21 @@
 <?php
 	include './_nocatche.php';
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start(); // Start the session to track login status
+        // Regenerate session ID to avoid session fixation
+		session_regenerate_id(true);
+	}
+
 	ob_start();
 		nocache();
 	ob_end_flush();
+	   
+	 if (isset($_SESSION['username'])) {
+	   $role = $_SESSION['role'];	  
+	   header("Location: /$role/loggedinhome.php");
+	   exit;
+	 }
+   
 ?>
 <!doctype html>
 <html lang="en">

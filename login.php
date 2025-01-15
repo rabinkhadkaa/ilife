@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 //require_once('simplesaml/lib/_autoload.php');
 
 include '_dbconnect.php';
+$timeout = $_GET['timeout'] ?? false;
 //add condition to check weather session is active or not
 if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
   if($_SESSION['role']=='Admin'){
@@ -32,6 +33,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     while($rows = mysqli_fetch_assoc($result)){
       if(password_verify($password, $rows['password'])){
         $login = true;
+        session_set_cookie_params(604800);
         session_start();
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
@@ -114,6 +116,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
     }
+    if(isset($_GET['timeout']) && $_GET['timeout'] == 'true'){
+      echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Error</strong> Your session has been expired. Please login again.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+  }
     ?>
    
     <div class="container my-5 p-4 col-md-3 " style="background-color: rgba(254, 251, 251, 0.825); height: 85vh; font-family: sans-serif ;">
