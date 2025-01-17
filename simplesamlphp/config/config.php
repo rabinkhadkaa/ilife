@@ -590,7 +590,7 @@ $config = [
     /*
      * Options to override the default settings for php sessions.
      */
-    'session.phpsession.cookiename' => 'SimpleSAML',
+    'session.phpsession.cookiename' => 'PHPSESSID',
     'session.phpsession.savepath' => null,
     'session.phpsession.httponly' => true,
 
