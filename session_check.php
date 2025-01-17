@@ -1,6 +1,6 @@
 <?php
 // Set the session timeout duration (1 hour = 3600 seconds)
-$timeout_duration = 60;  // 1 minute
+$timeout_duration = 3600;  // 1 minute
 
 // Start the session
 if (session_status() === PHP_SESSION_NONE) {
