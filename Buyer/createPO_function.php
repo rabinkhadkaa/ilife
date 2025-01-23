@@ -1,6 +1,6 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
     include '../_dbconnect.php';
     include_once 'functions.php';
     include_once '../send-email.php';
@@ -35,14 +35,15 @@
             if($result){                             
                 $submitted = true; 
             }else{
-                echo mysqli_error($conn);
+                $errormsg = "Error: " . $query . "<br>" . mysqli_error($conn);
             }
             $pdfFile = generatepdf($requestId);
-            //echo "<script>console.log('PDF: $pdfFile');</script>";
+            echo "<script>console.log('PDF: $pdfFile');</script>";
             if(!$pdfFile){
                 echo '<p class="message" style="color: red;">Error generating PDF</p>';
             }
-            sendmail('rabin.khadka40@yahoo.com', 'PO Request', 'PO Request has been submitted. Please check the attached PDF.', $pdfFile); 
+            sendmail('connect2ilife@gmail.com', 'PO Request', 'PO Request has been submitted. Please check the attached PDF.', $pdfFile); 
         }
     }
     
+?>

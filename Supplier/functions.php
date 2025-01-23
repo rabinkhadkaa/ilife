@@ -81,7 +81,7 @@ function generatepdf($requestID, $tablename){
                 <tr><th>Description</th><td>' . htmlspecialchars($result['Description']) . '</td></tr>
                 <tr><th>Status</th><td>' . htmlspecialchars($result['Status']) . '</td></tr>
                 <tr><th>Supplier Name</th><td>' . htmlspecialchars($result['user']) . '</td></tr>
-                <tr><th>Submitted Date</th><td>' . htmlspecialchars($result['SubmittedDate']) . '</td></tr>
+                <tr><th>Submitted Date</th><td>' . htmlspecialchars($result['Datestamo']) . '</td></tr>
             </table>';
     }elseif($tablename = "Invoice"){        
         $pdf->SetTitle('Invoice Details');

@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Check if the last activity time is set
 if (isset($_SESSION['last_activity'])) {
-    echo "Last activity time is set". $_SESSION['last_activity'];
+   
     // If the user has been idle for more than the timeout duration, log them out
     if ((time() - $_SESSION['last_activity']) > $timeout_duration) {
         // Destroy session data and cookies
@@ -22,7 +22,7 @@ if (isset($_SESSION['last_activity'])) {
         setcookie(session_name(), '', time() - 3600, '/', '', true, true);  // Expire the PHP session cookie
 
         // Expire the SimpleSAML cookie if using SSO
-        setcookie('SimpleSAML', '', time() - 3600, '/', '', true, true);  // Expire the SimpleSAML cookie
+        
 
         // Redirect to login page with a session timeout message
         header("Location: /login.php?timeout=true");

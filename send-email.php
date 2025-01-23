@@ -40,7 +40,18 @@ function sendmail($email, $subject, $message, $attachmentPath = null, $attachmen
 
         // Send email
         if ($mail->send()) {
-            $logFile = '/var/log/sendemaillog.txt';
+            $logDir = '/var/www/html/log';
+            $logFile = $logDir . '/sendemaillog.txt';
+
+            // Ensure the directory exists
+            if (!is_dir($logDir)) {
+                mkdir($logDir, 0755, true); // Create directory with permissions
+            }
+            // Ensure the file exists
+            if (!file_exists($logFile)) {
+                touch($logFile); // Create the file if it doesn't exist
+                chmod($logFile, 0644); // Set appropriate permissions
+            }
             date_default_timezone_set('America/New_York');
             $currentDateTime = date('Y-m-d H:i:s');
             file_put_contents($logFile, "Email sent to " . $email . " at: $currentDateTime\n", FILE_APPEND);
