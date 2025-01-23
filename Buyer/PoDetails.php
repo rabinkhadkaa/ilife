@@ -49,7 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
     if (mysqli_query($conn, $updateQuery)) {
         $POupdate = true;
         require_once 'functions.php';
-        unlink("../files/PO_files/$requestID.pdf");
+        if(file_exists("../files/PO_files/$requestID.pdf")){
+            unlink("../files/PO_files/$requestID.pdf");
+        }
         $pdfFile = generatepdf($requestID);
         echo "<script>console.log('PDF: $pdfFile');</script>";
         if(!$pdfFile){

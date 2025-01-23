@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['savePO'])) {
                         </div>
                         <div class="card-body">
                             <form action="generate_pdf.php" method="post" target="_blank">
-                                <input type="hidden" name="requestID" value="<?php echo htmlspecialchars($result['RequestID']); ?>">
+                                <input type="hidden" name="requestID" value="<?php echo htmlspecialchars($result['ID']); ?>">
                                 <button type="submit" class="btn btn-success">Generate PDF</button>
                             </form>
                         </div>

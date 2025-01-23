@@ -1,6 +1,6 @@
 <?php 
     include '../_dbconnect.php';
-    include '../Config.php';
+   
    // error_reporting(E_ALL);
    // ini_set('display_errors', 1);
     
@@ -10,7 +10,6 @@
         header("location: index.php");
         exit;
     } 
-  
 ?>
 
 <!DOCTYPE html>
@@ -85,6 +84,8 @@
         <?php
             if($submitted){
                 echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success! </strong>your request has been submitted successfully.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+            }else {
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Failed! </strong>your request has not been submitted due to-'.$errormsg.'.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
             }
         ?>
         <div class="form-container">
