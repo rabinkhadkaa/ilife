@@ -90,7 +90,7 @@ function generatepdf($requestID){
     $pdf->Output($filePath, 'F');
 
     // Insert record into POFiles
-    $sql = "INSERT INTO `PO_Files`(`POID`, `FileName`, `CreateDate`) VALUES ('$requestID','$filePath',CURRENT_TIMESTAMP());";
+    $sql = "INSERT INTO `PO_Files`(`ID`, `FileName`, `CreateDate`) VALUES ('$requestID','$filePath',CURRENT_TIMESTAMP());";
     mysqli_query($conn, $sql);
     $result = mysqli_query($conn, $query);
     if($result){ 
