@@ -1,0 +1,54 @@
+trigger:
+  - main  # Adjust to your branch name
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  ACR_NAME: 'iliferegistry'  # Example: myregistry
+  IMAGE_NAME: 'ilifes'
+  TAG: 'latest'
+  SERVER_IP: '143.198.64.132'   # Only if deploying via SSH
+  SSH_USER: 'ssh root@143.198.64.132' # Only if deploying via SSH
+
+steps:
+  # 🟢 Login to Azure Container Registry (ACR)
+  - task: Docker@2
+    displayName: 'Login to ACR'
+    inputs:
+      command: 'login'
+      containerRegistry: 'ilifeRegistry'  # Use service connection name
+
+  # 🟢 Build Docker Image
+  - task: Docker@2
+    displayName: 'Build Docker Image'
+    inputs:
+      command: 'build'
+      Dockerfile: '**/Dockerfile'
+      repository: '$(ACR_NAME).azurecr.io/$(IMAGE_NAME)'
+      tags: '$(TAG)'
+
+  # 🟢 Push Docker Image to ACR
+  - task: Docker@2
+    displayName: 'Push Docker Image to ACR'
+    inputs:
+      command: 'push'
+      repository: '$(ACR_NAME).azurecr.io/$(IMAGE_NAME)'
+      tags: '$(TAG)'
+
+  # 🟢 OPTIONAL: Deploy to Remote Server via SSH (Replace with Your Deployment Method)
+  - task: SSH@0
+    displayName: 'Deploy to Remote Server'
+    inputs:
+      sshEndpoint: '<ilife-ssh-service-connection>'  # Add this in Azure DevOps Service Connections
+      runOptions: 'inline'
+      inline: |
+        echo "Pulling latest Docker image..."
+        docker pull $(ACR_NAME).azurecr.io/$(IMAGE_NAME):$(TAG)
+        
+        echo "Stopping existing container..."
+        docker stop $(IMAGE_NAME) || true
+        docker rm $(IMAGE_NAME) || true
+
+        echo "Running new container..."
+        docker run -d --name $(IMAGE_NAME) -p 80:80 $(ACR_NAME).azurecr.io/$(IMAGE_NAME):$(TAG)
