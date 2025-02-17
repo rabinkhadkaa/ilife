@@ -1,54 +1,59 @@
 trigger:
-  - main  # Adjust to your branch name
-
-pool:
-  vmImage: 'ubuntu-latest'
+  - main  # Adjust to your main branch
 
 variables:
-  ACR_NAME: 'iliferegistry'  # Example: myregistry
-  IMAGE_NAME: 'ilifes'
-  TAG: 'latest'
-  SERVER_IP: '143.198.64.132'   # Only if deploying via SSH
-  SSH_USER: 'ssh root@143.198.64.132' # Only if deploying via SSH
+  dockerRegistryServiceConnection: 'ilifes-acr-service-connection'  # Set this in DevOps
+  imageName: 'ilifes-store'
+  acrName: 'ilifesregistry.azurecr.io'
+  sshServiceConnection: 'ilifes-ssh-connection'  # Set SSH service connection in DevOps
+  appDirectory: '/var/www/html'  # Adjust if needed
+  containerName: 'ilifes_web'
 
-steps:
-  # 🟢 Login to Azure Container Registry (ACR)
-  - task: Docker@2
-    displayName: 'Login to ACR'
-    inputs:
-      command: 'login'
-      containerRegistry: 'ilifeRegistry'  # Use service connection name
+stages:
+  - stage: Build
+    displayName: 'Build and Push Docker Image'
+    jobs:
+      - job: Build
+        displayName: 'Build and Push'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Docker@2
+            displayName: 'Login to ACR'
+            inputs:
+              command: login
+              containerRegistry: $(dockerRegistryServiceConnection)
 
-  # 🟢 Build Docker Image
-  - task: Docker@2
-    displayName: 'Build Docker Image'
-    inputs:
-      command: 'build'
-      Dockerfile: '**/Dockerfile'
-      repository: '$(ACR_NAME).azurecr.io/$(IMAGE_NAME)'
-      tags: '$(TAG)'
+          - task: Docker@2
+            displayName: 'Build Docker Image'
+            inputs:
+              command: build
+              repository: $(acrName)/$(imageName)
+              dockerfile: Dockerfile
+              tags: latest
 
-  # 🟢 Push Docker Image to ACR
-  - task: Docker@2
-    displayName: 'Push Docker Image to ACR'
-    inputs:
-      command: 'push'
-      repository: '$(ACR_NAME).azurecr.io/$(IMAGE_NAME)'
-      tags: '$(TAG)'
+          - task: Docker@2
+            displayName: 'Push Docker Image to ACR'
+            inputs:
+              command: push
+              repository: $(acrName)/$(imageName)
+              tags: latest
 
-  # 🟢 OPTIONAL: Deploy to Remote Server via SSH (Replace with Your Deployment Method)
-  - task: SSH@0
-    displayName: 'Deploy to Remote Server'
-    inputs:
-      sshEndpoint: '<ilife-ssh-service-connection>'  # Add this in Azure DevOps Service Connections
-      runOptions: 'inline'
-      inline: |
-        echo "Pulling latest Docker image..."
-        docker pull $(ACR_NAME).azurecr.io/$(IMAGE_NAME):$(TAG)
-        
-        echo "Stopping existing container..."
-        docker stop $(IMAGE_NAME) || true
-        docker rm $(IMAGE_NAME) || true
-
-        echo "Running new container..."
-        docker run -d --name $(IMAGE_NAME) -p 80:80 $(ACR_NAME).azurecr.io/$(IMAGE_NAME):$(TAG)
+  - stage: Deploy
+    displayName: 'Deploy Application'
+    dependsOn: Build
+    jobs:
+      - job: Deploy
+        displayName: 'Deploy on Remote Server'
+        steps:
+          - task: SSH@0
+            displayName: 'Pull and Restart Docker Containers'
+            inputs:
+              sshEndpoint: $(sshServiceConnection)
+              runOptions: 'commands'
+              commands: |
+                cd $(appDirectory)
+                docker-compose down
+                docker pull $(acrName)/$(imageName):latest
+                docker-compose up -d
+              readyTimeout: '20000'  # Adjust timeout if needed

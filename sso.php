@@ -19,7 +19,7 @@ $auth->requireAuth();
 
 // Retrieve user attributes
 $attributes = $auth->getAttributes();
-
+print_r($attributes); // For debugging purposes
 //Start a session and store user details
 $_SESSION['loggedin'] = true;
 $_SESSION['username'] = $attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0];
