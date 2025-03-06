@@ -29,7 +29,7 @@ stages:
             inputs:
               command: build
               repository: $(acrName)/$(imageName)
-              dockerfile: Dockerfile
+              dockerfile: dockerfile
               tags: latest
 
           - task: Docker@2
