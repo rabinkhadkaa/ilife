@@ -1,8 +1,7 @@
 trigger:
   - main
 
-variables:
-  - group: ACR-Credentials  # Reference the variable group
+variables:  
   dockerRegistryServiceConnection: 'ilifesregistry'
   imageName: 'ilifes-store'
   acrName: 'ilifesregistry.azurecr.io'
@@ -52,11 +51,6 @@ stages:
           name: 'DO-Agent-Pool'
         steps:
           - checkout: self  # Check out the GitHub repository
-
-          - script: |
-              echo "ACR_USERNAME: $(ACR_USERNAME)"
-              echo "ACR_PASSWORD: $(ACR_PASSWORD)"
-            displayName: 'Debug: Verify Variables'
 
           - task: SSH@0
             displayName: 'Copy docker-compose.yml to Server'
