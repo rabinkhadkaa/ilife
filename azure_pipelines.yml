@@ -81,8 +81,12 @@ stages:
               sshEndpoint: $(sshServiceConnection)
               runOptions: 'commands'
               commands: |
+                echo "Changing to $(appDirectory)"
                 cd $(appDirectory)
-                docker-compose down
+                echo "Listing files in $(appDirectory)"
+                ls -la
+                echo "Pulling latest image"
                 docker pull $(acrName)/$(imageName):latest
+                echo "Starting containers with docker-compose"
                 docker-compose up -d
               readyTimeout: '60000'
