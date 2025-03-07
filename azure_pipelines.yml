@@ -1,12 +1,12 @@
 trigger:
-  - main  # Adjust to your main branch
+  - main
 
 variables:
-  dockerRegistryServiceConnection: 'ilifesregistry'  # Set this in DevOps
+  dockerRegistryServiceConnection: 'ilifesregistry'
   imageName: 'ilifes-store'
   acrName: 'ilifesregistry.azurecr.io'
-  sshServiceConnection: 'ilifes-ssh-connection'  # Set SSH service connection in DevOps
-  appDirectory: '/var/www/html'  # Adjust if needed
+  sshServiceConnection: 'ilifes-ssh-connection'
+  appDirectory: '/var/www/html'
   containerName: 'ilifes_web'
 
 stages:
@@ -16,7 +16,7 @@ stages:
       - job: Build
         displayName: 'Build and Push'
         pool:
-          name: 'DO-Agent-Pool'  # Use your self-hosted agent pool
+          name: 'DO-Agent-Pool'
         steps:
           - task: Docker@2
             displayName: 'Login to ACR'
@@ -46,8 +46,16 @@ stages:
       - job: Deploy
         displayName: 'Deploy on Remote Server'
         pool:
-          name: 'DO-Agent-Pool'  # Use your self-hosted agent pool
+          name: 'DO-Agent-Pool'
         steps:
+          - task: SSH@0
+            displayName: 'Debugging: List Files in App Directory'
+            inputs:
+              sshEndpoint: $(sshServiceConnection)
+              runOptions: 'commands'
+              commands: |
+                ls -la $(appDirectory)
+
           - task: SSH@0
             displayName: 'Pull and Restart Docker Containers'
             inputs:
@@ -58,4 +66,4 @@ stages:
                 docker-compose down
                 docker pull $(acrName)/$(imageName):latest
                 docker-compose up -d
-              readyTimeout: '20000'  # Adjust timeout if needed
+              readyTimeout: '60000'
