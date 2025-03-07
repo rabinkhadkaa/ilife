@@ -2,6 +2,7 @@ trigger:
   - main
 
 variables:
+  - group: ACR-Credentials  # Reference the variable group
   dockerRegistryServiceConnection: 'ilifesregistry'
   imageName: 'ilifes-store'
   acrName: 'ilifesregistry.azurecr.io'
@@ -53,9 +54,9 @@ stages:
           - checkout: self  # Check out the GitHub repository
 
           - script: |
-              echo "Listing files in the working directory"
-              ls -la $(Build.SourcesDirectory)
-            displayName: 'Debug: List Files in Working Directory'
+              echo "ACR_USERNAME: $(ACR_USERNAME)"
+              echo "ACR_PASSWORD: $(ACR_PASSWORD)"
+            displayName: 'Debug: Verify Variables'
 
           - task: SSH@0
             displayName: 'Copy docker-compose.yml to Server'
@@ -82,9 +83,7 @@ stages:
               runOptions: 'commands'
               commands: |
                 echo "Logging in to Azure Container Registry"
-                docker login ilifesregistry.azurecr.io --username $(ACR_USERNAME) --password $(ACR_PASSWORD)
-                echo "Verifying Docker login"
-                cat ~/.docker/config.json
+                docker login ilifesregistry.azurecr.io --username "$(ACR_USERNAME)" --password "$(ACR_PASSWORD)"
 
           - task: SSH@0
             displayName: 'Pull and Restart Docker Containers'
@@ -97,7 +96,7 @@ stages:
                 echo "Listing files in $(appDirectory)"
                 ls -la
                 echo "Pulling latest image"
-                docker pull ilifesregistry.azurecr.io/ilifes-store:latest  # Fully qualified name
+                docker pull ilifesregistry.azurecr.io/ilifes-store:latest
                 echo "Starting containers with docker-compose"
                 docker-compose up -d
               readyTimeout: '60000'
