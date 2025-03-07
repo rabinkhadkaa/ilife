@@ -48,6 +48,10 @@ stages:
         pool:
           name: 'DO-Agent-Pool'
         steps:
+          - script: |
+              echo "SSH Service Connection: $(sshServiceConnection)"
+            displayName: 'Debug: Print SSH Service Connection'
+
           - task: SSH@0
             displayName: 'Debugging: List Files in App Directory'
             inputs:
