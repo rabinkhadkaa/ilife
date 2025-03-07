@@ -3,7 +3,7 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    image: ilifesregistry.azurecr.io/ilifes-store:latest  # Use the fully qualified image name
     ports:
       - "80:80"
     volumes:
