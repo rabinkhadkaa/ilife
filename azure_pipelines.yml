@@ -82,7 +82,7 @@ stages:
               runOptions: 'commands'
               commands: |
                 echo "Logging in to Azure Container Registry"
-                docker login ilifesregistry.azurecr.io --username <username> --password <password>
+                docker login ilifesregistry.azurecr.io --username $(ACR_USERNAME) --password $(ACR_PASSWORD)
                 echo "Verifying Docker login"
                 cat ~/.docker/config.json
 
