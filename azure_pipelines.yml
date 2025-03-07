@@ -18,7 +18,7 @@ stages:
         pool:
           name: 'DO-Agent-Pool'
         steps:
-          - checkout: self # Check out the code from the repository
+          - checkout: self  # Check out the GitHub repository
 
           - task: Docker@2
             displayName: 'Login to ACR'
@@ -50,7 +50,7 @@ stages:
         pool:
           name: 'DO-Agent-Pool'
         steps:
-          - checkout: self # Check out the code from the repository
+          - checkout: self  # Check out the GitHub repository
 
           - script: |
               echo "Listing files in the working directory"
@@ -64,7 +64,7 @@ stages:
               runOptions: 'commands'
               commands: |
                 echo "Copying docker-compose.yml to $(appDirectory)"
-                scp -i  /root/.ssh/id_rsa $(Build.SourcesDirectory)/docker-compose.yml root@143.198.64.132:$(appDirectory)
+                scp -i /root/.ssh/id_rsa $(Build.SourcesDirectory)/docker-compose.yml root@143.198.64.132:$(appDirectory)
 
           - task: SSH@0
             displayName: 'Debugging: List Files in App Directory'
@@ -75,11 +75,16 @@ stages:
                 echo "Listing files in $(appDirectory)"
                 ls -la $(appDirectory)
 
-          - task: Docker@2
-            displayName: 'Login to ACR'
+          - task: SSH@0
+            displayName: 'Login to ACR on Remote Server'
             inputs:
-              command: login
-              containerRegistry: $(dockerRegistryServiceConnection)
+              sshEndpoint: $(sshServiceConnection)
+              runOptions: 'commands'
+              commands: |
+                echo "Logging in to Azure Container Registry"
+                docker login ilifesregistry.azurecr.io --username <username> --password <password>
+                echo "Verifying Docker login"
+                cat ~/.docker/config.json
 
           - task: SSH@0
             displayName: 'Pull and Restart Docker Containers'
