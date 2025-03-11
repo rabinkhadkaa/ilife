@@ -92,7 +92,7 @@ stages:
                 echo "Listing files in $(appDirectory)"
                 ls -la
                 echo "Pulling latest image"
-                docker pull ilifesregistry.azurecr.io/ilifes-store:latest
+                docker pull ilifesregistry.azurecr.io/ilifesregistry.azurecr.io/ilifes-store:latest
                 echo "Starting containers with docker-compose"
                 docker-compose up -d
               readyTimeout: '60000'
