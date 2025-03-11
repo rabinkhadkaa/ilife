@@ -75,6 +75,11 @@ stages:
             inputs:
               command: login
               containerRegistry: $(dockerRegistryServiceConnection)
+          
+          - script: |
+              echo "Waiting for the image to be available in ACR..."
+              sleep 30  # Wait for 30 seconds
+            displayName: 'Wait for Image Availability'
 
           - task: SSH@0
             displayName: 'Pull and Restart Docker Containers'
