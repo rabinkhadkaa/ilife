@@ -4,10 +4,15 @@ services:
     image: ilifesregistry.azurecr.io/ilifesregistry.azurecr.io/ilifes-store:latest  # Use the fully qualified image name
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - .:/var/www/html
+      - ssl_certs:/etc/ssl
+      - /etc/apache2/sites-available/default-ssl.conf:/etc/apache2/sites-available/default-ssl.conf:ro
     depends_on:
       - db
+    command: >
+      /bin/bash -c "a2enmod ssl && a2ensite default-ssl && apache2-foreground"
 
   db:
     image: mysql:8.0
@@ -31,3 +36,5 @@ services:
 
 volumes:
   db_data:
+  ssl_certs:
+    external: true # Ensure this volume is created externally for SSL certificates
