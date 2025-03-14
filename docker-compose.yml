@@ -7,7 +7,8 @@ services:
       - "443:443"
     volumes:
       - .:/var/www/html
-      - ssl_certs:/etc/ssl
+      - /etc/letsencrypt/live/ilifes.store/fullchain.pem:/etc/ssl/certs/ilifes.store.crt:ro
+      - /etc/letsencrypt/live/ilifes.store/privkey.pem:/etc/ssl/private/ilifes.store.key:ro
       - /etc/apache2/sites-available/default-ssl.conf:/etc/apache2/sites-available/default-ssl.conf:ro
     depends_on:
       - db
@@ -37,4 +38,3 @@ services:
 volumes:
   db_data:
   ssl_certs:
-    external: true # Ensure this volume is created externally for SSL certificates
